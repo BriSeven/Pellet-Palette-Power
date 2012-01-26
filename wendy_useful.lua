@@ -19,3 +19,7 @@ function print_table(some_table)
 	      print(name, line)
 	end
 end
+
+function wendyprint(stuff)
+    print(stuff)
+end

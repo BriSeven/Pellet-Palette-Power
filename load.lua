@@ -33,28 +33,31 @@ function makeTestPhysicsCTX (love)
 --    	-- wsl: Physics stuff
 
 	
---
+--  
 	objects = {} -- table to hold all our physical objects (for now!)
       
+    world = g_physics:getWorld()
+    world_h = g_physics:getWorldHeight()
+    world_w = g_physics:getWorldWidth()  
+    
 	--let's create the ground
 	objects.ground = {}
 	--we need to give the ground a mass of zero so that the ground wont move
---	world = PhysicsWorld:getInstance():getWorld()
---	pw = PhysicsWorld.getInstance()
-    world=physics_world
-	objects.ground.body = love.physics.newBody(world, 650/2, 625, 0, 0) --remember, the body anchors from the center of the shape
-	objects.ground.shape = love.physics.newRectangleShape(objects.ground.body, 0, 0, 650, 50, 0) --anchor the shape to the body, and make it a width of 650 and a height of 50
---      
---	--let's create a ball
---	objects.ball = {}
---	objects.ball.body = love.physics.newBody(world, 650/2, 650/2, 15, 0) --place the body in the center of the world, with a mass of 15
---	objects.ball.shape = love.physics.newCircleShape(objects.ball.body, 0, 0, 20) --the ball's shape has no offset from it's body and has a radius of 20
 
+	objects.ground.body = love.physics.newBody(g_physics:getWorld(), g_physics:getWorldWidth()/2, g_physics:getWorldHeight()-25, 0, 0) --remember, the body anchors from the center of the shape
+	objects.ground.shape = love.physics.newRectangleShape(objects.ground.body, 0, 0, g_physics:getWorldWidth(), 50, 0) --anchor the shape to the body, and make it a width the same as the world and a height of 50
 
---     
+    -- many physics objects wil have related drawables 
+    g_physics.objects.drawables = {}
+	--let's create a ball
+	g_physics.objects.drawables.ball = {}
+	g_physics.objects.drawables.ball.body = love.physics.newBody(world, world_w/2, world_h/2, 15, 0) --place the body in the center of the world, with a mass of 15
+	g_physics.objects.drawables.ball.shape = love.physics.newCircleShape(g_physics.objects.drawables.ball.body, 0, 0, 20) --the ball's shape has no offset from it's body and has a radius of 20
+   
 --	-- wsl: End Physics stuff
 	local ctx= {}
 
+    ctx.physics = g_physics
 	ctx.joysticks = love.joystick.getNumJoysticks( )
 
 	function ctx.name (name, character) 
