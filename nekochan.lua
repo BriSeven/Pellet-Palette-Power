@@ -1,4 +1,4 @@
-require( "MiddleClass.lua" );
+--require( "MiddleClass.lua" );
 
 --stepwise animation
 
