@@ -12,6 +12,7 @@ function love.update(dt)
 	clock=clock+dt
 
 	ctx.nekochan = ctx.nekochan:newState(dt,ctx.nekochan,{mouse=ctx.mouse})
+	ctx.ballochan = ctx.ballochan:newState(dt,ctx.nekochan,{mouse=ctx.mouse})
 	--mag:update(dt)
 	-- if  clock%0.2 == 0.1  then
 	--	if ph._started then 

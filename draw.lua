@@ -11,6 +11,7 @@ function love.draw()
 		
 
 	drawlist(ctx.nekochan:newDrawable())
+	drawlist(ctx.ballochan:newDrawable())
 	drawlist(ctx.clouds:newDrawable())
 
 

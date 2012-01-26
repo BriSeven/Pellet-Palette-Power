@@ -21,6 +21,8 @@ require("livereload.lua")
 require("clouds.lua")
 --nekochan thingy
 require("nekochan.lua")
+--ballochan thingy
+require("ballochan.lua")
 --update loop
 require("update.lua")
 --draw loop
