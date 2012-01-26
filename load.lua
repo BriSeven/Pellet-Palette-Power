@@ -1,4 +1,4 @@
-require("physicsworld.lua")
+
 
 function pickmode () 
     modes = love.graphics.getModes()
@@ -40,9 +40,10 @@ function makeTestPhysicsCTX (love)
 	objects.ground = {}
 	--we need to give the ground a mass of zero so that the ground wont move
 --	world = PhysicsWorld:getInstance():getWorld()
-	pw = PhysicsWorld.getInstance()
---	objects.ground.body = love.physics.newBody(world, 650/2, 625, 0, 0) --remember, the body anchors from the center of the shape
---	objects.ground.shape = love.physics.newRectangleShape(objects.ground.body, 0, 0, 650, 50, 0) --anchor the shape to the body, and make it a width of 650 and a height of 50
+--	pw = PhysicsWorld.getInstance()
+    world=physics_world
+	objects.ground.body = love.physics.newBody(world, 650/2, 625, 0, 0) --remember, the body anchors from the center of the shape
+	objects.ground.shape = love.physics.newRectangleShape(objects.ground.body, 0, 0, 650, 50, 0) --anchor the shape to the body, and make it a width of 650 and a height of 50
 --      
 --	--let's create a ball
 --	objects.ball = {}

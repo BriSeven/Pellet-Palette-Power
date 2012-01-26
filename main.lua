@@ -4,6 +4,9 @@
 -- Licence: ZLIB/libpng                									
 -- Copyright (c) 2006-2009 LOVE Development Team
 -------------------------------------------------
+-- wsl: This is probably a stupid hack!
+require("globals.lua")
+-- --------------------
 --functional utilities 
 require("functional.lua")
 --parametric animations
