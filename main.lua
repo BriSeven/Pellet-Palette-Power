@@ -20,7 +20,7 @@ require("livereload.lua")
 --cloud field
 require("clouds.lua")
 --nekochan thingy
-require("Nekochan.lua")
+require("nekochan.lua")
 --update loop
 require("update.lua")
 --draw loop

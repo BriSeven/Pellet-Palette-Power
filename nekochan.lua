@@ -10,7 +10,7 @@ Nekochan =  Nekochan or {
 Nekochan.__index=Nekochan
 
 
-function Nekochan(dt,oldstate,ctx)
+function Nekochan:newState(dt,oldstate,ctx)
 	local new = Nekochan.create()
 	new.a=oldstate.a+10 * dt
 	local vx, vy,d 
