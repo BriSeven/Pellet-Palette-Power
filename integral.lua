@@ -1,2 +1,2 @@
-Integral = class('Integral')
-function Integral:
+--Integral = class('Integral')
+--function Integral:
