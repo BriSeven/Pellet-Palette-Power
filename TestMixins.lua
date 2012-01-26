@@ -62,12 +62,16 @@ end
 EnglishMan = class('EnglishMan')
 EnglishMan.static.coffeeTime = 5
 EnglishMan:include(DrinksCoffee)
-function EnglishMan:initialize(name) self.name = name end
+function EnglishMan:initialize(name) 
+	self.name = name 
+end
 
 Spaniard = class('Spaniard')
 Spaniard.static.coffeeTime = 6
 Spaniard:include(DrinksCoffee)
-function Spaniard:initialize(name) self.name = name end
+function Spaniard:initialize(name) 
+	self.name = name 
+end
 
 local tom = EnglishMan:new('tom')
 local juan = Spaniard:new('juan')

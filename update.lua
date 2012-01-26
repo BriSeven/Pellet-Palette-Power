@@ -1,11 +1,14 @@
 
 function love.update(dt)
 
-	livereload("draw.lua")
-	livereload("nekochan.lua")
-	collectgarbage("collect")
-	
-	ctx.physics:updateWorld(dt) --this puts the world into motion
+  	livereload("draw.lua")
+  	livereload("nekochan.lua")
+  	livereload("ballochan.lua")
+  	collectgarbage("collect")
+  	
+--	ctx.physics:updateWorld(dt) --this puts the world into motion
+  	g_physics:updateWorld(dt) --this puts the world into motion
+  	
 
 
 	ctx.mouse={x=love.mouse.getX()/pixelsize/scale, y=love.mouse.getY()/pixelsize/scale}

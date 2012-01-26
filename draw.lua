@@ -28,7 +28,7 @@ function love.draw()
     love.graphics.draw(lowbuffer, 0,0,0,pixelsize,pixelsize,0,0)
 
 	love.graphics.setColor(0, 0, 0, 255)
-
+	love.graphics.print("HI WENDY",10,10,0,1,1)
 	love.graphics.setColor(255, 255, 255, 200)
 end
 

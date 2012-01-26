@@ -57,7 +57,7 @@ function makeTestPhysicsCTX (love)
 --	-- wsl: End Physics stuff
 	local ctx= {}
 
-    ctx.physics = g_physics
+--    ctx.physics = g_physics -- nope
 	ctx.joysticks = love.joystick.getNumJoysticks( )
 
 	function ctx.name (name, character) 
@@ -80,8 +80,17 @@ function makeTestPhysicsCTX (love)
 	print(ctx.nekochan)
 	
 --	ctx.ballochan = Ballochan.create()
-	ctx.ballochan = Ballochan:new()
-	print(ctx.ballchan)
+	-- we want to kick start the physics tis first time through, on loafing. This will then be set to false, 
+    -- but the option remains of the context deciding that it wants the physics restarted and setting this 
+    -- back to true at any point.
+    ctx.restart_physics = true 
+	ctx.ballochan = Ballochan:new(ctx) --wsl: note changes (new rather than create, and pass in ctx)
+	wendyprint("In makeTestPhysicsCTX...ctx.ballochan is:")
+	wendyprint(ctx.ballochan)
+	wendyprint("In makeTestPhysicsCTX...ctx.ballochan.ctx is:")
+	wendyprint(ctx.ballochan.ctx)
+--	ctx.ballochan:createBody(ctx.ballochan) --wsl note pass in game_actor as userdata
+	
 	-- Set the background color to soothing pink.
 	ctx.love.graphics.setBackgroundColor(0xff, 0xf1, 0xf7)
 	ctx.clouds=Clouds.create();
