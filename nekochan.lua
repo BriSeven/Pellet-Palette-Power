@@ -19,8 +19,8 @@ function Nekochan:newState(dt,oldstate,ctx)
     d= math.sqrt(vx*vx+vy*vy) 
 
 	if d > 64 then 
-		new.x = (ctx.mouse.x*0.01+oldstate.x*0.99)
-		new.y = (ctx.mouse.y*0.01+oldstate.y*0.99)
+		new.x = (ctx.mouse.x*0.1+oldstate.x*0.9)
+		new.y = (ctx.mouse.y*0.1+oldstate.y*0.9)
 	else 
 		new.x = oldstate.x+math.cos(clock)*(d/64)*3
 		new.y = oldstate.y+math.sin(clock)*(d/64)*5
