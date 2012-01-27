@@ -10,24 +10,15 @@ function love.update(dt)
      	
 -- --todo: Make this not care about which context we're updating. 
 -- --context should have its own update function called from here.
-	local tiles = {
-		map.tiles[layer.tileData[ctx.flufft.y-1][ctx.flufft.x-1]],
-		map.tiles[layer.tileData[ctx.flufft.y-1][ctx.flufft.x]],  		
-		map.tiles[layer.tileData[ctx.flufft.y-1][ctx.flufft.x+1]],		
-		map.tiles[layer.tileData[ctx.flufft.y][ctx.flufft.x-1]],
-		map.tiles[layer.tileData[ctx.flufft.y][ctx.flufft.x]],
-		map.tiles[layer.tileData[ctx.flufft.y][ctx.flufft.x+1]],
-		map.tiles[layer.tileData[ctx.flufft.y+1][ctx.flufft.x-1]],
-		map.tiles[layer.tileData[ctx.flufft.y+1][ctx.flufft.x]],
-		map.tiles[layer.tileData[ctx.flufft.y+1][ctx.flufft.x+1]],
-	}
+	
 
-  	ctx.mouse={x=love.mouse.getX()/ctx.camera.scale, y=love.mouse.getY()/ctx.camera.scale}
-  	ctx.tiles=tiles
-  	
+
+	ctx.mouse={x=love.mouse.getX()/ctx.camera.scale, y=love.mouse.getY()/ctx.camera.scale}
+	
+
 --	clock=clock+dt
 
-ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse})
+ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map })
 --	ctx.ballochan = ctx.ballochan:newState(dt,ctx.nekochan,{mouse=ctx.mouse})
   	--ctx.camera = ctx.camera:newState(dt)
   	--mag:update(dt)
