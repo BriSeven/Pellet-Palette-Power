@@ -20,7 +20,7 @@ function love.load()
  ctx.tiles = layer.tileData
  --displayTime = 0 
  --displayMax = 2
-
+function printmap(name,ctx) 
 for j=1,39 do
 	print(
 
@@ -73,7 +73,9 @@ getTileProperty("obstacle", 40, j, ctx)
 	)
 
 end
+end
 
+printmap("obstacle",ctx)
 	--love.audio.play(music, 0)
 	pickmode()
 	
@@ -104,7 +106,7 @@ function rainbowFluff(love)
 end
 function makeTestPhysicsCTX (love)
 
---    	-- wsl: Physics stuff
+--	-- wsl: Physics stuff
 
 	
 --  

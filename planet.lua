@@ -12,10 +12,10 @@ require( "MiddleClass.lua" );
 Planet = class("Planet");
 function getTileProperty(name, x, y, ctx) 
 
-	return ctx.tiles[x] and 
-	ctx.tiles[x][y] and 
-	ctx.map.tiles[ctx.tiles[x][y]] and  
-	ctx.map.tiles[ctx.tiles[x][y]].properties[name];
+	return ctx.tiles[y+1] and 
+	ctx.tiles[y+1][x+1] and 
+	ctx.map.tiles[ctx.tiles[y+1][x+1]] and  
+	ctx.map.tiles[ctx.tiles[y+1][x+1]].properties[name];
 end
 
 function Planet:initialize(map)
