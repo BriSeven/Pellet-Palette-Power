@@ -1,5 +1,4 @@
 require( "MiddleClass.lua" );
-require("has_physics.lua");
 
 
 -- possibly things like ballochain should also be a singleton, and 
@@ -11,8 +10,13 @@ require("has_physics.lua");
 --stepwise animation
 
 Planet = class("Planet");
-Planet:include(HasPhysics);
+function getTileProperty(name, x, y, ctx) 
 
+	return ctx.tiles[x] and 
+	ctx.tiles[x][y] and 
+	ctx.map.tiles[ctx.tiles[x][y]] and  
+	ctx.map.tiles[ctx.tiles[x][y]].properties[name];
+end
 
 function Planet:initialize(map)
 --get a map, create a dynamic instance

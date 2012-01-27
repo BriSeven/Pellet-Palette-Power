@@ -24,8 +24,9 @@ end
 function Flufft:newState(dt,oldstate,ctx)
 	local newx = math.floor(ctx.mouse.x/32)
 	local newy =  math.floor(ctx.mouse.y/32)
-	local isobstacle =ctx.tiles[newx] and ctx.tiles[newx][newy] and ctx.map.tiles[ctx.tiles[newx][newy]] and  ctx.map.tiles[ctx.tiles[newx][newy]].properties.obstacle;
-	if(not isobstacle ) then
+	local isobstacle = getTileProperty("obstacle",newx+1,newy+1,ctx)
+	print(isobstacle)
+	if(isobstacle ~= 1) then
 	self.x = newx
 	self.y = newy
 	else 
