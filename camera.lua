@@ -10,8 +10,8 @@ require( "MiddleClass.lua" );
 
 --todo: Move as much of this stuff to camera.lua as possible
 lowbuffer = love.graphics.newFramebuffer(240,160)
-scale = 240/800
-pixelsize = 4
+scale = 800/800
+pixelsize = 1
 clock = 0;
 	
 --stepwise animation
@@ -24,7 +24,7 @@ function Camera:initialize(ctx)
 	self.height=600
 	self.x=0
 	self.y=0
-	self.scale=240/self.width
+	self.scale=800/self.width
 
 end
 
@@ -59,7 +59,7 @@ end
 
 
 function Camera:worldCoodsFromScreenCoords() --for reverse transforming mouse coordinates
-	
+
 end
 
 function pickmode()

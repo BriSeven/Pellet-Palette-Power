@@ -1,6 +1,8 @@
 require("camera.lua")
-
-
+require("planet.lua")
+require("flufft.lua")
+maploader = require("AdvTiledLoader/Loader")
+maploader.path = "maps/"
 
 
 
@@ -10,14 +12,41 @@ function love.load()
 
 
 	--ctx=makeTestCTX(love)
-	ctx = makeTestPhysicsCTX(love)
+	ctx = rainbowFluff(love)
+
+
+	-- Setup
+ layer = ctx.map.tl["Ground"]
+ displayTime = 0 
+ displayMax = 2
 	--love.audio.play(music, 0)
 	pickmode()
 	
 end
 
+function rainbowFluff(love)
+	local ctx={}
+	ctx.map=maploader.load("desert.tmx")
+	function ctx.name (name, character) 
+		--replacable with proper cache lookup later
+		return ctx[name]
+	end
 
+	ctx.love=love
 
+	ctx.body   	= love.graphics.newImage(db.name( "body"   	))
+	ctx.ear    	= love.graphics.newImage(db.name( "ear"    	))
+	ctx.face   	= love.graphics.newImage(db.name( "face"   	))
+	ctx.logo   	= love.graphics.newImage(db.name( "logo"   	))
+	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
+	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
+
+	ctx.flufft = Flufft:new()
+	ctx.planet = Planet:new()
+	ctx.camera= Camera:new(ctx)
+
+	return ctx
+end
 function makeTestPhysicsCTX (love)
 
 --    	-- wsl: Physics stuff
@@ -70,7 +99,6 @@ function makeTestPhysicsCTX (love)
   	print(ctx.nekochan)
   	
   	
-  	ctx.camera= Camera:new(ctx)
 --	ctx.ballochan = Ballochan.create()
   	-- we want to kick start the physics tis first time through, on loafing. This will then be set to false, 
     -- but the option remains of the context deciding that it wants the physics restarted and setting this 
@@ -108,18 +136,7 @@ function makeTestCTX (love)
 		return ctx[name]
 	end
 	ctx.ph = Playhead.create()
-	ctx.love=love
-	-- The amazing music.
-	--music = love.audio.newSource("mav-alon.it")
-	-- The various images used.
-	ctx.body   	= love.graphics.newImage(db.name( "body"   	))
-	ctx.ear    	= love.graphics.newImage(db.name( "ear"    	))
-	ctx.face   	= love.graphics.newImage(db.name( "face"   	))
-	ctx.logo   	= love.graphics.newImage(db.name( "logo"   	))
-	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
-	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
-
-	ctx.nekochan = Nekochan.create()
+	
 	print(ctx.nekochan)
 	-- Set the background color to soothing pink.
 	ctx.love.graphics.setBackgroundColor(0xff, 0xf1, 0xf7)
