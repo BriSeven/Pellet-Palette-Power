@@ -9,13 +9,15 @@ function love.update(dt)
 --	ctx.physics:updateWorld(dt) --this puts the world into motion
   	g_physics:updateWorld(dt) --this puts the world into motion
   	
+--todo: Make this not care about which context we're updating. 
+--context should have its own update function called from here.
 
-
-	ctx.mouse={x=love.mouse.getX()/pixelsize/scale, y=love.mouse.getY()/pixelsize/scale}
+	ctx.mouse={x=love.mouse.getX()/pixelsize/ctx.camera.scale, y=love.mouse.getY()/pixelsize/ctx.camera.scale}
 	clock=clock+dt
 
 	ctx.nekochan = ctx.nekochan:newState(dt,ctx.nekochan,{mouse=ctx.mouse})
 	ctx.ballochan = ctx.ballochan:newState(dt,ctx.nekochan,{mouse=ctx.mouse})
+	--ctx.camera = ctx.camera:newState(dt)
 	--mag:update(dt)
 	-- if  clock%0.2 == 0.1  then
 	--	if ph._started then 

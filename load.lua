@@ -1,18 +1,8 @@
+require("camera.lua")
 
 
-function pickmode () 
-    modes = love.graphics.getModes()
-    lowest = reduce(function (a,b) if math.abs((a.width/a.height)-1.5)<math.abs((b.width/b.height)-1.5) then return a else return b end end,modes)
-    love.graphics.setMode(960,640)
-
-end
 
 
-lowbuffer = love.graphics.newFramebuffer(240,160)
-scale = 240/800
-pixelsize = 4
-clock = 0;
-	
 
 
 function love.load()
@@ -76,11 +66,13 @@ function makeTestPhysicsCTX (love)
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
 	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
 
-	ctx.nekochan = Nekochan.create()
-	print(ctx.nekochan)
-	
+  	ctx.nekochan = Nekochan.create()
+  	print(ctx.nekochan)
+  	
+  	
+  	ctx.camera= Camera:new(ctx)
 --	ctx.ballochan = Ballochan.create()
-	-- we want to kick start the physics tis first time through, on loafing. This will then be set to false, 
+  	-- we want to kick start the physics tis first time through, on loafing. This will then be set to false, 
     -- but the option remains of the context deciding that it wants the physics restarted and setting this 
     -- back to true at any point.
     ctx.restart_physics = true 

@@ -1,10 +1,10 @@
 db = {
-	body   	= "body.png"               	,
-	ear    	= "ear.png"                	,
-	face   	= "face.png"               	,
-	logo   	= "love.png"               	,
-	cloud  	= "cloud_plain.png"        	,
-	selfmag	= "Self_magazine_cover.png"	,
+	body   	= "gfx/body.png"               	,
+	ear    	= "gfx/ear.png"                	,
+	face   	= "gfx/face.png"               	,
+	logo   	= "gfx/love.png"               	,
+	cloud  	= "gfx/cloud_plain.png"        	,
+	selfmag	= "gfx/Self_magazine_cover.png"	,
 }
 function db.name(name)
 	return 	db[name]

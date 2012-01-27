@@ -10,9 +10,10 @@ function love.draw()
 	love.graphics.setRenderTarget(lowbuffer)
 		
 
-	drawlist(ctx.nekochan:newDrawable())
-	drawlist(ctx.ballochan:newDrawable())
-	drawlist(ctx.clouds:newDrawable())
+	drawlist( ctx.camera:newDrawable( ctx.nekochan:newDrawable() ) )
+	drawlist( ctx.camera:newDrawable( ctx.ballochan:newDrawable() ) )
+	drawlist( ctx.camera:newDrawable( ctx.clouds:newDrawable() ) )
+
 
 
 	love.graphics.setRenderTarget()
@@ -37,7 +38,7 @@ function drawlist (list) --add a camera parameter
 
 
 	for k, c in ipairs(list) do 
-		love.graphics.draw(ctx.name(c.name), c.x*scale, c.y*scale, c.a, c.sx*scale, c.sy*scale, c.cx, c.cy)
+		love.graphics.draw(ctx.name(c.name), c.x, c.y, c.a, c.sx, c.sy, c.cx, c.cy)
 
 
 
