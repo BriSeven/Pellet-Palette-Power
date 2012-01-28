@@ -5,10 +5,37 @@ function love.keypressed(k)
 		love.filesystem.load("rainbowfluff.lua")()
 
 
+
+
 		ctx:stop()
 
 		ctx=rainbowFluff(love,1)
-		--love.audio.play(music, 0)
 
 	end
+
+	if k =="l" then
+		ctx:stop()
+		ctx={}
+		function ctx:update()
+		
+		end 
+		function ctx:draw()
+
+		end 
+		function ctx:stop()
+		end 
+	end
+	if k == "k" then 
+		ctx:stop()
+
+		ctx=rainbowFluff(love,1)
+	end 
+	if k =="p" then 
+		if ctx.paused then 
+			ctx:resume()
+		else
+			ctx:stop()
+	    end 
+	end 
 end
+
