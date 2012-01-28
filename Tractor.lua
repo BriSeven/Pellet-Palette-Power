@@ -38,7 +38,7 @@ function Tractor:newState(dt,oldstate,ctx)
 	local newy = self.y
 	local keyboard = true
 
-	
+	print("---------------------------------Tractor:newState(dt,oldstate,ctx)")
 	if not keyboard then                       -- use mouse
 		newx = math.floor(ctx.mouse.x/32)
 		newy =  math.floor(ctx.mouse.y/32)

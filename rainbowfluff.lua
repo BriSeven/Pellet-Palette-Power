@@ -24,7 +24,7 @@ function rainbowFluff(love,level)
 	ctx.face   	= love.graphics.newImage(db.name( "face"   	))
 	ctx.logo   	= love.graphics.newImage(db.name( "logo"   	))
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
-	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
+	ctx.map1    = ctx.map --change this somehow according to what level I've loaded
 	
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
@@ -36,7 +36,11 @@ function rainbowFluff(love,level)
 	ctx.creatures[4] = Creature:new(16,13,ctx,0.2,"Yellow",-0.1,1,1,1,1,1,0)
 	ctx.creatures[5] = Creature:new(16,14,ctx,0.2,"Purple",-0.1,1,1,1,1,1,0)
 	ctx.creatures[6] = Creature:new(16,11,ctx,0.2,"Purple",-0.1,1,1,1,1,1,0)
-	                                                             
+	ctx.gates = {}
+ 	ctx.gates[1] = Gate:new(true, 6,6,ctx)
+ 	ctx.gates[2] = Gate:new(true, 16,6,ctx)
+ 	
+ 	ctx.tractor = Tractor:new(12,16,ctx)                                                     
 	use_music=true
 	local auBGM
 
@@ -51,7 +55,8 @@ function rainbowFluff(love,level)
 
 		local space = love.keyboard.isDown(" ")
 		ctx=self
-		ctx.mouse={x=love.mouse.getX()/ctx.camera.zoom, y=love.mouse.getY()/ctx.camera.zoom}
+		ctx.mouse={x=love.mouse.getX()/global.camera.zoom, y=love.mouse.getY()/global.camera.zoom}
+		ctx.keyboard={up=love.keyboard.isDown("w"), left=love.keyboard.isDown("a"), down=love.keyboard.isDown("s"), right=love.keyboard.isDown("d")}
 		ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
 		--print("object")
 		--print(DumpObject(ctx.mapproperties))
@@ -61,14 +66,14 @@ function rainbowFluff(love,level)
 		ctx.creatures[4]:update(dt, ctx.creatures[4], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[5]:update(dt, ctx.creatures[5], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[6]:update(dt, ctx.creatures[6], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
-
+		 
+		 ctx.tractor:newState(dt, ctx.tractor, {keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		
 	end
 	function ctx:draw ()
 		ctx=self
 		
-		--map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
-		--map.drawList={map.drawList[1]}
-		--map:draw()
+
 		drawlist({ {type="map", ref=map}})
 		drawlist( ctx.creatures[1]:newDrawable()) 
 		drawlist( ctx.creatures[2]:newDrawable()) 
@@ -77,7 +82,7 @@ function rainbowFluff(love,level)
 		drawlist( ctx.creatures[5]:newDrawable()) 
 		drawlist( ctx.creatures[6]:newDrawable()) 
 
-		drawlist(  ctx.flufft:newDrawable())
+ 		drawlist( ctx.tractor:newDrawable() )
 
 
 	end
