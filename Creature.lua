@@ -26,6 +26,10 @@ function Creature:initialize(x,y,BigUpdatRate,Type,Lazyness)
 	--this is how much the creature needs to move before it moves
 	self.Lazyness = Lazyness
 	--retuen constructed creature
+	
+	--occupy cell
+	--self:Move(0,0,ctx,Vector:new(0,0))
+	
 	return self
 end
 
@@ -70,10 +74,19 @@ end
 
 function Creature:SmallUpdate()
 	--get the percent of time untill the next update
-	local BigUpdatePercent = self.TimeSinceLastBigUpdate/ self.TimeBetweenBigUpdates
+	local BigUpdatePercent = self.TimeSinceLastBigUpdate / self.TimeBetweenBigUpdates
+	
+	--cap update size
+	if BigUpdatePercent > 1 then
+		BigUpdatePercent = 1
+	end
 	
 	self.SmoothedLocation.x = (self.NewLocation.x * BigUpdatePercent) + (self.OldLocation.x * (1- BigUpdatePercent))
 	self.SmoothedLocation.y = (self.NewLocation.y * BigUpdatePercent) + (self.OldLocation.y * (1- BigUpdatePercent))
+	
+		--print("Im the rock and roll cloooooowwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+		--print(self.SmoothedLocation.x)
+		--print(self.SmoothedLocation.y)
 	
 end
 
@@ -128,7 +141,7 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	--if this creature is a red creature
 	--if self.CreatureType == "red" then
 		if getTileProperty("RedFood",x,y,ctx,"RedPellets") ~= nil then
-			print("i do cocane")
+			print("i do cocane yhhhhhhhaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhaaaaaaaaa")
 			return getTileProperty("RedFood",x,y,ctx,"RedPellets")
 		end
 	--end
@@ -149,8 +162,16 @@ end
 
 -- get the direction the character wants to go to group better
 -- this function returns flock gathering
-function Creature:Grouping()
-
+function Creature:Grouping(ctx,vecMoveDirectionVector)
+	
+	--the vector to travle towards
+	local vecGrouping = Vector:new(0,0)
+	local vecFleeing = Vector:new(0,0)
+	
+	--number of objects to group with and to flee from
+	local vecGroupCount = 0
+	local vecFleeCount = 0
+	
 	--loop through the cells surounding the creature
 	
 	--the distance above and below the player to scan
@@ -161,7 +182,47 @@ function Creature:Grouping()
 	
 	local CellScanCount = 0
 	
-	--while yOffset <  
+	--scann through cells
+	yOffset = -ScanSize
+	while yOffset < ScanSize +1 do
+		xOffset = -ScanSize
+		while xOffset < ScanSize +1 do
+			
+			--check if there is something to group towards
+			if(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 1)then
+				
+				--generate vector
+				local vecGroupTargetVec = Vector:new(xOffset,yOffset)
+				
+				--get grouping force
+				local fGroupingForce = getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
+				
+				--include grouping force
+				vecGroupTargetVec.x = vecGroupTargetVec.x * fGroupingForce
+				vecGroupTargetVec.y = vecGroupTargetVec.y * fGroupingForce
+				
+				--update the number of things to follow
+				vecGroupCount = vecGroupCount + 1
+				
+			end
+			--check if there is something to flee from
+			
+			--move on to next collumb
+			xOffset = xOffset +1
+		end
+		
+		--move on to next row
+		yOffset = yOffset +1
+	end
+end
+
+--this calculates the direction to flee
+function Creature:FleeCalculations(ctx,vecFleeing)
+
+end
+
+function Creature:GatherCalculations(ctx,vecFleeing)
+
 end
 
 --Work out what direction the creature has decided to go in
@@ -181,42 +242,42 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 
 	--check availability of squares
 	if(getTileProperty("obstacle", self.NewLocation.x,self.NewLocation.y -1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x,self.NewLocation.y -1,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsUpAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y -1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y -1,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsUpLeftAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y ,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsLeftAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y + 1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y +1,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsDownLeftAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x ,self.NewLocation.y + 1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x ,self.NewLocation.y +1,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsDownAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y + 1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y +1,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsDownRighAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y ,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y ,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsRightAvailable	= true
 	end
 	
 	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y -1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y -1 ,ctx,"Creatures") ~= 1) then
-		print("Im dr Rockso")
+
 		IsUpRightAvailable	= true
 	end
 
@@ -259,6 +320,7 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 	if IsDownAvailable then
 		--project move vector onto move direction
 		DownMoveWorth = vecMoveDirectionVector:dot( Vector:new(0,1))
+		print("Im the rock and roll cloooooowwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
 	end
 	
 	if IsDownRighAvailable then
@@ -278,118 +340,121 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 	
 	--get best move
 		--compair the cells grazing amount to the current cels grazing amount
-	if NoMoveWorth > UpMoveWorth and 
-		NoMoveWorth > UpLeftMoveWorth and 
-		NoMoveWorth > LeftMoveWorth and
-		NoMoveWorth > DownLeftMoveWorth and 
-		NoMoveWorth > DownMoveWorth and 
-		NoMoveWorth > DownRightMoveWorth and 
-		NoMoveWorth > RightMoveWorth and 
-		NoMoveWorth > UpRightMoveWorth then
+	if NoMoveWorth >= UpMoveWorth and 
+		NoMoveWorth >= UpLeftMoveWorth and 
+		NoMoveWorth >= LeftMoveWorth and
+		NoMoveWorth >= DownLeftMoveWorth and 
+		NoMoveWorth >= DownMoveWorth and 
+		NoMoveWorth >= DownRightMoveWorth and 
+		NoMoveWorth >= RightMoveWorth and 
+		NoMoveWorth >= UpRightMoveWorth then
+
 		
 		return Vector:new(0,0)
 	
 	end
 	
-	if UpMoveWorth > NoMoveWorth and 
-		UpMoveWorth > UpLeftMoveWorth and 
-		UpMoveWorth > LeftMoveWorth and
-		UpMoveWorth > DownLeftMoveWorth and 
-		UpMoveWorth > DownMoveWorth and 
-		UpMoveWorth > DownRightMoveWorth and 
-		UpMoveWorth > RightMoveWorth and 
-		UpMoveWorth > UpRightMoveWorth then
+	if UpMoveWorth >= NoMoveWorth and 
+		UpMoveWorth >= UpLeftMoveWorth and 
+		UpMoveWorth >= LeftMoveWorth and
+		UpMoveWorth >= DownLeftMoveWorth and 
+		UpMoveWorth >= DownMoveWorth and 
+		UpMoveWorth >= DownRightMoveWorth and 
+		UpMoveWorth >= RightMoveWorth and 
+		UpMoveWorth >= UpRightMoveWorth then
 		
+				
+
 		return Vector:new(0,-1)
 	
 	end
 	
-	if UpLeftMoveWorth > NoMoveWorth and 
-		UpLeftMoveWorth > UpMoveWorth and 
-		UpLeftMoveWorth > LeftMoveWorth and
-		UpLeftMoveWorth > DownLeftMoveWorth and 
-		UpLeftMoveWorth > DownMoveWorth and 
-		UpLeftMoveWorth > DownRightMoveWorth and 
-		UpLeftMoveWorth > RightMoveWorth and 
-		UpLeftMoveWorth > UpRightMoveWorth then
+	if UpLeftMoveWorth >= NoMoveWorth and 
+		UpLeftMoveWorth >= UpMoveWorth and 
+		UpLeftMoveWorth >= LeftMoveWorth and
+		UpLeftMoveWorth >= DownLeftMoveWorth and 
+		UpLeftMoveWorth >= DownMoveWorth and 
+		UpLeftMoveWorth >= DownRightMoveWorth and 
+		UpLeftMoveWorth >= RightMoveWorth and 
+		UpLeftMoveWorth >= UpRightMoveWorth then
 		
 		return Vector:new(-1,-1)
 	
 	end
 	
-	if LeftMoveWorth > NoMoveWorth and 
-		LeftMoveWorth > UpMoveWorth and 
-		LeftMoveWorth > UpLeftMoveWorth and
-		LeftMoveWorth > DownLeftMoveWorth and 
-		LeftMoveWorth > DownMoveWorth and 
-		LeftMoveWorth > DownRightMoveWorth and 
-		LeftMoveWorth > RightMoveWorth and 
-		LeftMoveWorth > UpRightMoveWorth then
+	if LeftMoveWorth >= NoMoveWorth and 
+		LeftMoveWorth >= UpMoveWorth and 
+		LeftMoveWorth >= UpLeftMoveWorth and
+		LeftMoveWorth >= DownLeftMoveWorth and 
+		LeftMoveWorth >= DownMoveWorth and 
+		LeftMoveWorth >= DownRightMoveWorth and 
+		LeftMoveWorth >= RightMoveWorth and 
+		LeftMoveWorth >= UpRightMoveWorth then
 		
 		return Vector:new(-1,0)
 	
 	end
 	
-	if DownLeftMoveWorth > NoMoveWorth and 
-		DownLeftMoveWorth > UpMoveWorth and 
-		DownLeftMoveWorth > UpLeftMoveWorth and
-		DownLeftMoveWorth > LeftMoveWorth and 
-		DownLeftMoveWorth > DownMoveWorth and 
-		DownLeftMoveWorth > DownRightMoveWorth and 
-		DownLeftMoveWorth > RightMoveWorth and 
-		DownLeftMoveWorth > UpRightMoveWorth then
+	if DownLeftMoveWorth >= NoMoveWorth and 
+		DownLeftMoveWorth >= UpMoveWorth and 
+		DownLeftMoveWorth >= UpLeftMoveWorth and
+		DownLeftMoveWorth >= LeftMoveWorth and 
+		DownLeftMoveWorth >= DownMoveWorth and 
+		DownLeftMoveWorth >= DownRightMoveWorth and 
+		DownLeftMoveWorth >= RightMoveWorth and 
+		DownLeftMoveWorth >= UpRightMoveWorth then
 		
 		return Vector:new(-1,1)
 	
 	end
 	
-	if DownMoveWorth > NoMoveWorth and 
-		DownMoveWorth > UpMoveWorth and 
-		DownMoveWorth > UpLeftMoveWorth and
-		DownMoveWorth > LeftMoveWorth and 
-		DownMoveWorth > DownLeftMoveWorth and 
-		DownMoveWorth > DownRightMoveWorth and 
-		DownMoveWorth > RightMoveWorth and 
-		DownMoveWorth > UpRightMoveWorth then
+	if DownMoveWorth >= NoMoveWorth and 
+		DownMoveWorth >= UpMoveWorth and 
+		DownMoveWorth >= UpLeftMoveWorth and
+		DownMoveWorth >= LeftMoveWorth and 
+		DownMoveWorth >= DownLeftMoveWorth and 
+		DownMoveWorth >= DownRightMoveWorth and 
+		DownMoveWorth >= RightMoveWorth and 
+		DownMoveWorth >= UpRightMoveWorth then
 		
 		return Vector:new(0,1)
 	
 	end
 	
-	if DownRightMoveWorth > NoMoveWorth and 
-		DownRightMoveWorth > UpMoveWorth and 
-		DownRightMoveWorth > UpLeftMoveWorth and
-		DownRightMoveWorth > LeftMoveWorth and 
-		DownRightMoveWorth > DownLeftMoveWorth and 
-		DownRightMoveWorth > DownMoveWorth and 
-		DownRightMoveWorth > RightMoveWorth and 
-		DownRightMoveWorth > UpRightMoveWorth then
+	if DownRightMoveWorth >= NoMoveWorth and 
+		DownRightMoveWorth >= UpMoveWorth and 
+		DownRightMoveWorth >= UpLeftMoveWorth and
+		DownRightMoveWorth >= LeftMoveWorth and 
+		DownRightMoveWorth >= DownLeftMoveWorth and 
+		DownRightMoveWorth >= DownMoveWorth and 
+		DownRightMoveWorth >= RightMoveWorth and 
+		DownRightMoveWorth >= UpRightMoveWorth then
 		
 		return Vector:new(1,1)
 	
 	end
 	
-	if RightMoveWorth > NoMoveWorth and 
-		RightMoveWorth > UpMoveWorth and 
-		RightMoveWorth > UpLeftMoveWorth and
-		RightMoveWorth > LeftMoveWorth and 
-		RightMoveWorth > DownLeftMoveWorth and 
-		RightMoveWorth > DownMoveWorth and 
-		RightMoveWorth > DownRightMoveWorth and 
-		RightMoveWorth > UpRightMoveWorth then
+	if RightMoveWorth >= NoMoveWorth and 
+		RightMoveWorth >= UpMoveWorth and 
+		RightMoveWorth >= UpLeftMoveWorth and
+		RightMoveWorth >= LeftMoveWorth and 
+		RightMoveWorth >= DownLeftMoveWorth and 
+		RightMoveWorth >= DownMoveWorth and 
+		RightMoveWorth >= DownRightMoveWorth and 
+		RightMoveWorth >= UpRightMoveWorth then
 		
 		return Vector:new(1,0)
 	
 	end
 	
-	if UpRightMoveWorth > NoMoveWorth and 
-		UpRightMoveWorth > UpMoveWorth and 
-		UpRightMoveWorth > UpLeftMoveWorth and
-		UpRightMoveWorth > LeftMoveWorth and 
-		UpRightMoveWorth > DownLeftMoveWorth and 
-		UpRightMoveWorth > DownMoveWorth and 
-		UpRightMoveWorth > DownRightMoveWorth and 
-		UpRightMoveWorth > RightMoveWorth then
+	if UpRightMoveWorth >= NoMoveWorth and 
+		UpRightMoveWorth >= UpMoveWorth and 
+		UpRightMoveWorth >= UpLeftMoveWorth and
+		UpRightMoveWorth >= LeftMoveWorth and 
+		UpRightMoveWorth >= DownLeftMoveWorth and 
+		UpRightMoveWorth >= DownMoveWorth and 
+		UpRightMoveWorth >= DownRightMoveWorth and 
+		UpRightMoveWorth >= RightMoveWorth then
 		
 		return Vector:new(1,-1)
 	
@@ -413,6 +478,8 @@ function Creature:Move(dt,oldstate,ctx,vecMoveDirectionVector)
 	
 	self.NewLocation.x =  self.NewLocation.x + vecMoveDirectionVector.x
 	self.NewLocation.y =  self.NewLocation.y + vecMoveDirectionVector.y
+	
+	
 end
 
 --get the direction the character wants to go for more food
@@ -434,118 +501,122 @@ function Creature:Grazing(dt,oldstate,ctx)
 		
 
 	--compair the cells grazing amount to the current cels grazing amount
-	if CurrentFood > UpFood and 
-		CurrentFood > UpLeftFood and 
-		CurrentFood > LeftFood and
-		CurrentFood > DownLeftFood and 
-		CurrentFood > DownFood and 
-		CurrentFood > DownRightFood and 
-		CurrentFood > RightFood and 
-		CurrentFood > UpRightFood then
+	if CurrentFood >= UpFood and 
+		CurrentFood >= UpLeftFood and 
+		CurrentFood >= LeftFood and
+		CurrentFood >= DownLeftFood and 
+		CurrentFood >= DownFood and 
+		CurrentFood >= DownRightFood and 
+		CurrentFood >= RightFood and 
+		CurrentFood >= UpRightFood then
+		
+		
 		
 		return Vector:new(0,0)
 	
 	end
 	
-	if UpFood > CurrentFood and 
-		UpFood > UpLeftFood and 
-		UpFood > LeftFood and 
-		UpFood > DownLeftFood and 
-		UpFood > DownFood and 
-		UpFood > DownRightFood and 
-		UpFood > RightFood and 
-		UpFood > UpRightFood then
+	if UpFood >= CurrentFood and 
+		UpFood >= UpLeftFood and 
+		UpFood >= LeftFood and 
+		UpFood >= DownLeftFood and 
+		UpFood >= DownFood and 
+		UpFood >= DownRightFood and 
+		UpFood >= RightFood and 
+		UpFood >= UpRightFood then
 		
 		return Vector:new(0,-1)
 	
 	end
 	
-	if UpLeftFood > CurrentFood and 
-		UpLeftFood > UpFood and 
-		UpLeftFood > LeftFood and 
-		UpLeftFood > DownLeftFood and 
-		UpLeftFood > DownFood and 
-		UpLeftFood > DownRightFood and 
-		UpLeftFood > RightFood and 
-		UpLeftFood > UpRightFood then
+	if UpLeftFood >= CurrentFood and 
+		UpLeftFood >= UpFood and 
+		UpLeftFood >= LeftFood and 
+		UpLeftFood >= DownLeftFood and 
+		UpLeftFood >= DownFood and 
+		UpLeftFood >= DownRightFood and 
+		UpLeftFood >= RightFood and 
+		UpLeftFood >= UpRightFood then
 		
 		return Vector:new(-1,-1)
 	
 	end
 	
-	if LeftFood > CurrentFood and 
-		LeftFood > UpFood and 
-		LeftFood > UpLeftFood and 
-		LeftFood > DownLeftFood and 
-		LeftFood > DownFood and 
-		LeftFood > DownRightFood and 
-		LeftFood > RightFood and 
-		LeftFood > UpRightFood then
+	if LeftFood >= CurrentFood and 
+		LeftFood >= UpFood and 
+		LeftFood >= UpLeftFood and 
+		LeftFood >= DownLeftFood and 
+		LeftFood >= DownFood and 
+		LeftFood >= DownRightFood and 
+		LeftFood >= RightFood and 
+		LeftFood >= UpRightFood then
 		
 		return Vector:new(-1,0)
 	
 	end
 	
-	if DownLeftFood > CurrentFood and 
-		DownLeftFood > UpFood and 
-		DownLeftFood > UpLeftFood and 
-		DownLeftFood > LeftFood and 
-		DownLeftFood > DownFood and 
-		DownLeftFood > DownRightFood and 
-		DownLeftFood > RightFood and 
-		DownLeftFood > UpRightFood then
 		
-		return Vector:new(-1,1)
-	
-	end
-	
-	if DownFood > CurrentFood and 
-		DownFood > UpFood and 
-		DownFood > UpLeftFood and 
-		DownFood > LeftFood and 
-		DownFood > DownLeftFood and 
-		DownFood > DownRightFood and 
-		DownFood > RightFood and 
-		DownFood > UpRightFood then
+	if DownFood >= CurrentFood and 
+		DownFood >= UpFood and 
+		DownFood >= UpLeftFood and 
+		DownFood >= LeftFood and 
+		DownFood >= DownLeftFood and 
+		DownFood >= DownRightFood and 
+		DownFood >= RightFood and 
+		DownFood >= UpRightFood then
 		
 		return Vector:new(0,1)
 	
 	end
 	
-	if DownRightFood > CurrentFood and 
-		DownLeftFood > UpFood and 
-		DownLeftFood > UpLeftFood and 
-		DownLeftFood > LeftFood and 
-		DownLeftFood > DownLeftFood and 
-		DownLeftFood > DownFood and 
-		DownLeftFood > RightFood and 
-		DownLeftFood > UpRightFood then
+	if DownLeftFood >= CurrentFood and 
+		DownLeftFood >= UpFood and 
+		DownLeftFood >= UpLeftFood and 
+		DownLeftFood >= LeftFood and 
+		DownLeftFood >= DownFood and 
+		DownLeftFood >= DownRightFood and 
+		DownLeftFood >= RightFood and 
+		DownLeftFood >= UpRightFood then
+		
+		return Vector:new(-1,1)
+	
+	end
+
+	
+	if DownRightFood >= CurrentFood and 
+		DownLeftFood >= UpFood and 
+		DownLeftFood >= UpLeftFood and 
+		DownLeftFood >= LeftFood and 
+		DownLeftFood >= DownLeftFood and 
+		DownLeftFood >= DownFood and 
+		DownLeftFood >= RightFood and 
+		DownLeftFood >= UpRightFood then
 		
 		return Vector:new(1,1)
 	
 	end
 	
-	if RightFood > CurrentFood and 
-		RightFood > UpFood and 
-		RightFood > UpLeftFood and 
-		RightFood > LeftFood and 
-		RightFood > DownLeftFood and 
-		RightFood > DownFood and 
-		RightFood > DownLeftFood and 
-		RightFood > UpRightFood then
+	if RightFood >= CurrentFood and 
+		RightFood >= UpFood and 
+		RightFood >= UpLeftFood and 
+		RightFood >= LeftFood and 
+		RightFood >= DownLeftFood and 
+		RightFood >= DownFood and 
+		RightFood >= DownLeftFood and 
+		RightFood >= UpRightFood then
 		
 		return Vector:new(1,0)
 	
 	end
 	
-	if UpRightFood > CurrentFood and 
-		UpRightFood > UpFood and 
-		UpRightFood > UpLeftFood and 
-		UpRightFood > LeftFood and 
-		UpRightFood > DownLeftFood and 
-		UpRightFood > DownFood and 
-		UpRightFood > DownLeftFood and 
-		UpRightFood > RightFood then
+	if UpRightFood >= CurrentFood and 
+		UpRightFood >= UpFood and 
+		UpRightFood >= UpLeftFood and 
+		UpRightFood >= LeftFood and 
+		UpRightFood >= DownLeftFood and 
+		UpRightFood >= DownFood and 
+		UpRightFood >= DownLeftFood and 
+		UpRightFood >= RightFood then
 		
 		return Vector:new(1,-1)
 	

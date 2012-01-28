@@ -30,15 +30,15 @@ function rainbowFluff(love,level)
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}
-	ctx.creatures[1] = Creature:new(1,1,1,1,0.5)
+	ctx.creatures[1] = Creature:new(6,0,5,"red",-0.5)
 	use_music=true
 	local auBGM
 
 	if use_music == true then
-		auBGM = love.audio.newSource("sfx/bgm.ogg")
-		auBGM:setLooping(true)
-		auBGM:setVolume(0.6)
-		auBGM:play()
+	--	auBGM = love.audio.newSource("sfx/bgm.wav")
+	--	auBGM:setLooping(true)
+	--	auBGM:setVolume(0.6)
+	--	auBGM:play()
 	end
 
 	function ctx:update (dt)
@@ -54,6 +54,7 @@ function rainbowFluff(love,level)
 	end
 	function ctx:draw ()
 		map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
+		--map.drawList={map.drawList[1]}
 		map:draw()
 		drawlist( ctx.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
 		drawlist( ctx.camera:newDrawable( ctx.flufft:newDrawable()) )
@@ -62,7 +63,7 @@ function rainbowFluff(love,level)
 	end
 
 	function ctx:stop ()
-		auBGM:stop()
+	--	auBGM:stop()
 	end
 
 	return ctx
