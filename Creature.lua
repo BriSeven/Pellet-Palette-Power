@@ -28,7 +28,7 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	--retuen constructed creature
 	
 	--occupy cell
-	--self:Move(ctx,Vector:new(0,0))
+	self:Move(ctx,Vector:new(0,0))
 	
 	--the forces that pull other creatures to this creature
 	self.grazingForceMultiplyer = GrazingForceMultiplyer
@@ -345,10 +345,13 @@ function Creature:Grouping(ctx)
 	
 	--scann through cells
 	yOffset = -ScanSize
+	
 	while yOffset < ScanSize +1 do
+	
 		xOffset = -ScanSize
+		
 		while xOffset < ScanSize +1 do
-			
+			print(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures"))
 			--check if there is something to group towards
 			if(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= nil) and 
 				(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 0)then
@@ -382,12 +385,16 @@ function Creature:Grouping(ctx)
 	end
 	
 	if vecGroupCount == 0 then
+		--print("FFFFFFFFAAAAAAAAAAAAIIIIIIIIILLLLLLLLLLLLLLLLLLL")
 		return vecGrouping
 	end
 	
 	--calculate the final vector
 	vecGrouping.x = vecGrouping.x / vecGroupCount
 	vecGrouping.y = vecGrouping.y / vecGroupCount
+	
+	--normalise length
+	--vecGrouping:normalise()
 	
 	return vecGrouping
 	
@@ -654,14 +661,14 @@ function Creature:Move(ctx,vecMoveDirectionVector)
 	
 	--add grouping forces
 	if self.CreatureType == "Red" then
-		setTileProperty("RedGroupForce",redGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+		setTileProperty("RedGroupForce",self.redGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	end
 	if self.CreatureType == "Yellow" then
-		setTileProperty("YellowGroupForce",yellowGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+		setTileProperty("YellowGroupForce",self.yellowGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	end
 	
 	if self.CreatureType == "Purple" then
-		setTileProperty("PurpleGroupForce",purpleGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+		setTileProperty("PurpleGroupForce",self.purpleGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	end
 	
 	
