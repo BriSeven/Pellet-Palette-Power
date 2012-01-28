@@ -28,7 +28,6 @@ function rainbowFluff(love,level)
 	
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
-	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}
 	ctx.creatures[1] = Creature:new(6,6,ctx,1,"red",-0.5,1,1,1,1,1,1)
 	ctx.creatures[2] = Creature:new(6,8,ctx,1,"red",-0.5,1,1,1,1,1,1)
@@ -58,13 +57,13 @@ function rainbowFluff(love,level)
 	function ctx:draw ()
 		ctx=self
 		
-		map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
+		map:setDrawRange(0, 0, global.camera.width, global.camera.height)
 		--map.drawList={map.drawList[1]}
 		map:draw()
-		drawlist( ctx.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
-		drawlist( ctx.camera:newDrawable( ctx.creatures[2]:newDrawable()) )
+		drawlist( global.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
+		drawlist( global.camera:newDrawable( ctx.creatures[2]:newDrawable()) )
 
-		drawlist( ctx.camera:newDrawable( ctx.flufft:newDrawable()) )
+		drawlist( global.camera:newDrawable( ctx.flufft:newDrawable()) )
 
 
 	end

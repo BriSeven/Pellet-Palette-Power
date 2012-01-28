@@ -64,7 +64,7 @@ function Camera:worldCoodsFromScreenCoords(x,y) --for reverse transforming mouse
 	return x*self.scale,y*self.scale
 end
 
-function pickmode()
+function Camera:pickmode()
     modes = love.graphics.getModes()
     lowest = reduce(function (a,b) if math.abs((a.width/a.height)-1.5)<math.abs((b.width/b.height)-1.5) then return a else return b end end,modes)
     ctx.camera=Camera:new()
