@@ -116,7 +116,7 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	local vecFlockingDirection = self:Grouping(ctx)
 	
 	--add some random movement 
-	--local vecRandomMovement = Vector:new(math.random(-1,1),math.random(-1,1))
+	local vecRandomMovement = Vector:new(math.random(-0.9,1),math.random(-0.9,1))
 	
 	--compiled movement direction
 	local vecPreGridAllineDirection = Vector:new(0,0)
@@ -126,8 +126,8 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGrazing.x * self.grazingForceMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGrazing.y * self.grazingForceMultiplyer
 	
-	--vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
-	--vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
 	
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
