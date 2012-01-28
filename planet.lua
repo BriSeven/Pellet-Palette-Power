@@ -29,7 +29,7 @@ function getTileProperty(name, x, y, ctx, lr )
 	  	ctx.mapproperties[x][y] and 
 	  	ctx.mapproperties[x][y][lr] ~= nil
 	then 
-		r= ctx.mapproperties[x][y][lr]
+		r= ctx.mapproperties[x][y][lr][name]
     else 
 		
 		r= layer and layer[y+1] and 
@@ -55,13 +55,14 @@ function setTileProperty(name, value, x,y,ctx,lr)
 	local layer = (ctx.map.tl[lr] or {} ).tileData or {}
 	
 	if  layer and layer[y+1] and 
-		layer[y+1][x+1]
+		layer[y+1][x+1] ~= nil
 	then 
 		
 		
 		ctx.mapproperties[x]=ctx.mapproperties[x] or {}
-		ctx.mapproperties[x][y]=ctx.mapproperties[y] or {}
-		ctx.mapproperties[x][y][lr]=value
+		ctx.mapproperties[x][y]=ctx.mapproperties[x][y] or {}
+		ctx.mapproperties[x][y][lr]=ctx.mapproperties[x][y][lr] or {}
+		ctx.mapproperties[x][y][lr][name]=value
 
 		return true 
 	else

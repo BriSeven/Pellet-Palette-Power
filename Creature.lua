@@ -180,6 +180,7 @@ function Creature:EatFood(x,y,ctx)
 			print("fffffffffffffffffffffffffffffff")
 		end
 		
+		print("tile Property",getTileProperty("PurpleFood",x,y,ctx,"PurplePellets"))
 		
 		--get the shit to eat		
 		if(foodLevels == 1)then
@@ -194,7 +195,9 @@ function Creature:EatFood(x,y,ctx)
 			setTileProperty("RedFood",2,x,y,ctx,"RedPellets")
 		end
 
-		print("foodLevels", foodLevels, "shitLevel", shitLevel, "get", getTileProperty("RedFood",x,y,ctx,"RedPellets") , "Coordinate" , self.NewLocation.x,self.NewLocation.y)
+		print("tile Property",getTileProperty("PurpleFood",x,y,ctx,"PurplePellets"))
+		
+		--print("foodLevels", foodLevels, "shitLevel", shitLevel, "get red", getTileProperty("RedFood",x,y,ctx,"RedPellets") , "Coordinate" , self.NewLocation.x,self.NewLocation.y)
 	end
 	
 
