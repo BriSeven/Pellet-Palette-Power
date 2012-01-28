@@ -4,7 +4,7 @@ require("functional.lua")
 Creature = class("Creature")
 
 
-function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness)
+function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,RedGroupingForce,YellowGroupingForce,PurpleGroupingForce,GroupForceMultiplyer)
 	--the current location of the creature
 	self.NewLocation = Vector:new(x,y)
 	
@@ -29,6 +29,15 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness)
 	
 	--occupy cell
 	self:Move(ctx,Vector:new(0,0))
+	
+	--the forces that pull other creatures to this creature
+	self.redGroupingForce = RedGroupingForce
+	
+	self.yellowGroupingForce = YellowGroupingForce
+	
+	self.purpleGroupingForce = PurpleGroupingForce
+	
+	self.groupForceMultiplyer = GroupForceMultiplyer
 	
 	return self
 end
@@ -95,6 +104,9 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	
 	--get grazing direction
 	local vecGrazing = self:Grazing(dt,oldstate,ctx)
+	
+	--get grouping direction
+	local vecGrazingDirection
 	
 	--local vecGrazing = Vector:new(0,0)
 	
@@ -260,7 +272,7 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 		IsRightAvailable = {1 , 0},
 		IsDownLeftAvailable = {-1, 1},
 		IsDownAvailable = {0 , 1},
-		IsDownRighAvailable = {1 , 1}
+		IsDownRightAvailable = {1 , 1}
 	}
 	
 	available = f_map(
@@ -335,7 +347,7 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 		--print(DownMoveWorth)
 	end
 	
-	if available.IsDownRighAvailable then
+	if available.IsDownRightAvailable then
 		--project move vector onto move direction
 		DownRightMoveWorth = vecMoveDirectionVector:dot( Vector:new(0.52,0.52))
 	end
@@ -480,9 +492,6 @@ end
 function Creature:Move(ctx,vecMoveDirectionVector)
 	--unmark current cell as ocupied
 	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
-
-	
-	"RedGroupForce"
 	
 	--mark future cell as ocupied
 	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
@@ -491,16 +500,17 @@ function Creature:Move(ctx,vecMoveDirectionVector)
 	setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	setTileProperty("YellowGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	setTileProperty("PurpleGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	
 	--add grouping forces
-	if self.CreatureType = "Red" then
-		setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	if self.CreatureType == "Red" then
+		setTileProperty("RedGroupForce",redGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	end
-	if self.CreatureType = "Yellow" then
-		setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	if self.CreatureType == "Yellow" then
+		setTileProperty("YellowGroupForce",yellowGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	end
 	
-	if self.CreatureType = "Purple" then
-		setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	if self.CreatureType == "Purple" then
+		setTileProperty("PurpleGroupForce",purpleGroupingForce, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	end
 	
 	
