@@ -31,15 +31,15 @@ function rainbowFluff(love,level)
 	
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
-	ctx.creatures = {}
-	ctx.creatures[1] = Creature:new(6,6,ctx,0.1,"Red",-0.1,5,0.5,1,1,1,1)
-	ctx.creatures[2] = Creature:new(6,8,ctx,0.14,"Red",-0.1,5,0.5,1,1,1,1)
-	ctx.creatures[3] = Creature:new(6,8,ctx,0.16,"Red",-0.1,5,0.5,1,1,1,1)
-	ctx.creatures[4] = Creature:new(6,8,ctx,0.12,"Red",-0.1,5,0.5,1,1,1,1)
-	ctx.creatures[5] = Creature:new(6,8,ctx,0.145,"Red",-0.1,5,0.5,1,1,1,1)
-	ctx.creatures[6] = Creature:new(6,8,ctx,0.15,"Red",-0.1,5,0.5,1,1,1,1)
-	
-
+	ctx.camera= Camera:new(ctx)
+	ctx.creatures = {}                                              
+	ctx.creatures[1] = Creature:new(11,11,ctx,0.2,"Red",-0.1,2,1,1,1,1,1)
+	ctx.creatures[2] = Creature:new(16,18,ctx,0.2,"Red",-0.1,3,1,1,1,1,1)
+	ctx.creatures[3] = Creature:new(16,12,ctx,0.2,"Red",-0.1,4,1,1,1,1,1)
+	ctx.creatures[4] = Creature:new(16,13,ctx,0.2,"Red",-0.1,5,1,1,1,1,1)
+	ctx.creatures[5] = Creature:new(16,14,ctx,0.2,"Red",-0.1,6,1,1,1,1,1)
+	ctx.creatures[6] = Creature:new(16,11,ctx,0.2,"Red",-0.1,7,1,1,1,1,1)
+	                                                             
 	use_music=true
 	local auBGM
 
@@ -70,11 +70,13 @@ function rainbowFluff(love,level)
 	end
 	function ctx:draw ()
 		ctx=self
-		
-		drawlist( {{ 
+		--map:draw()
+
+		 drawlist( {{ 
 		 type="map",
 		 name="map1",  --center and scale should be camera and db responsibilities
 		 character="game",
+		 ref=map,
 		 x=0,
 		 y=0,     --x and y assuming 800x600 screen
 		 a=0,
@@ -84,16 +86,14 @@ function rainbowFluff(love,level)
 		 cy=0
 	
 		} })
-
-
-		drawlist( ctx.creatures[1]:newDrawable() )
-		drawlist( ctx.creatures[2]:newDrawable() )
-		drawlist( ctx.creatures[3]:newDrawable() )
-		drawlist( ctx.creatures[4]:newDrawable() )
-		drawlist( ctx.creatures[5]:newDrawable() )
+		drawlist(  ctx.creatures[1]:newDrawable() )
+		drawlist(  ctx.creatures[2]:newDrawable() )
+		drawlist(  ctx.creatures[3]:newDrawable() )
+		drawlist(  ctx.creatures[4]:newDrawable() )
+		drawlist(  ctx.creatures[5]:newDrawable() )
 		drawlist( ctx.creatures[6]:newDrawable() )
 
-		drawlist( ctx.flufft:newDrawable() )
+		drawlist(  ctx.flufft:newDrawable() )
 
 
 	end

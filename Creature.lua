@@ -1,4 +1,4 @@
-require("middleclass.lua")
+require("MiddleClass.lua")
 require ("Vector.lua")
 require("functional.lua")
 Creature = class("Creature")
