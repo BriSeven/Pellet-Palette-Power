@@ -13,8 +13,7 @@ require("functional.lua")
 require("playhead.lua")
 --initialise program
 require("load.lua")
---magazine object
-require("mag.lua")
+
 --livecoding
 require("livereload.lua")
 --cloud field

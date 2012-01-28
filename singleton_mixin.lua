@@ -8,25 +8,25 @@ local private = {}
 
 Singleton = {
   included=function(class)
-  ("In Singleton included... class is: " .. tostring(class) )
-    _table(class)
+  print("In Singleton included... class is: " .. tostring(class) )
+    print_table(class)
     private[class] = { instance = class:new() }
 --	private[class] = { instance = "fred" }       
-    ("private[class]: " .. tostring(private[class]))
-    ("_table(private[class]): ")
-    _table(private[class])
---    (private[class])
+    print("private[class]: " .. tostring(private[class]))
+    print("print_table(private[class]): ")
+    print_table(private[class])
+--    print(private[class])
   end
 }
 
 function Singleton:getInstance()
-    ("_table(private[self]):")
-    _table(private[self])
+    print("print_table(private[self]):")
+    print_table(private[self])
   return private[self].instance
 end
 
 --function Singleton:new()
---	("wsl todo: fix this nasty hack!")
+--	print("wsl todo: fix this nasty hack!")
 ----  error("Object creation is forbidden on singletons") --wsl todo: fix this nasty hack!
 --end
 

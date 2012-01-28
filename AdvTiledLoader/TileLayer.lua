@@ -74,12 +74,7 @@ function TileLayer:draw()
 	-- We access these a lot so we'll shorted them a bit. 
 	map, tiles, tileData = self.map, self.map.tiles, self.tileData
 	-- Same with post draw
-	postDraw = self.postDraw	
-	if global.limitDrawing then 
-		map:autoDrawRange(ftx, fty, global.scale, -100) 
-	else 
-		map:autoDrawRange(ftx, fty, global.scale, 50) 
-	end
+	postDraw = self.postDraw
 	
 	-- If useSpriteBatch was turned on then we need to force redraw the sprite batches
 	if self.useSpriteBatch ~= self._previousUseSpriteBatch then map:forceRedraw() end

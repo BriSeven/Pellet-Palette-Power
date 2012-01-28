@@ -1,16 +1,16 @@
 if( not _G.LUA_PATH) then 
-   ("LUA_PATH is empty. Will add something to it.")
+  print ("LUA_PATH is empty. Will add something to it.")
   _G.LUA_PATH="/home/wendy/Documents/src/Eclipse/Workspace/LoveBallTentacles/?.lua"
-  ("Now LUA_PATH is: " .. _G.LUA_PATH)
+  print("Now LUA_PATH is: " .. _G.LUA_PATH)
 else  
-  ("LUA_PATH is: " .. _G.LUA_PATH)
+  print("LUA_PATH is: " .. _G.LUA_PATH)
 end
   
   
 require( "MiddleClass" );
 HasWings = { -- HasWings is a module, not a class. It can be "included" into classes
   fly = function(self)
-    ('flap flap flap I am a ' .. self.class.name)
+    print('flap flap flap I am a ' .. self.class.name)
   end
 }
 
@@ -47,16 +47,16 @@ DrinksCoffee = {}
 -- Note that we are using the : operator, so there's an implicit self parameter
 function DrinksCoffee:drink(drinkTime)
   if(drinkTime~=self.class.coffeeTime) then
-    (self.name .. ': It is not the time to drink coffee!')
+    print(self.name .. ': It is not the time to drink coffee!')
   else
-    (self.name .. ': Mmm I love coffee at ' .. drinkTime)
+    print(self.name .. ': Mmm I love coffee at ' .. drinkTime)
   end
 end
 
 -- the included method is invoked every time DrinksCoffee is included on a class
 -- notice that parameters can be passed around
 function DrinksCoffee:included(klass)
-  (klass.name .. ' drinks coffee at ' .. klass.coffeeTime)
+  print(klass.name .. ' drinks coffee at ' .. klass.coffeeTime)
 end
 
 EnglishMan = class('EnglishMan')

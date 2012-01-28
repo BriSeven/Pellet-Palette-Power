@@ -43,7 +43,7 @@
 --   * The environments in which are evaluated user code (property_* and eval commands, conditional breakpoints, ...) is a read/write 
 --     mapping of the local environment of a given stack level (can be accessed with variable names). See Context for additional details.
 --     Context instantiation is pooled inside a debugging loop with ContextManager (each stack level is instantiated only once).
---   * Output redirection is done by redefining  and some values inside the io table. See "Output redirection handling" for details.
+--   * Output redirection is done by redefining print and some values inside the io table. See "Output redirection handling" for details.
 
 -- "hack" to have access to raw socket function before their redefinition for sched
 -- This is done because once in debugger loop, the expected behavior is to block the whole Lua VM with the receive.
@@ -415,7 +415,7 @@ local function generate_key(name)
     end
 end
 
-local function generate_able_key(name)
+local function generate_printable_key(name)
     return "[" .. (type(name) == "string" and string.format("%q", name) or tostring(name)) .. "]"
 end
 
@@ -585,7 +585,7 @@ local function make_property(context, value, name, fullname, depth, pagesize, pa
     end
     
     fullname = fullname or ("(...)[" .. generate_key(name) .. "]")
-    if not safe_name then name = generate_able_key(name) end
+    if not safe_name then name = generate_printable_key(name) end
     
     if getmetatable(value) == Multival then
         local children = { }
@@ -623,7 +623,7 @@ end
 -- references to native values
 io.base = { output = io.output, stdin = io.stdin, stdout = io.stdout, stderr = io.stderr }
 
-function (...)
+function print(...)
     local buf = {...}
     for i=1, select("#", ...) do
         buf[i] = tostring(buf[i])
@@ -639,7 +639,7 @@ end
 
 local dummy = function() end
 
--- metatable for redirecting output (not ed at all in actual output)
+-- metatable for redirecting output (not printed at all in actual output)
 local redirect_output = {
     write = function(self, ...)
         local buf = {...}
@@ -1301,7 +1301,7 @@ commands = {
     -- 
     -- This is a non-standard command. The returned XML has the following strucuture:
     --     <response command="coroutine_list" transaction_id="0">
-    --       <coroutine name="<some table name>" id="<coroutine id>" running="0|1" />
+    --       <coroutine name="<some printtable name>" id="<coroutine id>" running="0|1" />
     --       ...
     --     </response>
     coroutine_list = function(self, args)

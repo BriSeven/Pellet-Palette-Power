@@ -22,7 +22,7 @@ local assert = assert
 local error = error
 local ipairs = ipairs
 local pairs = pairs
-local  = 
+local print = print
 local require = require
 local tostring = tostring
 local type = type
@@ -54,7 +54,7 @@ end
 
 
 local function debug(...)
-  ('DEBUG', ...)
+  print('DEBUG', ...)
 end
 
 
@@ -118,7 +118,7 @@ local is_bitstream = setmetatable({}, {__mode='k'})
 
 
 -- DEBUG
--- s LSB first
+-- prints LSB first
 local function bits_tostring(bits, nbits)
   local s = ''
   local tmp = bits
