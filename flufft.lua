@@ -1,4 +1,4 @@
-require( "MiddleClass.lua" );
+require( "middleclass.lua" );
 
 
 -- possibly things like ballochain should also be a singleton, and 
