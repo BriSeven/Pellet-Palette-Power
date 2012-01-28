@@ -83,6 +83,7 @@ function Creature:newDrawable(state)
 		 kind = "quad",
 		 name=self.Frame or "walk1",  --center and scale should be camera and db responsibilities
 		 character="red",
+
 		
 		 --name = self.Frame,
 		 --character = self.CreatureType
@@ -135,6 +136,7 @@ function Creature:Animate(BigUpdatePercent)
 	
 	if (frmNum == 4) then
 		self.Frame = "walk4"
+
 	end
 	
 	--get direction
@@ -178,11 +180,12 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
 	
-	--vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFollowDirection.x * self.followingMultiplyer
-	--vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFollowDirection.y * self.followingMultiplyer
+
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFollowDirection.x * self.followingMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFollowDirection.y * self.followingMultiplyer
 	
-	--vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGroupingDirection.x * self.groupForceMultiplyer
-	--vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGroupingDirection.y * self.groupForceMultiplyer
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGroupingDirection.x * self.groupForceMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGroupingDirection.y * self.groupForceMultiplyer
 	
 	--turn planed direction to grid locked direction
 	local vecGridDirection = self:FinalMoveDirection(dt,oldstate,ctx,vecPreGridAllineDirection)
@@ -511,6 +514,7 @@ function Creature:Grouping(ctx)
 						
 						end
 						
+
 					end
 					--update the number of things to follow
 					vecGroupCount = vecGroupCount + 1
@@ -529,7 +533,26 @@ function Creature:Grouping(ctx)
 					local GroupingForce = getTileProperty("YellowGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
 					
 						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
+					
+					--check if follow force should be applied
+					if(GroupingForce > 0) then
+					
+						local followDirection = getTileProperty("TravelDirection", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
+					
+						if followDirection ~= nil then
+					
+							
 						
+							--get the follow force
+							self:Follow(vecFollowing,xOffset,yOffset,followDirection)
+							
+							--add to the total number of follow forces appiled
+							vecFollowCount = vecFollowCount + 1
+						
+						end
+						
+					end
+					
 					--update the number of things to follow
 					vecGroupCount = vecGroupCount + 1
 					
@@ -547,7 +570,26 @@ function Creature:Grouping(ctx)
 					local GroupingForce = getTileProperty("PurpleGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
 					
 						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
+					
+					--check if follow force should be applied
+					if(GroupingForce > 0) then
+					
+						local followDirection = getTileProperty("TravelDirection", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
+					
+						if followDirection ~= nil then
+					
+							
 						
+							--get the follow force
+							self:Follow(vecFollowing,xOffset,yOffset,followDirection)
+							
+							--add to the total number of follow forces appiled
+							vecFollowCount = vecFollowCount + 1
+						
+						end
+						
+					end
+					
 					--update the number of things to follow
 					vecGroupCount = vecGroupCount + 1
 					
@@ -577,12 +619,13 @@ function Creature:Grouping(ctx)
 	vecFollowing.x = vecFollowing.x / vecFollowCount
 	vecFollowing.y = vecFollowing.x / vecFollowCount
 	
-	
+
 	print(vecFollowing.x)
 	print(vecFollowing.y)
 	
 	--normalise length
 	--vecGrouping:normalise()
+	vecFollowing:normalise()
 	
 	return vecGrouping , vecFollowing
 	

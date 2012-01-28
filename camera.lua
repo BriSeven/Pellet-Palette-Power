@@ -17,8 +17,9 @@ Camera = class("Camera");
 function Camera:initialize(ctx)
   	self.width=800
   	self.height=600
-  	self.screenWidth=800
-  	self.screenHeight=600
+
+  	self.screenWidth=1024
+  	self.screenHeight=768
   	self.x=0
   	self.y=0
 --	self.scale=self.screenWidth/self.width

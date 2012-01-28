@@ -48,12 +48,12 @@ function rainbowFluff(love,level)
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}                                                 
-	ctx.creatures[1] = Creature:new(11,11,ctx,0.2,"Red",-0.1,1,1,1,1,1,0)
-	ctx.creatures[2] = Creature:new(16,16,ctx,0.2,"Red",-0.1,1,1,1,1,1,0) 
-	ctx.creatures[3] = Creature:new(16,12,ctx,0.2,"Yellow",-0.1,1,1,1,1,1,0)
-	ctx.creatures[4] = Creature:new(16,13,ctx,0.2,"Yellow",-0.1,1,1,1,1,1,0)
-	ctx.creatures[5] = Creature:new(16,14,ctx,0.2,"Purple",-0.1,1,1,1,1,1,0)
-	ctx.creatures[6] = Creature:new(16,11,ctx,0.2,"Purple",-0.1,1,1,1,1,1,0)
+	ctx.creatures[1] = Creature:new(11,11,ctx,0.3,"Red",-0.1,1,1,1,1,0,0,1)
+	ctx.creatures[2] = Creature:new(16,16,ctx,0.3,"Red",-0.1,1,1,1,1,0,0,1) 
+	ctx.creatures[3] = Creature:new(16,12,ctx,0.3,"Yellow",-0.1,1,1,1,0,1,0,1)
+	ctx.creatures[4] = Creature:new(16,13,ctx,0.3,"Yellow",-0.1,1,1,1,0,1,0,1)
+	ctx.creatures[5] = Creature:new(16,14,ctx,0.3,"Purple",-0.1,1,1,1,0,0,1,1)
+	ctx.creatures[6] = Creature:new(16,11,ctx,0.3,"Purple",-0.1,1,1,1,0,0,1,1)
 	                                                             
 	use_music=true
 	local auBGM
