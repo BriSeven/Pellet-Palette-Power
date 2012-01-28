@@ -69,5 +69,10 @@ function love.keypressed(k)
 		ctx.tractor:KeyboardMoveWest()
 	end
 	
+		-- toggle Gate
+	if k =="a" then
+		ctx.tractor:KeyboardMoveWest()
+	end
+	
 end
 

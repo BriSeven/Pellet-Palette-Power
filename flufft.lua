@@ -34,6 +34,7 @@ function Flufft:newState(dt,oldstate,ctx)
 	self.x = newx
 	self.y = newy
 	else 
+		-- if using this for release version, consider correcting 0,0 reset, see ie Tractor:newState for wahat to do instead...
 		self.x=0
 		self.y=0
 	end
