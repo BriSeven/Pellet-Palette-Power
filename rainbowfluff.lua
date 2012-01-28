@@ -14,7 +14,7 @@ function rainbowFluff(love,level)
 	ctx.tiles = layer.tileData or {}
 
 	
-	love.graphics.setColor(255, 255, 255, 200)
+	love.graphics.setColor(255, 255, 255, 255)
 
 
 	ctx.love=love
