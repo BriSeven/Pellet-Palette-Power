@@ -65,7 +65,7 @@
      return foldr(func, head(tbl), tail(tbl))
  end
  -- curry(f,g)
- -- e.g: printf = curry(io.write, string.format)
+ -- e.g: f = curry(io.write, string.format)
  --          -> function(...) return io.write(string.format(unpack(arg))) end
  function curry(f,g)
      return function (...)

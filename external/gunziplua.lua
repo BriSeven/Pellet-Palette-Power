@@ -79,7 +79,7 @@ local function call(...)
   local gzipfiles = args
 
   if options.help then
-    opt.print_help()
+    opt._help()
     os.exit()
   end
 

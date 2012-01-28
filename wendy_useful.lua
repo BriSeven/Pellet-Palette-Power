@@ -14,12 +14,14 @@ function pairsByKeys (t, f)
   return iter
 end
 
-function print_table(some_table)
+function nop_table(some_table)
 	for name, line in pairsByKeys(some_table) do
-	      print(name, line)
+	      nop(name, line)
 	end
 end
 
 function wendyprint(stuff)
-    print(stuff)
+    nop(stuff)
+end
+function nop()
 end

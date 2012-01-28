@@ -101,7 +101,7 @@ M.crc32 = crc32
 --  crc = crc32(crc, byte)
 --end
 --crc = 0xffffffff - crc
---print(string.format("%08X", crc))
+--(string.format("%08X", crc))
 
 
 return M

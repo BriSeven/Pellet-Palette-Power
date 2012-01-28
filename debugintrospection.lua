@@ -239,7 +239,7 @@ function dump_pool:string(value, depth)
     depth = depth or math.huge
     if depth < 0 then return nil end
     
-    -- make the string printable (%q pattern keeps real newlines and adds quotes)
+    -- make the string able (%q pattern keeps real newlines and adds quotes)
     return { type = "string", repr = string.format("%q", value):gsub("\\\n", "\\n"), length = #value, 
              ref = self.keep_reference and value or nil }
 end

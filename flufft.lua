@@ -26,6 +26,9 @@ function Flufft:newState(dt,oldstate,ctx)
 	local newx = math.floor(ctx.mouse.x/32)
 	local newy =  math.floor(ctx.mouse.y/32)
 	local isobstacle = getTileProperty("obstacle",newx,newy,ctx)
+	if(ctx.key) then
+		setTileProperty("obstacle",false,newx,newy,ctx)
+	end
 	print(isobstacle)
 	if(isobstacle ~= 1) then
 	self.x = newx

@@ -1,6 +1,7 @@
 require("camera.lua")
 require("planet.lua")
 require("flufft.lua")
+require("dumpfile.lua")
 maploader = require("AdvTiledLoader/Loader")
 maploader.path = "maps/"
 
@@ -16,66 +17,66 @@ function love.load()
 
 
 	-- Setup
- layer = ctx.map.tl["Ground"]
- ctx.tiles = layer.tileData
- --displayTime = 0 
- --displayMax = 2
-function printmap(name,ctx) 
-for j=1,39 do
-	print(
+	layer = ctx.map.tl["Ground"]
+	ctx.tiles = layer.tileData
+	--displayTime = 0 
+	--displayMax = 2
+	function printmap(name,ctx) 
+		for j=1,39 do
+			print(
 
 
 
 
 
-	getTileProperty("obstacle", 0, j, ctx),
-	getTileProperty("obstacle", 1, j, ctx),
-	getTileProperty("obstacle", 2, j, ctx),
-	getTileProperty("obstacle", 3, j, ctx),
-	getTileProperty("obstacle", 4, j, ctx),
-	getTileProperty("obstacle", 5, j, ctx),
-	getTileProperty("obstacle", 6, j, ctx),
-	getTileProperty("obstacle", 7, j, ctx),
-	getTileProperty("obstacle", 8, j, ctx),
-	getTileProperty("obstacle", 9, j, ctx),
-	getTileProperty("obstacle", 10, j, ctx),
-	getTileProperty("obstacle", 11, j, ctx),
-	getTileProperty("obstacle", 12, j, ctx),
-	getTileProperty("obstacle", 13, j, ctx),
-	getTileProperty("obstacle", 14, j, ctx),
-	getTileProperty("obstacle", 15, j, ctx),
-	getTileProperty("obstacle", 16, j, ctx),
-	getTileProperty("obstacle", 17, j, ctx),
-	getTileProperty("obstacle", 18, j, ctx),
-	getTileProperty("obstacle", 19, j, ctx),
-	getTileProperty("obstacle", 20, j, ctx),
-	getTileProperty("obstacle", 21, j, ctx),
-	getTileProperty("obstacle", 22, j, ctx),
-	getTileProperty("obstacle", 23, j, ctx),
-	getTileProperty("obstacle", 24, j, ctx),
-	getTileProperty("obstacle", 25, j, ctx),
-	getTileProperty("obstacle", 26, j, ctx),
-	getTileProperty("obstacle", 27, j, ctx),
-	getTileProperty("obstacle", 28, j, ctx),
-	getTileProperty("obstacle", 29, j, ctx),
-getTileProperty("obstacle", 30, j, ctx),
-getTileProperty("obstacle", 31, j, ctx),
-getTileProperty("obstacle", 32, j, ctx),
-getTileProperty("obstacle", 33, j, ctx),
-getTileProperty("obstacle", 34, j, ctx),
-getTileProperty("obstacle", 35, j, ctx),
-getTileProperty("obstacle", 36, j, ctx),
-getTileProperty("obstacle", 37, j, ctx),
-getTileProperty("obstacle", 38, j, ctx),
-getTileProperty("obstacle", 39, j, ctx),
-getTileProperty("obstacle", 40, j, ctx)
+			getTileProperty("obstacle", 0, j, ctx),
+			getTileProperty("obstacle", 1, j, ctx),
+			getTileProperty("obstacle", 2, j, ctx),
+			getTileProperty("obstacle", 3, j, ctx),
+			getTileProperty("obstacle", 4, j, ctx),
+			getTileProperty("obstacle", 5, j, ctx),
+			getTileProperty("obstacle", 6, j, ctx),
+			getTileProperty("obstacle", 7, j, ctx),
+			getTileProperty("obstacle", 8, j, ctx),
+			getTileProperty("obstacle", 9, j, ctx),
+			getTileProperty("obstacle", 10, j, ctx),
+			getTileProperty("obstacle", 11, j, ctx),
+			getTileProperty("obstacle", 12, j, ctx),
+			getTileProperty("obstacle", 13, j, ctx),
+			getTileProperty("obstacle", 14, j, ctx),
+			getTileProperty("obstacle", 15, j, ctx),
+			getTileProperty("obstacle", 16, j, ctx),
+			getTileProperty("obstacle", 17, j, ctx),
+			getTileProperty("obstacle", 18, j, ctx),
+			getTileProperty("obstacle", 19, j, ctx),
+			getTileProperty("obstacle", 20, j, ctx),
+			getTileProperty("obstacle", 21, j, ctx),
+			getTileProperty("obstacle", 22, j, ctx),
+			getTileProperty("obstacle", 23, j, ctx),
+			getTileProperty("obstacle", 24, j, ctx),
+			getTileProperty("obstacle", 25, j, ctx),
+			getTileProperty("obstacle", 26, j, ctx),
+			getTileProperty("obstacle", 27, j, ctx),
+			getTileProperty("obstacle", 28, j, ctx),
+			getTileProperty("obstacle", 29, j, ctx),
+			getTileProperty("obstacle", 30, j, ctx),
+			getTileProperty("obstacle", 31, j, ctx),
+			getTileProperty("obstacle", 32, j, ctx),
+			getTileProperty("obstacle", 33, j, ctx),
+			getTileProperty("obstacle", 34, j, ctx),
+			getTileProperty("obstacle", 35, j, ctx),
+			getTileProperty("obstacle", 36, j, ctx),
+			getTileProperty("obstacle", 37, j, ctx),
+			getTileProperty("obstacle", 38, j, ctx),
+			getTileProperty("obstacle", 39, j, ctx),
+			getTileProperty("obstacle", 40, j, ctx)
 
-	)
+			)
 
-end
-end
+		end
+	end
 
-printmap("obstacle",ctx)
+	printmap("obstacle",ctx)
 	--love.audio.play(music, 0)
 	pickmode()
 	
@@ -83,6 +84,7 @@ end
 
 function rainbowFluff(love)
 	local ctx={}
+	local mapproperties = {}
 	ctx.map=maploader.load("desert.tmx")
 	function ctx.name (name, character) 
 		--replacable with proper cache lookup later
@@ -90,7 +92,7 @@ function rainbowFluff(love)
 	end
 
 	ctx.love=love
-
+	ctx.mapproperties={}
 	ctx.body   	= love.graphics.newImage(db.name( "body"   	))
 	ctx.ear    	= love.graphics.newImage(db.name( "ear"    	))
 	ctx.face   	= love.graphics.newImage(db.name( "face"   	))
@@ -101,21 +103,31 @@ function rainbowFluff(love)
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
+	function ctx:update (dt)
+		local space = love.keyboard.isDown(" ")
+		ctx=self
+		ctx.mouse={x=love.mouse.getX()/ctx.camera.scale, y=love.mouse.getY()/ctx.camera.scale}
+		ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
+		print("object")
+		print(DumpObject(ctx.mapproperties))
+
+	end
+
 
 	return ctx
 end
 function makeTestPhysicsCTX (love)
 
---	-- wsl: Physics stuff
+	--	-- wsl: Physics stuff
 
 	
---  
+	--  
 	objects = {} -- table to hold all our physical objects (for now!)
-      
-    world = g_physics:getWorld()
-    world_h = g_physics:getWorldHeight()
-    world_w = g_physics:getWorldWidth()  
-    
+
+	world = g_physics:getWorld()
+	world_h = g_physics:getWorldHeight()
+	world_w = g_physics:getWorldWidth()  
+
 	--let's create the ground
 	objects.ground = {}
 	--we need to give the ground a mass of zero so that the ground won't move
@@ -123,17 +135,17 @@ function makeTestPhysicsCTX (love)
 	objects.ground.body = love.physics.newBody(g_physics:getWorld(), g_physics:getWorldWidth()/2, g_physics:getWorldHeight()-25, 0, 0) --remember, the body anchors from the center of the shape
 	objects.ground.shape = love.physics.newRectangleShape(objects.ground.body, 0, 0, g_physics:getWorldWidth(), 50, 0) --anchor the shape to the body, and make it a width the same as the world and a height of 50
 
---    -- many physics objects wil have related drawables 
---    g_physics.objects.drawables = {}
---	--let's create a ball
---	g_physics.objects.drawables.ball = {}
---	g_physics.objects.drawables.ball.body = love.physics.newBody(world, world_w/2, world_h/2, 15, 0) --place the body in the center of the world, with a mass of 15
---	g_physics.objects.drawables.ball.shape = love.physics.newCircleShape(g_physics.objects.drawables.ball.body, 0, 0, 20) --the ball's shape has no offset from it's body and has a radius of 20
-   
---	-- wsl: End Physics stuff
+	--    -- many physics objects wil have related drawables 
+	--    g_physics.objects.drawables = {}
+	--	--let's create a ball
+	--	g_physics.objects.drawables.ball = {}
+	--	g_physics.objects.drawables.ball.body = love.physics.newBody(world, world_w/2, world_h/2, 15, 0) --place the body in the center of the world, with a mass of 15
+	--	g_physics.objects.drawables.ball.shape = love.physics.newCircleShape(g_physics.objects.drawables.ball.body, 0, 0, 20) --the ball's shape has no offset from it's body and has a radius of 20
+
+	--	-- wsl: End Physics stuff
 	local ctx= {}
 
---    ctx.physics = g_physics -- nope
+	--    ctx.physics = g_physics -- nope
 	ctx.joysticks = love.joystick.getNumJoysticks( )
 
 	function ctx.name (name, character) 
@@ -152,26 +164,26 @@ function makeTestPhysicsCTX (love)
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
 	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
 
-  	ctx.nekochan = Nekochan.create()
-  	print(ctx.nekochan)
-  	
-  	
---	ctx.ballochan = Ballochan.create()
-  	-- we want to kick start the physics tis first time through, on loafing. This will then be set to false, 
-    -- but the option remains of the context deciding that it wants the physics restarted and setting this 
-    -- back to true at any point.
-    ctx.restart_physics = true 
+	ctx.nekochan = Nekochan.create()
+	print(ctx.nekochan)
+
+
+	--	ctx.ballochan = Ballochan.create()
+	-- we want to kick start the physics tis first time through, on loafing. This will then be set to false, 
+	-- but the option remains of the context deciding that it wants the physics restarted and setting this 
+	-- back to true at any point.
+	ctx.restart_physics = true 
 	ctx.ballochan = Ballochan:new(ctx) --wsl: note changes (new rather than create, and pass in ctx)
 	wendyprint("In makeTestPhysicsCTX...ctx.ballochan is:")
 	wendyprint(ctx.ballochan)
 	wendyprint("In makeTestPhysicsCTX...ctx.ballochan.ctx is:")
 	wendyprint(ctx.ballochan.ctx)
---	ctx.ballochan:createBody(ctx.ballochan) --wsl note pass in game_actor as userdata
+	--	ctx.ballochan:createBody(ctx.ballochan) --wsl note pass in game_actor as userdata
 	
 	-- Set the background color to soothing pink.
 	ctx.love.graphics.setBackgroundColor(0xff, 0xf1, 0xf7)
 	ctx.clouds=Clouds.create();
-		-- Spawn some clouds.
+	-- Spawn some clouds.
 	for i=1,5 do
 		ctx.clouds:spawn_cloud(math.random(-100, 900), math.random(-100, 700), 80 + math.random(0, 50))
 	end
@@ -198,7 +210,7 @@ function makeTestCTX (love)
 	-- Set the background color to soothing pink.
 	ctx.love.graphics.setBackgroundColor(0xff, 0xf1, 0xf7)
 	ctx.clouds=Clouds.create();
-		-- Spawn some clouds.
+	-- Spawn some clouds.
 	for i=1,5 do
 		ctx.clouds:spawn_cloud(math.random(-100, 900), math.random(-100, 700), 80 + math.random(0, 50))
 	end

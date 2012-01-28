@@ -76,7 +76,7 @@ local function OptionParser(t)
       i = i + 1
     end
     if options.help then
-      o.print_help()
+      o._help()
       os.exit()
     end
     if options.version then
@@ -103,7 +103,7 @@ local function OptionParser(t)
     return table.concat(sflags, ', ')
   end
 
-  function o.print_help()
+  function o._help()
     io.stdout:write("Usage: " .. usage:gsub('%%prog', arg[0]) .. "\n")
     io.stdout:write("\n")
     io.stdout:write("Options:\n")
