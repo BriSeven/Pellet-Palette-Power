@@ -4,7 +4,7 @@ require("functional.lua")
 Creature = class("Creature")
 
 
-function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,RedGroupingForce,YellowGroupingForce,PurpleGroupingForce,GroupForceMultiplyer)
+function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMultiplyer,RandomMovementMultiplyer,RedGroupingForce,YellowGroupingForce,PurpleGroupingForce,GroupForceMultiplyer)
 	--the current location of the creature
 	self.NewLocation = Vector:new(x,y)
 	
@@ -31,6 +31,8 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,RedGroupingForce
 	self:Move(ctx,Vector:new(0,0))
 	
 	--the forces that pull other creatures to this creature
+	self.grazingForceMultiplyer = GrazingForceMultiplyer
+	self.randomMovementMultiplyer = RandomMovementMultiplyer
 	self.redGroupingForce = RedGroupingForce
 	
 	self.yellowGroupingForce = YellowGroupingForce
@@ -61,7 +63,6 @@ function Creature:update(dt,oldstate,ctx)
 		
 	end
 end
-
 
 function Creature:newDrawable(state)
 	local d = {}
@@ -106,12 +107,24 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	local vecGrazing = self:Grazing(dt,oldstate,ctx)
 	
 	--get grouping direction
-	local vecGrazingDirection
+	local vecFlockingDirection = self:Grouping(ctx)
 	
-	--local vecGrazing = Vector:new(0,0)
+	--add some random movement 
+	local vecRandomMovement = Vector:new(math.random(-1,1),math.random(-1,1))
+	
+	--compiled movement direction
+	local vecPreGridAllineDirection = Vector:new(0,0)
+	
+
+	
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGrazing.x * self.grazingForceMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGrazing.y * self.grazingForceMultiplyer
+	
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
 	
 	--turn planed direction to grid locked direction
-	local vecGridDirection = self:FinalMoveDirection(dt,oldstate,ctx,vecGrazing)
+	local vecGridDirection = self:FinalMoveDirection(dt,oldstate,ctx,vecPreGridAllineDirection)
 	
 	--apply it to character
 	self:Move(ctx,vecGridDirection)
@@ -174,7 +187,7 @@ end
 
 -- get the direction the character wants to go to group better
 -- this function returns flock gathering
-function Creature:Grouping(ctx,vecMoveDirectionVector)
+function Creature:Grouping(ctx)
 	
 	--the vector to travle towards
 	local vecGrouping = Vector:new(0,0)
@@ -201,7 +214,8 @@ function Creature:Grouping(ctx,vecMoveDirectionVector)
 		while xOffset < ScanSize +1 do
 			
 			--check if there is something to group towards
-			if(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 1)then
+			if(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= nil) and 
+				(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 0)then
 				
 				--generate vector
 				local vecGroupTargetVec = Vector:new(xOffset,yOffset)
@@ -229,6 +243,10 @@ function Creature:Grouping(ctx,vecMoveDirectionVector)
 		
 		--move on to next row
 		yOffset = yOffset +1
+	end
+	
+	if vecGroupCount == 0 then
+		return vecGrouping
 	end
 	
 	--calculate the final vector
@@ -281,7 +299,7 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 		
 	--	if d and d[0] and d[1] and self.NewLocation.x and self.NewLocation.y then
 			if(
-			getTileProperty("obstacle", 
+			getTileProperty("Obstacle", 
 			self.NewLocation.x+d[1],
 			self.NewLocation.y+d[2],
 			ctx,"Ground") ~= 1 and 
