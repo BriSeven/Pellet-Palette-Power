@@ -18,7 +18,7 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	self.TimeBetweenBigUpdates = BigUpdatRate
 	
 	--the time since the last big update
-	self.TimeSinceLastBigUpdate = 1
+	self.TimeSinceLastBigUpdate = math.random(0,BigUpdatRate)
 	
 	--the type of creature this creature is
 	self.CreatureType = Type
@@ -32,7 +32,9 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	
 	--the forces that pull other creatures to this creature
 	self.grazingForceMultiplyer = GrazingForceMultiplyer
+	
 	self.randomMovementMultiplyer = RandomMovementMultiplyer
+	
 	self.redGroupingForce = RedGroupingForce
 	
 	self.yellowGroupingForce = YellowGroupingForce
@@ -120,6 +122,9 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGrazing.x * self.grazingForceMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGrazing.y * self.grazingForceMultiplyer
 	
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
+	
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
 	
@@ -136,7 +141,7 @@ function Creature:EatFood(dt,oldstate,ctx)
 	local Food = getTileProperty("food", newx,newy,ctx)
 	
 	--if this creature is a red creature
-	if self.CreatureType == "red" then 
+	if self.CreatureType == "Red" then 
 		
 		--eat the correct food
 		
@@ -164,12 +169,12 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	--check if there is food in this square
 	
 	--if this creature is a red creature
-	--if self.CreatureType == "red" then
+	if self.CreatureType == "Red" then
 		if getTileProperty("RedFood",x,y,ctx,"RedPellets") ~= nil then
 			
 			return getTileProperty("RedFood",x,y,ctx,"RedPellets")
 		end
-	--end
+	end
 	
 	--if this creature is a green creature
 	--if self.CreatureType == "green" then 
@@ -200,7 +205,7 @@ function Creature:Grouping(ctx)
 	--loop through the cells surounding the creature
 	
 	--the distance above and below the player to scan
-	local ScanSize = 3
+	local ScanSize = 2
 	
 	local xOffset = 0
 	local yOffset = 0
@@ -354,9 +359,7 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 	if available.IsDownLeftAvailable then
 		--project move vector onto move direction
 		DownLeftMoveWorth = vecMoveDirectionVector:dot( Vector:new(-0.52,0.52))
-		print(DownLeftMoveWorth)
-		print(vecMoveDirectionVector.x)
-		print(vecMoveDirectionVector.y)
+
 	end
 	
 	if available.IsDownAvailable then
@@ -509,7 +512,7 @@ end
 --move the creature
 function Creature:Move(ctx,vecMoveDirectionVector)
 	--unmark current cell as ocupied
-	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	setTileProperty("HasCreature",0, self.OldLocation.x,self.OldLocation.y ,ctx,"Creatures")
 	
 	--mark future cell as ocupied
 	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")

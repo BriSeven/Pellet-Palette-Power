@@ -29,8 +29,12 @@ function rainbowFluff(love,level)
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.creatures = {}
-	ctx.creatures[1] = Creature:new(6,6,ctx,1,"red",-0.5,1,1,1,1,1,1)
-	ctx.creatures[2] = Creature:new(6,8,ctx,1,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[1] = Creature:new(6,6,ctx,0.1,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[2] = Creature:new(6,8,ctx,0.14,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[3] = Creature:new(6,8,ctx,0.16,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[4] = Creature:new(6,8,ctx,0.12,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[5] = Creature:new(6,8,ctx,0.145,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[6] = Creature:new(6,8,ctx,0.15,"red",-0.5,1,1,1,1,1,1)
 	
 	use_music=true
 	local auBGM
@@ -52,6 +56,10 @@ function rainbowFluff(love,level)
 		--print(DumpObject(ctx.mapproperties))
 		ctx.creatures[1]:update(dt, ctx.creatures[1], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[2]:update(dt, ctx.creatures[2], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[3]:update(dt, ctx.creatures[3], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[4]:update(dt, ctx.creatures[4], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[5]:update(dt, ctx.creatures[5], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[6]:update(dt, ctx.creatures[6], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 
 	end
 	function ctx:draw ()
@@ -60,8 +68,13 @@ function rainbowFluff(love,level)
 		map:setDrawRange(0, 0, global.camera.width, global.camera.height)
 		--map.drawList={map.drawList[1]}
 		map:draw()
-		drawlist( global.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
-		drawlist( global.camera:newDrawable( ctx.creatures[2]:newDrawable()) )
+
+		drawlist( ctx.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[2]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[3]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[4]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[5]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[6]:newDrawable()) )
 
 		drawlist( global.camera:newDrawable( ctx.flufft:newDrawable()) )
 
