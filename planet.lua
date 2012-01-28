@@ -42,25 +42,26 @@ function getTileProperty(name, x, y, ctx, lr )
 end
 
 function setTileProperty(name, value, x,y,ctx,lr)
-
+	print("setting",name,value,x,y,ctx,lr)
+	
 	local layer = (ctx.map.tl[lr] or {} ).tileData or {}
+	
 	if  layer and layer[y+1] and 
-		layer[y+1][x+1] and 
-		ctx.map.tiles[layer[y+1][x+1]] 
+		layer[y+1][x+1]
 	then 
-		print("upsetting", value)
-
-		ctx.mapproperties = ctx.mapproperties or {}
+		
+		
 		ctx.mapproperties[x]=ctx.mapproperties[x] or {}
 		ctx.mapproperties[x][y]=ctx.mapproperties[y] or {}
 		ctx.mapproperties[x][y][lr]=value
 
 		print("set",ctx.mapproperties[x][y][lr])
+		print("get",getTileProperty(name,x,y,ctx,lr))
 		return true 
 	else
 		return false
 	end 
-		 
+	
 end
 
 function Planet:initialize(map)

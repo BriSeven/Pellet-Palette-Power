@@ -1,10 +1,10 @@
 require("MiddleClass.lua")
 require ("Vector.lua")
-
+require("functional.lua")
 Creature = class("Creature")
 
 
-function Creature:initialize(x,y,BigUpdatRate,Type,Lazyness)
+function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness)
 	--the current location of the creature
 	self.NewLocation = Vector:new(x,y)
 	
@@ -28,7 +28,7 @@ function Creature:initialize(x,y,BigUpdatRate,Type,Lazyness)
 	--retuen constructed creature
 	
 	--occupy cell
-	--self:Move(0,0,ctx,Vector:new(0,0))
+	self:Move(ctx,Vector:new(0,0))
 	
 	return self
 end
@@ -102,7 +102,7 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	local vecGridDirection = self:FinalMoveDirection(dt,oldstate,ctx,vecGrazing)
 	
 	--apply it to character
-	self:Move(dt,oldstate,ctx,vecGridDirection)
+	self:Move(ctx,vecGridDirection)
 	
 end
 
@@ -141,7 +141,7 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	--if this creature is a red creature
 	--if self.CreatureType == "red" then
 		if getTileProperty("RedFood",x,y,ctx,"RedPellets") ~= nil then
-			print("i do cocane yhhhhhhhaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhaaaaaaaaa")
+			
 			return getTileProperty("RedFood",x,y,ctx,"RedPellets")
 		end
 	--end
@@ -201,6 +201,10 @@ function Creature:Grouping(ctx,vecMoveDirectionVector)
 				vecGroupTargetVec.x = vecGroupTargetVec.x * fGroupingForce
 				vecGroupTargetVec.y = vecGroupTargetVec.y * fGroupingForce
 				
+				--add it to the grouping vector
+				vecGrouping.x = vecGrouping.x + vecGroupTargetVec.x 
+				vecGrouping.y = vecGrouping.y + vecGroupTargetVec.y
+				
 				--update the number of things to follow
 				vecGroupCount = vecGroupCount + 1
 				
@@ -214,6 +218,13 @@ function Creature:Grouping(ctx,vecMoveDirectionVector)
 		--move on to next row
 		yOffset = yOffset +1
 	end
+	
+	--calculate the final vector
+	vecGrouping.x = vecGrouping.x / vecGroupCount
+	vecGrouping.y = vecGrouping.y / vecGroupCount
+	
+	return vecGrouping
+	
 end
 
 --this calculates the direction to flee
@@ -231,111 +242,112 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 --project movement vector onto each direction
 
 --initalise all variables
-	local IsUpAvailable	= false
-	local IsUpLeftAvailable = false
-	local IsLeftAvailable = false
-	local IsDownLeftAvailable = false
-	local IsDownAvailable = false
-	local IsDownRighAvailable = false
-	local IsRightAvailable = false 
-	local IsUpRightAvailable = false
+--	local IsUpAvailable	= false       	|1|
+--	local IsUpLeftAvailable = false		|1|	
+--	local IsLeftAvailable = false		|1|
+--	local IsDownLeftAvailable = false	|1|
+--	local IsDownAvailable = false		|1|
+--	local IsDownRighAvailable = false	|1|
+--	local IsRightAvailable = false 		|1|
+--	local IsUpRightAvailable = false	|1|
 
-	--check availability of squares
-	if(getTileProperty("obstacle", self.NewLocation.x,self.NewLocation.y -1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x,self.NewLocation.y -1,ctx,"Creatures") ~= 1) then
-
-		IsUpAvailable	= true
-	end
+	availableDirections ={
+		IsUpLeftAvailable = {-1, -1},
+		IsUpAvailable = {0 , -1},
+		IsUpRightAvailable = {1 , -1},
+		IsLeftAvailable = {-1, 0},
+		--{0 , 0}
+		IsRightAvailable = {1 , 0},
+		IsDownLeftAvailable = {-1, 1},
+		IsDownAvailable = {0 , 1},
+		IsDownRighAvailable = {1 , 1}
+	}
 	
-	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y -1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y -1,ctx,"Creatures") ~= 1) then
+	available = f_map(
+	function(d)
 
-		IsUpLeftAvailable	= true
-	end
-	
-	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y ,ctx,"Creatures") ~= 1) then
+		
+	--	if d and d[0] and d[1] and self.NewLocation.x and self.NewLocation.y then
+			if(
+			getTileProperty("obstacle", 
+			self.NewLocation.x+d[1],
+			self.NewLocation.y+d[2],
+			ctx,"Ground") ~= 1 and 
+			getTileProperty("HasCreature",
+			self.NewLocation.x+d[1],
+			self.NewLocation.y+d[2],
+			ctx,"Creatures") ~= 1) then
 
-		IsLeftAvailable	= true
-	end
-	
-	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y + 1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y +1,ctx,"Creatures") ~= 1) then
+			return true
+			end
+		--end
+		print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+		
+		return false
+		
+		
+	end,
+	availableDirections)
 
-		IsDownLeftAvailable	= true
-	end
-	
-	if(getTileProperty("obstacle", self.NewLocation.x ,self.NewLocation.y + 1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x ,self.NewLocation.y +1,ctx,"Creatures") ~= 1) then
-
-		IsDownAvailable	= true
-	end
-	
-	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y + 1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y +1,ctx,"Creatures") ~= 1) then
-
-		IsDownRighAvailable	= true
-	end
-	
-	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y ,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y ,ctx,"Creatures") ~= 1) then
-
-		IsRightAvailable	= true
-	end
-	
-	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y -1,ctx,"Ground") ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y -1 ,ctx,"Creatures") ~= 1) then
-
-		IsUpRightAvailable	= true
-	end
 
 	--get prefered game move
 	
 	local NoMoveWorth = self.Lazyness
-	local UpMoveWorth = 0
-	local UpLeftMoveWorth = 0
-	local LeftMoveWorth = 0
-	local DownLeftMoveWorth = 0
-	local DownMoveWorth = 0
-	local DownRightMoveWorth = 0
-	local RightMoveWorth = 0
-	local UpRightMoveWorth = 0
+	local UpMoveWorth = -9000
+	local UpLeftMoveWorth = -9000
+	local LeftMoveWorth = -9000
+	local DownLeftMoveWorth = -9000
+	local DownMoveWorth = -9000
+	local DownRightMoveWorth = -9000
+	local RightMoveWorth = -9000
+	local UpRightMoveWorth = -9000
 	
 	--evaluate game moves
 	
-	if IsUpAvailable then
+	if available.IsUpAvailable then
 		--project move vector onto move direction
 		UpMoveWorth = vecMoveDirectionVector:dot( Vector:new(0,-1))
 	end
 	
-	if IsUpLeftAvailable then
+	if available.IsUpLeftAvailable then
 	
 		--project move vector onto move direction
-		UpLeftMoveWorth = vecMoveDirectionVector:dot( Vector:new(-1,-1))
+		UpLeftMoveWorth = vecMoveDirectionVector:dot( Vector:new(-0.52,-0.52))
 		
 	end
 	
-	if IsLeftAvailable then
+	if available.IsLeftAvailable then
 		--project move vector onto move direction
 		LeftMoveWorth = vecMoveDirectionVector:dot( Vector:new(-1,0))
 	end
 	
-	if IsDownLeftAvailable then
+	if available.IsDownLeftAvailable then
 		--project move vector onto move direction
-		DownLeftMoveWorth = vecMoveDirectionVector:dot( Vector:new(-1,1))
+		DownLeftMoveWorth = vecMoveDirectionVector:dot( Vector:new(-0.52,0.52))
+		print(DownLeftMoveWorth)
+		print(vecMoveDirectionVector.x)
+		print(vecMoveDirectionVector.y)
 	end
 	
-	if IsDownAvailable then
+	if available.IsDownAvailable then
 		--project move vector onto move direction
 		DownMoveWorth = vecMoveDirectionVector:dot( Vector:new(0,1))
-		print("Im the rock and roll cloooooowwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+		--print(DownMoveWorth)
 	end
 	
-	if IsDownRighAvailable then
+	if available.IsDownRighAvailable then
 		--project move vector onto move direction
-		DownRightMoveWorth = vecMoveDirectionVector:dot( Vector:new(1,1))
+		DownRightMoveWorth = vecMoveDirectionVector:dot( Vector:new(0.52,0.52))
 	end
 	
-	if IsRightAvailable then
+	if available.IsRightAvailable then
 		--project move vector onto move direction
 		RightMoveWorth = vecMoveDirectionVector:dot( Vector:new(1,0))
 	end
 	
-	if IsUpRightAvailable then
+	if available.IsUpRightAvailable then
 		--project move vector onto move direction
-		UpRightMoveWorth = vecMoveDirectionVector:dot( Vector:new(1,-1))
+		UpRightMoveWorth = vecMoveDirectionVector:dot( Vector:new(0.52,-0.52))
 	end
 	
 	--get best move
@@ -465,12 +477,32 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 end
 
 --move the creature
-function Creature:Move(dt,oldstate,ctx,vecMoveDirectionVector)
+function Creature:Move(ctx,vecMoveDirectionVector)
 	--unmark current cell as ocupied
-	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx)
+	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+
+	
+	"RedGroupForce"
 	
 	--mark future cell as ocupied
-	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx)
+	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
+	
+	--remove grouping forces
+	setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	setTileProperty("YellowGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	setTileProperty("PurpleGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	--add grouping forces
+	if self.CreatureType = "Red" then
+		setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	end
+	if self.CreatureType = "Yellow" then
+		setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	end
+	
+	if self.CreatureType = "Purple" then
+		setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	end
+	
 	
 	--apply new position to creature
 	self.OldLocation.x = self.NewLocation.x
@@ -499,6 +531,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 	local RightFood = self:GetFoodLevelForThisCreature(self.NewLocation.x + 1,self.NewLocation.y,ctx)
 	local UpRightFood = self:GetFoodLevelForThisCreature(self.NewLocation.x + 1,self.NewLocation.y -1,ctx)
 		
+	print(DownLeftFood)
 
 	--compair the cells grazing amount to the current cels grazing amount
 	if CurrentFood >= UpFood and 
@@ -564,7 +597,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 		DownFood >= DownRightFood and 
 		DownFood >= RightFood and 
 		DownFood >= UpRightFood then
-		
+		print("=========================================================================================================")
 		return Vector:new(0,1)
 	
 	end
@@ -577,7 +610,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 		DownLeftFood >= DownRightFood and 
 		DownLeftFood >= RightFood and 
 		DownLeftFood >= UpRightFood then
-		
+		print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 		return Vector:new(-1,1)
 	
 	end
