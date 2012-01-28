@@ -4,7 +4,42 @@
   <image source="tmw_desert_spacing.png" width="265" height="199"/>
   <tile id="0">
    <properties>
-    <property name="obstacle" value="1"/>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="Obstacle" value="1"/>
    </properties>
   </tile>
   <tile id="30">
@@ -70,20 +105,25 @@
  </tileset>
  <layer name="Ground" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJzt1rEOgCAMBFAmV2c1MVEn9f//T0YHRaB3tcYON5G0r4CGMYQwelTTAmLVxTKibUgn0yb1MeqjjMzZWXMyz8WKTWrU/G+V1te0oXzn9S6mF2ZI9JTehylmFmap8OWep/tk99R97nOf+77ia4z7cvu6718+rfcB2rfGbMLsRB86uf2ufGxjSa87H8tY0+PJiLLW7kHKh9pTab0SIyrIOS3YtIzsb86C6e0cPJ2l7g==
+   eJzt2DEPgkAMhuFDExPjYMRJTUzQSf3//4+ysdz167U9z9jhnQj04bgBGFJKm07bUnvq3mmHSt/RIA+fhUtilPisbYgT9XnatD6rvcRds8bnYZMYtb5am4XP04Yacz5vV2kW52tps/Ktj1+oq7JbYWbJh6zZRD2UPSt86PMMH+bL7efwhS984fsV365zH/p+EL7/8rV6P7D2vai3so+jz7rSPM7nbeRmIT4vIzID+f5Yn29lRddA4rNaU8n1pN+/XuXuRfN/w9vG+VoYub3wjf+7kr26+E7U2GlnagYxJJm+
   </data>
  </layer>
  <layer name="RedPellets" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztx6ENAAAIA7DdxP/HoabRJK1r8sMcBwAAAAAAqAWYxwBl
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
   </data>
  </layer>
- <layer name="GreenPellets" width="40" height="40" visible="0">
+ <layer name="PurplePellets" width="40" height="40">
   <data encoding="base64" compression="zlib">
    eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
   </data>
  </layer>
- <layer name="BluePellets" width="40" height="40" visible="0">
+ <layer name="YellowPellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+ <layer name="Creatures" width="40" height="40">
   <data encoding="base64" compression="zlib">
    eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
   </data>
