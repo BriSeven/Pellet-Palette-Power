@@ -3,8 +3,9 @@ require("load.lua")
 
 
 function love.draw()
-	ctx:draw()
-
+	if ctx.draw then
+		ctx:draw()
+	end 
 	
 end
 

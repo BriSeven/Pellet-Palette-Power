@@ -23,7 +23,7 @@ function love.load()
 
 
 	--ctx=makeTestCTX(love)
-	ctx = rainbowFluff(love)
+	ctx = rainbowFluff(love,1)
 
 
 	-- Setup

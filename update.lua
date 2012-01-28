@@ -1,4 +1,7 @@
 require("dumpfile.lua")
 function love.update(dt)
-	ctx:update(dt)
+
+	if ctx.update then 
+		ctx:update(dt)
+	end 
 end

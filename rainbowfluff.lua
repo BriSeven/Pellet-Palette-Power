@@ -1,6 +1,10 @@
-function rainbowFluff(love)
+function rainbowFluff(love,level)
+	level = level or 1
+	levels = {
+		"testmap.tmx"
+	}
 	local ctx={}
-	ctx.map=maploader.load("testmap.tmx")
+	ctx.map=maploader.load(levels[level])
 
 	function ctx.name (name, character) 
 		--replacable with proper cache lookup later
@@ -21,15 +25,24 @@ function rainbowFluff(love)
 	ctx.logo   	= love.graphics.newImage(db.name( "logo"   	))
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
 	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
-
+	
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}
 	ctx.creatures[1] = Creature:new(1,1,1,1)
+	use_music=true
+	local auBGM
+
+	if use_music == true then
+		auBGM = love.audio.newSource("sfx/bgm.wav")
+		auBGM:setLooping(true)
+		auBGM:setVolume(0.6)
+		auBGM:play()
+	end
 
 	function ctx:update (dt)
-	
+
 		local space = love.keyboard.isDown(" ")
 		ctx=self
 		ctx.mouse={x=love.mouse.getX()*ctx.camera.scale, y=love.mouse.getY()*ctx.camera.scale}
@@ -47,6 +60,10 @@ function rainbowFluff(love)
 		drawlist( ctx.camera:newDrawable( ctx.flufft:newDrawable()) )
 
 
+	end
+
+	function ctx:stop ()
+		auBGM:stop()
 	end
 
 	return ctx
