@@ -614,14 +614,18 @@ function Creature:Grouping(ctx)
 	
 	vecFollowing.x = vecFollowing.x / vecFollowCount
 	vecFollowing.y = vecFollowing.x / vecFollowCount
+
 	
-	print("FFFFFFFFAAAAAAAAAAAAIIIISDFASDFASDFASDFASDFASDFASDFASDFASDFASDFADIIIIILLLLLLLLLLLLLLLLLLL")
-	print(vecFollowing.x)
-	print(vecFollowing.y)
 	
 	--normalise length
 	--vecGrouping:normalise()
-	vecFollowing:normalise()
+	if(vecFollowing.x ~= 0 and vecFollowing.y ~= 0) then
+	
+		vecFollowing:normalise()
+	
+	end
+	
+	
 	
 	return vecGrouping , vecFollowing
 	
