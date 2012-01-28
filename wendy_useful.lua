@@ -16,10 +16,11 @@ end
 
 function print_table(some_table)
 	for name, line in pairsByKeys(some_table) do
-	      print(name, line)
+	      wendyprint(name, line)
 	end
 end
 
+
 function wendyprint(stuff)
-    print(stuff)
-end
+  print(stuff)
+end 

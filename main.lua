@@ -4,6 +4,7 @@
 -- Licence: ZLIB/libpng                									
 -- Copyright (c) 2006-2009 LOVE Development Team
 -------------------------------------------------
+require("wendy_useful.lua")
 
 -- --------------------
 --functional utilities 
@@ -27,7 +28,6 @@ require("draw.lua")
 --resourcedb
 require("db.lua")
 require("keyboard.lua")
-
 
 
 Planet:load()
