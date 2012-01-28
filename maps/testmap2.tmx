@@ -26,19 +26,37 @@
  <tileset firstgid="113" name="sewer_tileset" tilewidth="32" tileheight="32">
   <image source="sewer_tileset.png" width="192" height="217"/>
  </tileset>
+ <tileset firstgid="149" name="test" tilewidth="32" tileheight="32">
+  <image source="../../../graphics/test.png" width="96" height="96"/>
+  <tile id="1">
+   <properties>
+    <property name="RedFood" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Ground" width="40" height="40">
   <data encoding="base64" compression="zlib">
    eJzt1rEOgCAMBFAmV2c1MVEn9f//T0YHRaB3tcYON5G0r4CGMYQwelTTAmLVxTKibUgn0yb1MeqjjMzZWXMyz8WKTWrU/G+V1te0oXzn9S6mF2ZI9JTehylmFmap8OWep/tk99R97nOf+77ia4z7cvu6718+rfcB2rfGbMLsRB86uf2ufGxjSa87H8tY0+PJiLLW7kHKh9pTab0SIyrIOS3YtIzsb86C6e0cPJ2l7g==
   </data>
  </layer>
- <layer name="creaters" width="40" height="40">
+ <layer name="Creatures" width="40" height="40">
   <data encoding="base64" compression="zlib">
    eJztzrEJAAAMw7Bc0v/P7N4LApXAuxPgszm1av8DAAAAALossFoAtQ==
   </data>
  </layer>
- <layer name="Pallets" width="40" height="40">
+ <layer name="RedPellets" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztzjEOABAQAMF7CfFXD1fpREHhJDPJ9hvxh/p6AADY6pf583eq+fPnb6kk/5v8+fP37x8AZDcA8FSFBA==
+   eJztx6ENAAAIA7D9fwD3oqbRJK1r8sMcBwAAAAAAqAWYZAEt
+  </data>
+ </layer>
+ <layer name="GreenPellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+ <layer name="BluePellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
   </data>
  </layer>
 </map>
