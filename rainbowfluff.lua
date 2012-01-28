@@ -39,6 +39,7 @@ function rainbowFluff(love,level)
 	ctx.creatures[5] = Creature:new(6,8,ctx,0.145,"Red",-0.1,5,0.5,1,1,1,1)
 	ctx.creatures[6] = Creature:new(6,8,ctx,0.15,"Red",-0.1,5,0.5,1,1,1,1)
 	
+
 	use_music=true
 	local auBGM
 

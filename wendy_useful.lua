@@ -24,3 +24,7 @@ end
 function wendyprint(stuff)
   print(stuff)
 end 
+
+function jackprint(stuff)
+   print(stuff)
+end
