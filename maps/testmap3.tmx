@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Desert" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+  <tile id="0">
+   <properties>
+    <property name="obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="bluefood" value="2"/>
+    <property name="greenfood" value="3"/>
+    <property name="redfood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Creatercolour" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="49" name="test" tilewidth="32" tileheight="32">
+  <image source="test.png" width="96" height="96"/>
+  <tile id="0">
+   <properties>
+    <property name="GreenFood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="RedFood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="BlueFood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="GreenFood" value="2"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="RedFood" value="2"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="BlueFood" value="2"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="GreenFood" value="3"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="RedFood" value="3"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="BlueFood" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1rEOgCAMBFAmV2c1MVEn9f//T0YHRaB3tcYON5G0r4CGMYQwelTTAmLVxTKibUgn0yb1MeqjjMzZWXMyz8WKTWrU/G+V1te0oXzn9S6mF2ZI9JTehylmFmap8OWep/tk99R97nOf+77ia4z7cvu6718+rfcB2rfGbMLsRB86uf2ufGxjSa87H8tY0+PJiLLW7kHKh9pTab0SIyrIOS3YtIzsb86C6e0cPJ2l7g==
+  </data>
+ </layer>
+ <layer name="RedPellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztx6ENAAAIA7DdxP/HoabRJK1r8sMcBwAAAAAAqAWYxwBl
+  </data>
+ </layer>
+ <layer name="GreenPellets" width="40" height="40" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+ <layer name="BluePellets" width="40" height="40" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+</map>

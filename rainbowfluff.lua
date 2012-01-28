@@ -1,7 +1,7 @@
 function rainbowFluff(love,level)
 	level = level or 1
 	levels = {
-		"testmap.tmx"
+		"testmap3.tmx"
 	}
 	local ctx={}
 	ctx.map=maploader.load(levels[level])
@@ -35,7 +35,7 @@ function rainbowFluff(love,level)
 	local auBGM
 
 	if use_music == true then
-		auBGM = love.audio.newSource("sfx/bgm.wav")
+		auBGM = love.audio.newSource("sfx/bgm.ogg")
 		auBGM:setLooping(true)
 		auBGM:setVolume(0.6)
 		auBGM:play()
@@ -54,7 +54,6 @@ function rainbowFluff(love,level)
 	end
 	function ctx:draw ()
 		map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
-		map.drawList={map.drawList[1]}
 		map:draw()
 		drawlist( ctx.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
 		drawlist( ctx.camera:newDrawable( ctx.flufft:newDrawable()) )

@@ -1,5 +1,5 @@
 require( "MiddleClass.lua" );
-
+require( "dumpfile.lua");
 
 -- possibly things like ballochain should also be a singleton, and 
 -- it is only the _state_ which should be recreated each time, not 
@@ -19,37 +19,43 @@ function Planet:load ()
 end
 
 --set a variable on a tile
-function getTileProperty(name, x, y, ctx) 
+function getTileProperty(name, x, y, ctx, lr ) 
 	local r
+	local layer = (ctx.map.tl[lr] or {} ).tileData or {}
+	--print(DumpObject((ctx.map.tl["RedPellets"].tileData[2][3] or {} ) ))
+	--print (DumpObject(ctx.map.tiles[50]) )
 	if	ctx.mapproperties and 
 	  	ctx.mapproperties[x] and
-	  	ctx.mapproperties[x][y] ~= nil
+	  	ctx.mapproperties[x][y] and 
+	  	ctx.mapproperties[x][y][lr] ~= nil
 	then 
 		print("custom")
-		r= ctx.mapproperties[x][y]
+		r= ctx.mapproperties[x][y][lr]
     else 
 		
-		r= ctx.tiles and ctx.tiles[y+1] and 
-		ctx.tiles[y+1][x+1] and 
-		ctx.map.tiles[ctx.tiles[y+1][x+1]] and  
-		ctx.map.tiles[ctx.tiles[y+1][x+1]].properties[name];
+		r= layer and layer[y+1] and 
+		layer[y+1][x+1] and 
+		ctx.map.tiles[layer[y+1][x+1]] and  
+		ctx.map.tiles[layer[y+1][x+1]].properties[name];
 	end
-	print("getTile",r)
 	return r
 end
 
-function setTileProperty(name, value, x,y,ctx)
-	
-	if  ctx.tiles and ctx.tiles[y+1] and 
-		ctx.tiles[y+1][x+1] and 
-		ctx.map.tiles[ctx.tiles[y+1][x+1]] 
+function setTileProperty(name, value, x,y,ctx,lr)
+
+	local layer = (ctx.map.tl[lr] or {} ).tileData or {}
+	if  layer and layer[y+1] and 
+		layer[y+1][x+1] and 
+		ctx.map.tiles[layer[y+1][x+1]] 
 	then 
 		print("upsetting", value)
 
 		ctx.mapproperties = ctx.mapproperties or {}
 		ctx.mapproperties[x]=ctx.mapproperties[x] or {}
-		ctx.mapproperties[x][y]=value
-		print("set",ctx.mapproperties[x][y])
+		ctx.mapproperties[x][y]=ctx.mapproperties[y] or {}
+		ctx.mapproperties[x][y][lr]=value
+
+		print("set",ctx.mapproperties[x][y][lr])
 		return true 
 	else
 		return false

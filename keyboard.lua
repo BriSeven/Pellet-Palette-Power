@@ -1,9 +1,9 @@
 function love.keypressed(k)
 	if k == "r" then
-
-		love.filesystem.load("rainbowfluff.lua")()
 		love.filesystem.load("flufft.lua")()
 		love.filesystem.load("Creature.lua")
+		love.filesystem.load("rainbowfluff.lua")()
+
 
 		ctx:stop()
 
