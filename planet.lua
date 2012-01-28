@@ -10,6 +10,14 @@ require( "MiddleClass.lua" );
 --stepwise animation
 
 Planet = class("Planet");
+
+function Planet:load ()
+	maploader = require("AdvTiledLoader/Loader")
+	maploader.path = "maps/"
+
+
+end
+
 --set a variable on a tile
 function getTileProperty(name, x, y, ctx) 
 	local r
@@ -21,7 +29,7 @@ function getTileProperty(name, x, y, ctx)
 		r= ctx.mapproperties[x][y]
     else 
 		
-		r= ctx.tiles[y+1] and 
+		r= ctx.tiles and ctx.tiles[y+1] and 
 		ctx.tiles[y+1][x+1] and 
 		ctx.map.tiles[ctx.tiles[y+1][x+1]] and  
 		ctx.map.tiles[ctx.tiles[y+1][x+1]].properties[name];
@@ -32,7 +40,7 @@ end
 
 function setTileProperty(name, value, x,y,ctx)
 	
-	if  ctx.tiles[y+1] and 
+	if  ctx.tiles and ctx.tiles[y+1] and 
 		ctx.tiles[y+1][x+1] and 
 		ctx.map.tiles[ctx.tiles[y+1][x+1]] 
 	then 

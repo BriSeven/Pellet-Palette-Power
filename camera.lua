@@ -22,9 +22,11 @@ Camera = class("Camera");
 function Camera:initialize(ctx)
 	self.width=800
 	self.height=600
+	self.screenWidth=800
+	self.screenHeight=600
 	self.x=0
 	self.y=0
-	self.scale=800/self.width
+	self.scale=self.screenWidth/self.width
 
 end
 
@@ -43,11 +45,11 @@ function Camera:newDrawable(drawable)
 		table.insert(d, {
 			 name=c.name,  --center and scale should be camera and db responsibilities
 			 character=c.character,
-			 x=c.x * self.scale,
-			 y=c.y * self.scale,     --x and y assuming 800x600 screen
+			 x=c.x / self.scale,
+			 y=c.y / self.scale,     --x and y assuming 800x600 screen
 			 a=c.a,
-			 sx=c.sx*self.scale,
-			 sy=c.sy*self.scale,
+			 sx=c.sx/self.scale,
+			 sy=c.sy/self.scale,
 			 cx=c.cx,
 			 cy=c.cy
 		})
@@ -58,14 +60,15 @@ function Camera:newDrawable(drawable)
 end
 
 
-function Camera:worldCoodsFromScreenCoords() --for reverse transforming mouse coordinates
-
+function Camera:worldCoodsFromScreenCoords(x,y) --for reverse transforming mouse coordinates
+	return x*self.scale,y*self.scale
 end
 
 function pickmode()
     modes = love.graphics.getModes()
     lowest = reduce(function (a,b) if math.abs((a.width/a.height)-1.5)<math.abs((b.width/b.height)-1.5) then return a else return b end end,modes)
-    love.graphics.setMode(960,640)
+    ctx.camera=Camera:new()
+    love.graphics.setMode(ctx.camera.screenWidth,ctx.camera.screenHeight)
 
 
 end
