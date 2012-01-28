@@ -7,7 +7,7 @@
  -- @brief    porting several convenience functional utilities form Haskell,Python etc..
  -- map(function, table)
  -- e.g: map(double, {1,2,3})    -> {2,4,6}
- function map(func, tbl)
+ function f_map(func, tbl)
      local newtbl = {}
      for i,v in pairs(tbl) do
          newtbl[i] = func(v)

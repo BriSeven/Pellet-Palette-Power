@@ -28,7 +28,7 @@ require("update.lua")
 require("draw.lua")
 --resourcedb
 require("db.lua")
-
+require("keyboard.lua")
 
 
 
