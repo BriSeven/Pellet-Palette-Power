@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-require( "middleclass.lua" );
 
-=======
 require( "MiddleClass.lua" );
-require( "dumpfile.lua");
->>>>>>> 06b1d421296f604c2cdb238f964815df3fe3a7f4
 
 -- possibly things like ballochain should also be a singleton, and 
 -- it is only the _state_ which should be recreated each time, not 

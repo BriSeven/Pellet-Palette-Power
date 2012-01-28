@@ -4,8 +4,7 @@
 -- Licence: ZLIB/libpng                									
 -- Copyright (c) 2006-2009 LOVE Development Team
 -------------------------------------------------
--- wsl: This is probably a stupid hack!
-require("globals.lua")
+
 -- --------------------
 --functional utilities 
 require("functional.lua")
@@ -16,12 +15,6 @@ require("load.lua")
 
 --livecoding
 require("livereload.lua")
---cloud field
-require("clouds.lua")
---nekochan thingy
-require("nekochan.lua")
---ballochan thingy
-require("ballochan.lua")
 --update loop
 require("update.lua")
 --draw loop

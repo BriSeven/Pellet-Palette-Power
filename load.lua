@@ -1,7 +1,7 @@
 require("camera.lua")
 require("planet.lua")
 require("flufft.lua")
-require("dumpfile.lua")
+require("dumpobject.lua")
 require("printmap.lua")
 require("Creature.lua")
 require("rainbowfluff.lua")

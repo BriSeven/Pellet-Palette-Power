@@ -1,4 +1,3 @@
-require("dumpfile.lua")
 function love.update(dt)
 
 	if ctx.update then 
