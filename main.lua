@@ -57,7 +57,7 @@ function love.load()
 
 	printmap("obstacle",ctx)
 	--love.audio.play(music, 0)
-	global.camera.pickmode()
+	global.camera:pickmode()
 	
 end
 

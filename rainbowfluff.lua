@@ -56,7 +56,9 @@ function rainbowFluff(love,level)
 
 		local space = love.keyboard.isDown(" ")
 		ctx=self
-		ctx.mouse={x=love.mouse.getX()*global.camera.scale, y=love.mouse.getY()*global.camera.scale}
+		global.camera:newState(dt,global.camera,ctx)
+
+		ctx.mouse={x=love.mouse.getX()/global.camera.zoom, y=love.mouse.getY()/global.camera.zoom}
 		ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
 		ctx.tractor = ctx.tractor:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
 		--print("object")
@@ -88,6 +90,30 @@ function rainbowFluff(love,level)
 
 		drawlist( global.camera:newDrawable( ctx.flufft:newDrawable()) )
 		drawlist( global.camera:newDrawable( ctx.tractor:newDrawable()) )
+		drawlist( {{ 
+		 type="map",
+		 name="map1",  --center and scale should be camera and db responsibilities
+		 character="game",
+		 x=0,
+		 y=0,     --x and y assuming 800x600 screen
+		 a=0,
+		 sx=1,
+		 sy=1,
+		 cx=0,
+		 cy=0
+	
+		} })
+
+
+		drawlist( ctx.creatures[1]:newDrawable() )
+		drawlist( ctx.creatures[2]:newDrawable() )
+		drawlist( ctx.creatures[3]:newDrawable() )
+		drawlist( ctx.creatures[4]:newDrawable() )
+		drawlist( ctx.creatures[5]:newDrawable() )
+		drawlist( ctx.creatures[6]:newDrawable() )
+
+		drawlist( ctx.flufft:newDrawable() )
+
 
 	end
 	local updatef
