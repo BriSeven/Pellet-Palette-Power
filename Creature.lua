@@ -28,7 +28,7 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	--retuen constructed creature
 	
 	--occupy cell
-	self:Move(ctx,Vector:new(0,0))
+	--self:Move(ctx,Vector:new(0,0))
 	
 	--the forces that pull other creatures to this creature
 	self.grazingForceMultiplyer = GrazingForceMultiplyer
@@ -103,8 +103,7 @@ function Creature:SmallUpdate()
 end
 
 function Creature:BigUpdate(dt,oldstate,ctx)
-
-	
+	print("bigUpdate")
 	--update the food level for this cell
 	self:EatFood(self.NewLocation.x,self.NewLocation.y,ctx)
 	
@@ -117,7 +116,7 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	local vecFlockingDirection = self:Grouping(ctx)
 	
 	--add some random movement 
-	local vecRandomMovement = Vector:new(math.random(-1,1),math.random(-1,1))
+	--local vecRandomMovement = Vector:new(math.random(-1,1),math.random(-1,1))
 	
 	--compiled movement direction
 	local vecPreGridAllineDirection = Vector:new(0,0)
@@ -127,8 +126,8 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGrazing.x * self.grazingForceMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGrazing.y * self.grazingForceMultiplyer
 	
-	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
-	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
+	--vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
+	--vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
 	
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
@@ -142,10 +141,10 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 end
 
 function Creature:EatFood(x,y,ctx)
-	
+
 	--check if there is food to eat
 	local foodLevels = self:GetFoodLevelForThisCreature(x,y,ctx)
-	
+
 	--if foodLevels ~= 1 and foodLevels ~= 2 and foodLevels ~= 3 then
 		--there is no food to turn into shit
 	--	return
@@ -154,47 +153,51 @@ function Creature:EatFood(x,y,ctx)
 	
 	--if this creature is a red creature
 	if self.CreatureType == "Red" then
-		print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
 		--get the shit to shit out
 		local shitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") 
+		
+		
 		
 		if(shitLevel == nil)then
 			shitLevel = 0
 		end
 		
-		if(shitLevel < 3)then
-			setTileProperty("PurpleFood",shitLevel +1,x,y,ctx,"PurplePellets")
+		if(shitLevel == 3)then
+			setTileProperty("PurpleFood",3,x,y,ctx,"PurplePellets")
 		end
+		
+		if(shitLevel == 2)then
+			setTileProperty("PurpleFood",3,x,y,ctx,"PurplePellets")
+		end
+		
+		if(shitLevel == 1)then
+			setTileProperty("PurpleFood",2,x,y,ctx,"PurplePellets")
+		end
+		
+		if(shitLevel == 0)then
+			setTileProperty("PurpleFood",1,x,y,ctx,"PurplePellets")
+			
+			print("fffffffffffffffffffffffffffffff")
+		end
+		
 		
 		--get the shit to eat		
-		if(foodLevels < 2)then
+		if(foodLevels == 1)then
 			setTileProperty("RedFood",0,x,y,ctx,"RedPellets")
-			
-			
-		else
-			
-			setTileProperty("RedFood",foodLevels -1,x,y,ctx,"RedPellets")
 		end
 		
-	end
-	
-	--if this creature is a yellow creature
-	if self.CreatureType == "Yellow" then
-		if getTileProperty("YellowFood",x,y,ctx,"YellowPellets") ~= nil then
-			
-			return getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
+		if(foodLevels == 2)then
+			setTileProperty("RedFood",1,x,y,ctx,"RedPellets")
 		end
-	end
+		
+		if(foodLevels == 3)then
+			setTileProperty("RedFood",2,x,y,ctx,"RedPellets")
+		end
 
-	--end
-	
-	--if this creature is a purple creature
-	if self.CreatureType == "Purple" then
-		if getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") ~= nil then
-			
-			return getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
-		end
+		print("foodLevels", foodLevels, "shitLevel", shitLevel, "get", getTileProperty("RedFood",x,y,ctx,"RedPellets") , "Coordinate" , self.NewLocation.x,self.NewLocation.y)
 	end
+	
+
 
 	
 	--subtract a grazing amount from the cell
@@ -205,10 +208,10 @@ end
 function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	
 	--check if there is food in this square
-	
+	--print(self.CreatureType, getTileProperty("RedFood",x,y,ctx,"RedPellets"))
 	--if this creature is a red creature
 	if self.CreatureType == "Red" then
-		if getTileProperty("RedFood",x,y,ctx,"RedPellets") ~= nil then
+		if getTileProperty("RedFood",x,y,ctx,"RedPellets") then
 			
 			return getTileProperty("RedFood",x,y,ctx,"RedPellets")
 		end
@@ -216,7 +219,7 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	
 	--if this creature is a yellow creature
 	if self.CreatureType == "Yellow" then
-		if getTileProperty("YellowFood",x,y,ctx,"YellowPellets") ~= nil then
+		if getTileProperty("YellowFood",x,y,ctx,"YellowPellets") then
 			
 			return getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
 		end
@@ -226,13 +229,15 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	
 	--if this creature is a purple creature
 	if self.CreatureType == "Purple" then
-		if getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") ~= nil then
+		if getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") then
 			
 			return getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
 		end
 	end
 
 	--end
+	
+	--print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 	
 	return 0
 	
@@ -245,27 +250,72 @@ function Creature:UpdateCellShitLevel(x,y,ctx)
 	
 	--get current shit level
 	local redShitLevel = getTileProperty("RedFood",x,y,ctx,"RedPellets")
+	--set cell graphic
 	
-	--if(redShitLevel ~= nil)then
+	--if there is no shit
+	if redShitLevel == 0 then
+		setTileGraphic("RedPellets",0,x,y,ctx)
+	end
 		
-		--set cell graphic
-		
-		
-		--if there is no shit
-		if redShitLevel == 0 then
-			print("CCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCCCCCCCCCAIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
-			setTileGraphic("RedPellets",0,x,y,ctx)
-		end
-		--if shit is at level 1
-		
-		--if shit is at level 2
-		
-		--if shit is at level 3
-	--end
+	--if shit is at level 1
+	if redShitLevel == 1 then
+		setTileGraphic("RedPellets",50,x,y,ctx)
+	end
+	--if shit is at level 2
+	if redShitLevel == 2 then
+		setTileGraphic("RedPellets",53,x,y,ctx)
+	end
+	--if shit is at level 3
+	if redShitLevel == 3 then
+		setTileGraphic("RedPellets",56,x,y,ctx)
+	end
+	
 	
 	--update yellow shit
+	--get current shit level
+	local yellowShitLevel = getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
+	--set cell graphic
+	
+	--if there is no shit
+	if yellowShitLevel == 0 then
+		setTileGraphic("YellowPellets",0,x,y,ctx)
+	end
+		
+	--if shit is at level 1
+	if yellowShitLevel == 1 then
+		setTileGraphic("YellowPellets",49,x,y,ctx)
+	end
+	--if shit is at level 2
+	if yellowShitLevel == 2 then
+		setTileGraphic("YellowPellets",52,x,y,ctx)
+	end
+	--if shit is at level 3
+	if yellowShitLevel == 3 then
+		setTileGraphic("YellowPellets",55,x,y,ctx)
+	end
 	
 	--update purple shit
+		--get current shit level
+	local purpleShitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
+	--set cell graphic
+	
+	--if there is no shit
+	if purpleShitLevel == 0 then
+		setTileGraphic("PurplePellets",0,x,y,ctx)
+	end
+		
+	--if shit is at level 1
+	if purpleShitLevel == 1 then
+		setTileGraphic("PurplePellets",51,x,y,ctx)
+	end
+	--if shit is at level 2
+	if purpleShitLevel == 2 then
+		setTileGraphic("PurplePellets",54,x,y,ctx)
+	end
+	--if shit is at level 3
+	if purpleShitLevel == 3 then
+		setTileGraphic("PurplePellets",57,x,y,ctx)
+	end
 end
 
 -- get the direction the character wants to go to group better
@@ -589,7 +639,7 @@ end
 --move the creature
 function Creature:Move(ctx,vecMoveDirectionVector)
 	--unmark current cell as ocupied
-	setTileProperty("HasCreature",0, self.OldLocation.x,self.OldLocation.y ,ctx,"Creatures")
+	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	
 	--mark future cell as ocupied
 	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")

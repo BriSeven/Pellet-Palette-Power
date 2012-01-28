@@ -29,7 +29,6 @@ function getTileProperty(name, x, y, ctx, lr )
 	  	ctx.mapproperties[x][y] and 
 	  	ctx.mapproperties[x][y][lr] ~= nil
 	then 
-		print("custom")
 		r= ctx.mapproperties[x][y][lr]
     else 
 		
@@ -52,7 +51,6 @@ function setTileGraphic(LayerName,GraphicCode,x,y,ctx)
 end
 
 function setTileProperty(name, value, x,y,ctx,lr)
-	print("setting",name,value,x,y,ctx,lr)
 	
 	local layer = (ctx.map.tl[lr] or {} ).tileData or {}
 	
@@ -65,8 +63,6 @@ function setTileProperty(name, value, x,y,ctx,lr)
 		ctx.mapproperties[x][y]=ctx.mapproperties[y] or {}
 		ctx.mapproperties[x][y][lr]=value
 
-		print("set",ctx.mapproperties[x][y][lr])
-		print("get",getTileProperty(name,x,y,ctx,lr))
 		return true 
 	else
 		return false

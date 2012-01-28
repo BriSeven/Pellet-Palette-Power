@@ -31,7 +31,7 @@ function love.load()
 	--displayTime = 0 
 
 
-	printmap("obstacle",ctx)
+	--printmap("obstacle",ctx)
 	--love.audio.play(music, 0)
 	pickmode()
 	

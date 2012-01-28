@@ -21,5 +21,8 @@ function print_table(some_table)
 end
 
 function wendyprint(stuff)
-    print(stuff)
+   -- print(stuff)
+end
+function jackprint(stuff)
+   print(stuff)
 end
