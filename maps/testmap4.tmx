@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Desert" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+  <tile id="0">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="bluefood" value="2"/>
+    <property name="greenfood" value="3"/>
+    <property name="redfood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Creatercolour" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="49" name="test" tilewidth="32" tileheight="32">
+  <image source="test.png" width="96" height="96"/>
+  <tile id="0">
+   <properties>
+    <property name="GreenFood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="RedFood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="BlueFood" value="1"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="GreenFood" value="2"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="RedFood" value="2"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="BlueFood" value="2"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="GreenFood" value="3"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="RedFood" value="3"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="BlueFood" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1zELwjAQhuFooSAOpXZTEGwn9f//P7NaktwXe18S6Q3vJCSPocPdwTl3JNQpnXHy3Qmdlc5g+oZErfsQY22f5Ny7L/YbaqzlQ43m22Zk+34xmu/bdw10SxhL+uZIi/nM9ye+0XchNCm/HzpTPBL3opnPfK34+sZ96Hxgvn35YsbWfU/fa2Nvok87dH8L+dhG6S7ExzIid6znP8moZUXfIMen9aY554Xm5xyjVrH/kprva9skXwmj9C3k7kclTGsfaz/S2rE+HdSeAg==
+  </data>
+ </layer>
+ <layer name="RedPellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztzsEJAAAIA7HO5P7DOUVBJIH7X3LfFPLnz58/f/78+fPnDwAAgL8WXz1Fuw==
+  </data>
+ </layer>
+ <layer name="PurplePellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+ <layer name="YellowPellets" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+ <layer name="Creatures" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+</map>

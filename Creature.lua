@@ -105,6 +105,11 @@ end
 function Creature:BigUpdate(dt,oldstate,ctx)
 
 	
+	--update the food level for this cell
+	self:EatFood(self.NewLocation.x,self.NewLocation.y,ctx)
+	
+	self:UpdateCellShitLevel(self.NewLocation.x,self.NewLocation.y,ctx)
+	
 	--get grazing direction
 	local vecGrazing = self:Grazing(dt,oldstate,ctx)
 	
@@ -136,28 +141,60 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	
 end
 
-function Creature:EatFood(dt,oldstate,ctx)
-	--get the food levels in this cell
-	local Food = getTileProperty("food", newx,newy,ctx)
+function Creature:EatFood(x,y,ctx)
+	
+	--check if there is food to eat
+	local foodLevels = self:GetFoodLevelForThisCreature(x,y,ctx)
+	
+	if foodLevels ~= 1 and foodLevels ~= 2 and foodLevels ~= 3 then
+		--there is no food to turn into shit
+		return
+	end
 	
 	--if this creature is a red creature
-	if self.CreatureType == "Red" then 
+	if self.CreatureType == "Red" then
+	
+		--get the shit to shit out
+		local shitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") 
 		
-		--eat the correct food
+		if(shitLevel == nil)then
+			shitLevel = 0
+		end
 		
-		--deposite the correct food
+		if(shitLevel < 3)then
+			setTileProperty("PurpleFood",shitLevel +1,x,y,ctx,"PurplePellets")
+		end
 		
-	--else
+		--get the shit to eat		
+		if(foodLevels < 2)then
+			setTileProperty("RedFood",0,x,y,ctx,"RedPellets")
+			
+			print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+		else
+			
+			setTileProperty("RedFood",foodLevels -1,x,y,ctx,"RedPellets")
+		end
+		
 	end
-	--if this creature is a green creature
-	--if then 
 	
-	--else
+	--if this creature is a yellow creature
+	if self.CreatureType == "Yellow" then
+		if getTileProperty("YellowFood",x,y,ctx,"YellowPellets") ~= nil then
+			
+			return getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
+		end
+	end
+
+	--end
 	
-	--if this creature is a blue creature
-	--if then 
-	
-	--else
+	--if this creature is a purple creature
+	if self.CreatureType == "Purple" then
+		if getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") ~= nil then
+			
+			return getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
+		end
+	end
+
 	
 	--subtract a grazing amount from the cell
 	--setTileProperty("food",{greenfood=20, redfood=30}, self.NewLocation.x,self.NewLocation.y,ctx)
@@ -176,18 +213,58 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 		end
 	end
 	
-	--if this creature is a green creature
-	--if self.CreatureType == "green" then 
+	--if this creature is a yellow creature
+	if self.CreatureType == "Yellow" then
+		if getTileProperty("YellowFood",x,y,ctx,"YellowPellets") ~= nil then
+			
+			return getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
+		end
+	end
 
 	--end
 	
-	--if this creature is a blue creature
-	--if self.CreatureType == "blue" then 
+	--if this creature is a purple creature
+	if self.CreatureType == "Purple" then
+		if getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") ~= nil then
+			
+			return getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
+		end
+	end
 
 	--end
 	
 	return 0
 	
+end
+
+--update the shit level of this cell
+function Creature:UpdateCellShitLevel(x,y,ctx)
+	
+	--update red shit
+	
+	--get current shit level
+	local redShitLevel = getTileProperty("RedFood",x,y,ctx,"RedPellets")
+	
+	--if(redShitLevel ~= nil)then
+		
+		--set cell graphic
+		
+		
+		--if there is no shit
+		if redShitLevel == 0 then
+			print("CCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCCCCCCCCCAIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+			setTileGraphic("RedPellets",0,x,y,ctx)
+		end
+		--if shit is at level 1
+		
+		--if shit is at level 2
+		
+		--if shit is at level 3
+	--end
+	
+	--update yellow shit
+	
+	--update purple shit
 end
 
 -- get the direction the character wants to go to group better
@@ -205,7 +282,7 @@ function Creature:Grouping(ctx)
 	--loop through the cells surounding the creature
 	
 	--the distance above and below the player to scan
-	local ScanSize = 2
+	local ScanSize = 3
 	
 	local xOffset = 0
 	local yOffset = 0
