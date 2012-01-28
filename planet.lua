@@ -41,6 +41,16 @@ function getTileProperty(name, x, y, ctx, lr )
 	return r
 end
 
+function setTileGraphic(LayerName,GraphicCode,x,y,ctx)
+	local layer = (ctx.map.tileLayer[LayerName] or {} ).tileData or {}
+	
+	if  layer and layer[y+1] and 
+		layer[y+1][x+1]
+	then 
+		layer[y+1][x+1] = GraphicCode
+	end
+end
+
 function setTileProperty(name, value, x,y,ctx,lr)
 	print("setting",name,value,x,y,ctx,lr)
 	
