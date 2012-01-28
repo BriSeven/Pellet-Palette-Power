@@ -7,7 +7,7 @@ function rainbowFluff(love,level)
 	ctx.map=maploader.load(levels[level])
 
 	function ctx.name (name, character) 
-		if character == "yellow" or character == "red" or character == "purple" then 
+		if character == "Yellow" or character == "Red" or character == "Purple" then 
 			return ctx[character]
 		else 
 		--replacable with proper cache lookup later
@@ -33,9 +33,9 @@ function rainbowFluff(love,level)
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
 	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
 	
-	ctx.yellow =  love.graphics.newImage(db.name("yellow").image )
-	ctx.purple =  love.graphics.newImage(db.name("purple").image )
-	ctx.red =  love.graphics.newImage(db.name("red").image )
+	ctx.Yellow =  love.graphics.newImage(db.name("yellow").image )
+	ctx.Purple =  love.graphics.newImage(db.name("purple").image )
+	ctx.Red =  love.graphics.newImage(db.name("red").image )
 	ctx.quads = {
 		walk1 = love.graphics.newQuad(0,0,32,32,128,32),
 		walk2 = love.graphics.newQuad(32,0,32,32,128,32),
