@@ -146,14 +146,15 @@ function Creature:EatFood(x,y,ctx)
 	--check if there is food to eat
 	local foodLevels = self:GetFoodLevelForThisCreature(x,y,ctx)
 	
-	if foodLevels ~= 1 and foodLevels ~= 2 and foodLevels ~= 3 then
+	--if foodLevels ~= 1 and foodLevels ~= 2 and foodLevels ~= 3 then
 		--there is no food to turn into shit
-		return
-	end
+	--	return
+	--end
+
 	
 	--if this creature is a red creature
 	if self.CreatureType == "Red" then
-	
+		print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
 		--get the shit to shit out
 		local shitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") 
 		
@@ -169,7 +170,7 @@ function Creature:EatFood(x,y,ctx)
 		if(foodLevels < 2)then
 			setTileProperty("RedFood",0,x,y,ctx,"RedPellets")
 			
-			print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+			
 		else
 			
 			setTileProperty("RedFood",foodLevels -1,x,y,ctx,"RedPellets")
@@ -393,7 +394,6 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 			return true
 			end
 		--end
-		print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
 		
 		return false
 		
