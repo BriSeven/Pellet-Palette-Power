@@ -39,6 +39,8 @@ function rainbowFluff(love,level)
 	ctx.creatures[5] = Creature:new(6,8,ctx,0.145,"Red",-0.1,5,0.5,1,1,1,1)
 	ctx.creatures[6] = Creature:new(6,8,ctx,0.15,"Red",-0.1,5,0.5,1,1,1,1)
 	
+	ctx.tractor = Tractor:new(9,10,ctx,0.15)
+	
 	use_music=true
 	local auBGM
 
@@ -55,6 +57,7 @@ function rainbowFluff(love,level)
 		ctx=self
 		ctx.mouse={x=love.mouse.getX()*global.camera.scale, y=love.mouse.getY()*global.camera.scale}
 		ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
+		ctx.tractor = ctx.tractor:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
 		--print("object")
 		--print(DumpObject(ctx.mapproperties))
 		ctx.creatures[1]:update(dt, ctx.creatures[1], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
@@ -83,7 +86,7 @@ function rainbowFluff(love,level)
 		drawlist( global.camera:newDrawable( ctx.creatures[6]:newDrawable()) )
 
 		drawlist( global.camera:newDrawable( ctx.flufft:newDrawable()) )
-
+		drawlist( global.camera:newDrawable( ctx.tractor:newDrawable()) )
 
 	end
 	local updatef
