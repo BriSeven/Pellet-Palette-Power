@@ -7,13 +7,20 @@ function rainbowFluff(love,level)
 	ctx.map=maploader.load(levels[level])
 
 	function ctx.name (name, character) 
+		if character == "yellow" or character == "red" or character == "purple" then 
+			return ctx[character]
+		else 
 		--replacable with proper cache lookup later
 		return ctx[name]
+	    end
 	end
 	layer = ctx.map.tl["Ground"] or {}
 	ctx.tiles = layer.tileData or {}
 
-	
+	function ctx.quad(name, character) 
+		return ctx.quads[name]
+	end
+
 	love.graphics.setColor(255, 255, 255, 200)
 
 
@@ -26,6 +33,17 @@ function rainbowFluff(love,level)
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
 	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
 	
+	ctx.yellow =  love.graphics.newImage(db.name("yellow").image )
+	ctx.purple =  love.graphics.newImage(db.name("purple").image )
+	ctx.red =  love.graphics.newImage(db.name("red").image )
+	ctx.quads = {
+		walk1 = love.graphics.newQuad(0,0,32,32,128,32),
+		walk2 = love.graphics.newQuad(32,0,32,32,128,32),
+		walk3 = love.graphics.newQuad(64,0,32,32,128,32),
+		walk4 = love.graphics.newQuad(96,0,32,32,128,32),
+	}
+
+
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
