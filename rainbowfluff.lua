@@ -51,7 +51,7 @@ function rainbowFluff(love,level)
 
 		local space = love.keyboard.isDown(" ")
 		ctx=self
-		ctx.mouse={x=love.mouse.getX()*ctx.camera.zoom, y=love.mouse.getY()*ctx.camera.zoom}
+		ctx.mouse={x=love.mouse.getX()/ctx.camera.zoom, y=love.mouse.getY()/ctx.camera.zoom}
 		ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
 		--print("object")
 		--print(DumpObject(ctx.mapproperties))
@@ -66,9 +66,10 @@ function rainbowFluff(love,level)
 	function ctx:draw ()
 		ctx=self
 		
-		map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
+		--map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
 		--map.drawList={map.drawList[1]}
-		map:draw()
+		--map:draw()
+		drawlist({ {type="map", ref=map}})
 		drawlist( ctx.creatures[1]:newDrawable()) 
 		drawlist( ctx.creatures[2]:newDrawable()) 
 		drawlist( ctx.creatures[3]:newDrawable()) 

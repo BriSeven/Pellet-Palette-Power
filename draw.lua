@@ -11,7 +11,7 @@ function drawmap(mapobj,mapref)
 	 --map.useSpriteBatch = true
 	 --map:setDrawRange(0, 0, global.camera.width/0.5, global.camera.height/0.5)
 		--map.drawList={map.drawList[1]}
-	mapref:draw()
+	mapobj.ref:draw()
 	-- -- Scale and translate the game screen for map drawing
 	-- local ftx, fty = math.floor(global.tx), math.floor(global.ty)
 	-- love.graphics.push()
