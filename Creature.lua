@@ -163,6 +163,54 @@ function Creature:Grouping()
 	--while yOffset <  
 end
 
+--Work out what direction the creature has decided to go in and move there
+function Creature:Move(dt,oldstate,ctx,vecMoveDirectionVector)
+
+--project movement vector onto each direction
+
+--initalise all variables
+	local IsUpAvailable	= true
+	local IsUpLeftAvailable = true
+	local IsLeftAvailable = true
+	local IsDownLeftAvailable = true
+	local IsDownAvailable = true
+	local IsDownRighAvailable = true
+	local IsRightAvailable = true 
+	local IsUpRightAvailable = true
+
+	--check availability of squares
+	if(getTileProperty("obstacle", self.NewLocation.x,self.NewLocation.y -1,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x,self.NewLocation.y -1,ctx) ~= 1) then
+		IsUpAvailable	= false
+	end
+	
+	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y -1,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y -1,ctx) ~= 1) then
+		IsUpLeftAvailable	= false
+	end
+	
+	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y ,ctx) ~= 1) then
+		IsLeftAvailable	= false
+	end
+	
+	if(getTileProperty("obstacle", self.NewLocation.x -1,self.NewLocation.y + 1,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x -1,self.NewLocation.y +1,ctx) ~= 1) then
+		IsDownLeftAvailable	= false
+	end
+	
+	if(getTileProperty("obstacle", self.NewLocation.x ,self.NewLocation.y + 1,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x ,self.NewLocation.y +1,ctx) ~= 1) then
+		IsDownAvailable	= false
+	end
+	
+	if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y + 1,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y +1,ctx) ~= 1) then
+		IsDownRighAvailable	= false
+	end
+	
+		if(getTileProperty("obstacle", self.NewLocation.x +1,self.NewLocation.y + 1,ctx) ~= 1 and getTileProperty("HasCreature", self.NewLocation.x + 1,self.NewLocation.y +1,ctx) ~= 1) then
+		IsDownRighAvailable	= false
+	end
+
+
+end
+
+
 --get the direction the character wants to go for more food
 function Creature:Grazing(dt,oldstate,ctx)
 	
