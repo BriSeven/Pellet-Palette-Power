@@ -1,5 +1,5 @@
 require( "middleclass.lua" );
-
+require("playhead.lua")
 
 -- possibly things like ballochain should also be a singleton, and 
 -- it is only the _state_ which should be recreated each time, not 
@@ -8,8 +8,7 @@ require( "middleclass.lua" );
 
 ---careful with mouse coordinates- you have to reverse the transformation through the camera.
 
-
-	
+thing = thing or 0
 --stepwise animation
 
 Camera = class("Camera");
@@ -18,18 +17,23 @@ Camera = class("Camera");
 function Camera:initialize(ctx)
   	self.width=800
   	self.height=600
-  	self.screenWidth=960
-  	self.screenHeight=768
+  	self.screenWidth=320
+  	self.screenHeight=240
   	self.x=0
   	self.y=0
 --	self.scale=self.screenWidth/self.width
-  	self.zoom=self.width/self.screenWidth
+  	self.zoom=self.screenWidth/self.width
 end
 
 
 
 function Camera:newState(dt,oldstate,ctx)
-	self.width = self.width
+  thing = thing + 1
+  self.x = self.x+1/self.zoom
+  if  (thing % 40) < 1 then 
+	   self.width = self.width * 0.5
+
+  end 
 	self.height = ( self.screenHeight / self.screenWidth) * self.width
 	self.zoom=self.width/self.screenWidth
 	return self
