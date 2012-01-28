@@ -1,7 +1,7 @@
 function rainbowFluff(love,level)
 	level = level or 1
 	levels = {
-		"testmap3.tmx"
+		"testmap4.tmx"
 	}
 	local ctx={}
 	ctx.map=maploader.load(levels[level])
@@ -29,12 +29,12 @@ function rainbowFluff(love,level)
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.creatures = {}
-	ctx.creatures[1] = Creature:new(6,6,ctx,0.1,"red",-0.5,1,1,1,1,1,1)
-	ctx.creatures[2] = Creature:new(6,8,ctx,0.14,"red",-0.5,1,1,1,1,1,1)
-	ctx.creatures[3] = Creature:new(6,8,ctx,0.16,"red",-0.5,1,1,1,1,1,1)
-	ctx.creatures[4] = Creature:new(6,8,ctx,0.12,"red",-0.5,1,1,1,1,1,1)
-	ctx.creatures[5] = Creature:new(6,8,ctx,0.145,"red",-0.5,1,1,1,1,1,1)
-	ctx.creatures[6] = Creature:new(6,8,ctx,0.15,"red",-0.5,1,1,1,1,1,1)
+	ctx.creatures[1] = Creature:new(6,6,ctx,0.1,"red",-0.1,5,0.5,1,1,1,1)
+	ctx.creatures[2] = Creature:new(6,8,ctx,0.14,"red",-0.1,5,0.5,1,1,1,1)
+	ctx.creatures[3] = Creature:new(6,8,ctx,0.16,"red",-0.1,5,0.5,1,1,1,1)
+	ctx.creatures[4] = Creature:new(6,8,ctx,0.12,"red",-0.1,5,0.5,1,1,1,1)
+	ctx.creatures[5] = Creature:new(6,8,ctx,0.145,"red",-0.1,5,0.5,1,1,1,1)
+	ctx.creatures[6] = Creature:new(6,8,ctx,0.15,"red",-0.1,5,0.5,1,1,1,1)
 	
 	use_music=true
 	local auBGM
