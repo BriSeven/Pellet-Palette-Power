@@ -7,12 +7,12 @@ Tractor = class("Tractor")
 
 
 function Tractor:initialize(x,y,ctx)
-    
 
-    self.x=x
+	
+	self.x=x
 	self.y=y
-    
-    
+
+
 
 	self.UpMoveVec        = Vector:new(0,-1)
 	self.UpLeftMoveVec    = Vector:new(-0.52,-0.52)
@@ -22,97 +22,143 @@ function Tractor:initialize(x,y,ctx)
 	self.DownRightMoveVec = Vector:new(0.52,0.52)
 	self.RightMoveVec     =  Vector:new(1,0)
 	self.UpRightMoveVec   =  Vector:new(0.52,-0.52)
---    
- 
 
-    
---	--the current location 
---	self.NewLocation = Vector:new(x,y)
---	
---	--the old location 
---	self.OldLocation = Vector:new(x,y)
-	
-
-	
 	--return constructed instance
 	return self
 end
 
 
 function Tractor:newState(dt,oldstate,ctx)
-	-- Use newState in places where you might normally use something like an 'update()' method. 
-	-- It does what an update() method would do, except that onstea of mutating the values on the original 
-	-- instance, it actually returns an entire new instance ... The role of this method is really very 
+	-- Use newState in places where you might normally use something like an 'update()' method.
+	-- It does what an update() method would do, except that onstea of mutating the values on the original
+	-- instance, it actually returns an entire new instance ... The role of this method is really very
 	-- similar to the role of update() type methods, except that, by returning a new instance,  newState provides
 	-- some useful capabilities which could be used for things like playhead etc...
-
-
---    local newx = math.floor(ctx.mouse.x/32)
---	local newy =  math.floor(ctx.mouse.y/32)
-
-    local newx = self.x
+	local newx = self.x
 	local newy = self.y
+	local keyboard = true
 
-	vecNewPos = Vector:new(newx, newy)
-	self:ApplyNewPosition(vecNewPos)
+	
+	if not keyboard then                       -- use mouse
+		newx = math.floor(ctx.mouse.x/32)
+		newy =  math.floor(ctx.mouse.y/32)
+	else                                       -- use keyboard
+	
+		local direction = Vector:new(0,0)
+		
+		if(ctx.keyboard.up) then
+			direction.y=direction.y-1;
+		end
+		if(ctx.keyboard.down) then
+			direction.y=direction.y+1;
+		end
+		if(ctx.keyboard.left) then
+			direction.x=direction.x-1;
+		end
+		if(ctx.keyboard.right) then
+			direction.x=direction.x+1;
+		end
+		
+		local scale = 8;
+		newx = self.x + direction.x/scale
+		newy = self.y + direction.y/scale
+
+	end  
+----=============================================================================	
+--------------------> wsl:todo Make this work again for obstacles!
+--
+--	availableDirections ={
+--	
+--		IsUpAvailable = {0 , -1},
+--		IsLeftAvailable = {-1, 0},
+--		--{0 , 0}
+--		IsRightAvailable = {1 , 0},
+--		IsDownAvailable = {0 , 1},
+--	}
+--	available = f_map(
+--	function(d)
+--
+--	--	if d and d[0] and d[1] and self.NewLocation.x and self.NewLocation.y then
+--			if(
+--			getTileProperty("Obstacle",
+--			newx+d[1],
+--			newy+d[2],
+--			ctx,"Ground") ~= 1 and
+--			getTileProperty("HasCreature",
+--			newx+d[1],
+--			newy+d[2],
+--			ctx,"Creatures") ~= 1) then
+--
+--			return true
+--			end
+--		--end
+--
+--		return false
+--
+--
+--	end,
+--	availableDirections)
+----=============================================================================
+--	
+	
+
+	
+	-- Deal with obstacles
+	local isobstacle = getTileProperty("obstacle",newx,newy,ctx, "Ground")
+	local iscreature = 	getTileProperty("HasCreature",newx,newy,ctx,"Creatures")
+	
+--	if(ctx.key) then
+--		setTileProperty("obstacle",false,newx,newy,ctx)
+--	end
+
+	-- if new position is not on an obstacle or a creature, we will assign the new coords to self.
+--	if ((isobstacle == 1) or (iscreature ==1)) then
+--	if (isobstacle) then
+	if (iscreature) then
+		print("==============================================================Tractor on an obstacle!!!!!!!!!!!!!!!!!!!!!!!")		
+	else
+		-- clean-up: we set the 'HasTractor' property to 'false' for the current tile we are about to leave.
+		--setTileProperty("HasCreature", false, newx, newy, ctx, "Creatures")  --wsl:todo oops don't collide with ourself!!
+		self.x = newx
+		self.y = newy
+		-- preparation: we set the 'HasTractor' property to 'true' for the new tile we are about to enter.
+		-- setTileProperty("HasCreature", 1, newx, newy, ctx, "Creatures") --wsl:todo oops don't collide with ourself!!
+		
+	end
+
+	self.x=newx
+	self.y=newy
+	
 	
 	return self
 end
 
-function Tractor:ApplyNewPosition(vecNewPosition)
+------------------> wsl:todo Make this work again for obstacles!
+--available = f_map(
+--	function(d)
+--
+--		
+--	--	if d and d[0] and d[1] and self.NewLocation.x and self.NewLocation.y then
+--			if(
+--			getTileProperty("Obstacle", 
+--			self.NewLocation.x+d[1],
+--			self.NewLocation.y+d[2],
+--			ctx,"Ground") ~= 1 and 
+--			getTileProperty("HasCreature",
+--			self.NewLocation.x+d[1],
+--			self.NewLocation.y+d[2],
+--			ctx,"Creatures") ~= 1) then
+--
+--			return true
+--			end
+--		--end
+--		
+--		return false
+--		
+--		
+--	end,
+--	availableDirections)
 
-	--apply new position to creature
---	self.OldLocation.x = self.NewLocation.x
---	self.OldLocation.y = self.NewLocation.y
-	
---	self.x =  self.NewLocation.x + vecMoveDirectionVector.x
---	self.NewLocation.y =  self.NewLocation.y + vecMoveDirectionVector.y
-	
-	newx = vecNewPosition.x
-	newy = vecNewPosition.y
-	local isobstacle = getTileProperty("obstacle",newx,newy,ctx)
-	local iscreature = 	getTileProperty("HasCreature", newx, newy,ctx,"Creatures")
-	if(ctx.key) then
-		setTileProperty("obstacle",false,newx,newy,ctx)
-	end
-	print("isobstacle")
-	print(isobstacle)
-	if(isobstacle ~= 1) and (iscreature ~=1) then	
-		-- clean-up: we set the 'HasTractor' property to 'false' for the current tile we are about to leave.
-	    setTileProperty("HasTractor", false, newx, newy, ctx, "Creatures")
-		self.x = newx
-		self.y = newy
-		-- preparation: we set the 'HasTractor' property to 'true' for the new tile we are about to enter.
-		setTileProperty("HasTractor", 1, newx, newy, ctx, "Creatures")
-	end
-end
-
-
-
--- move North
-function Tractor:KeyboardMoveNorth()
-
-    vecNewPos = Vector:new(self.x + self.UpMoveVec.x, self.y + self.UpMoveVec.y) 
-	self:ApplyNewPosition(vecNewPos)	
-end
-
--- move East
-function Tractor:KeyboardMoveEast()
-    vecNewPos = Vector:new(self.x + self.RightMoveVec.x, self.y + self.RightMoveVec.y) 
-	self:ApplyNewPosition(vecNewPos)
-end
-
--- move South
-function Tractor:KeyboardMoveSouth()
-    vecNewPos = Vector:new(self.x + self.DownMoveVec.x, self.y + self.DownMoveVec.y) 
-	self:ApplyNewPosition(vecNewPos)
-end
-
--- move West
-function Tractor:KeyboardMoveWest()
-    vecNewPos = Vector:new(self.x + self.LeftMoveVec.x, self.y + self.LeftMoveVec.y) 
-	self:ApplyNewPosition(vecNewPos)
-end
 
 
 
@@ -121,57 +167,161 @@ end
 function Tractor:newDrawable(state)
 	local d = {}
 	state = self
-	
+
 	table.insert(d, {
-		 name="body",  --center and scale should be camera and db responsibilities
-		 character="ballochan",
-		 x=self.x*32,
-		 y=self.y*32,     --x and y assuming 800x600 screen
-		 a=0,
-		 sx=0.25,
-		 sy=0.25,
-		 cx=0,
-		 cy=0
+	name="body",  --center and scale should be camera and db responsibilities
+	character="ballochan",
+	x=self.x*32,
+	y=self.y*32,     --x and y assuming 800x600 screen
+	a=0,
+	sx=0.25,
+	sy=0.25,
+	cx=0,
+	cy=0
 	})
-	
+
 	table.insert(d, {
-		 name="face",  --center and scale should be camera and db responsibilities
-		 character="ballochan",
-		 x=self.x*32,
-		 y=self.y*32,     --x and y assuming 800x600 screen
-		 a=0,
-		 sx=0.25,
-		 sy=0.25,
-		 cx=0,
-		 cy=0
+	name="face",  --center and scale should be camera and db responsibilities
+	character="ballochan",
+	x=self.x*32,
+	y=self.y*32,     --x and y assuming 800x600 screen
+	a=0,
+	sx=0.25,
+	sy=0.25,
+	cx=0,
+	cy=0
 	})
 
 
 	return d
 end
 
-function Tractor:DropFoodFood(dt,oldstate,ctx)
+function Tractor:DropRedFood(dt,oldstate,ctx)
 	-- drop some food in this cell
-    print("Not Implemented: ".. "Creature:DropFoodFood(dt,oldstate,ctx)" .. "!!!!!")
+--	print(DumpObject(ctx))
+-- 	local num_red_pellets = getTileProperty("RedFood",self.x,self.y,ctx,"RedPellets") or 0
+--	setTileProperty("RedFood", num_red_pellets + 1,self.x,self.y,ctx,"RedPellets")
+--	self:UpdateCellShitLevel("red", self.x,self.y,ctx)
+	print("=========================Tractor:DropRedFood(dt,oldstate,ctx) Not Implemented!!!!!")
+end
+
+function Tractor:DropYellowFood(dt,oldstate,ctx)
+	-- drop some food in this cell
+--	print(DumpObject(ctx))
+-- 	local num_red_pellets = getTileProperty("YellowFood",self.x,self.y,ctx,"YellowPellets") or 0
+--	setTileProperty("YellowFood", num_red_pellets + 1,self.x,self.y,ctx,"YellowPellets")
+--	self:UpdateCellShitLevel("yellow", self.x,self.y,ctx)
+print("=========================Tractor:DropYellowFood(dt,oldstate,ctx) Not Implemented!!!!!")
+end
+function Tractor:DropPurpleFood(dt,oldstate,ctx)
+	-- drop some food in this cell
+--	print(DumpObject(ctx))
+-- 	local num_red_pellets = getTileProperty("PurpleFood",self.x,self.y,ctx,"PurplePellets") or 0
+--	setTileProperty("PurpleFood", num_red_pellets + 1,self.x,self.y,ctx,"PurplePellets")
+--	self:UpdateCellShitLevel("purple", self.x,self.y,ctx)
+print("=========================Tractor:DropPurpleFood(dt,oldstate,ctx) Not Implemented!!!!!")
 end
 
 
+
+--------------------------------------------------------------------------------
+-- Food and Shit Related Methods
+--------------------------------------------------------------------------------
+--update the shit level of this cell
+function Tractor:UpdateCellShitLevel(color,x,y,ctx)
+	
+	--update red shit
+	if(color == "red") then
+	--get current shit level
+	local redShitLevel = getTileProperty("RedFood",x,y,ctx,"RedPellets")
+	
+	--if(redShitLevel ~= nil)then
+		
+		--set cell graphic
+		
+		
+		--if there is no shit
+		if redShitLevel == 0 then
+			setTileGraphic("RedPellets",0,x,y,ctx)
+		end
+		--if shit is at level 1
+		
+		--if shit is at level 2
+		
+		--if shit is at level 3
+	end -- end update-red-shit
+	
+	--update yellow shit
+	if(color == "yellow") then
+	--get current shit level
+	local redShitLevel = getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
+	
+	--if(yellowShitLevel ~= nil)then
+		
+		--set cell graphic
+		
+		
+		--if there is no shit
+		if yellowShitLevel == 0 then		
+			setTileGraphic("YellowPellets",0,x,y,ctx)
+		end
+		--if shit is at level 1
+		
+		--if shit is at level 2
+		
+		--if shit is at level 3
+	end -- end update-yellow-shit
+	
+	--update purple shit
+	if(color == "purple") then
+	--get current shit level
+	local purpleShitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
+	
+	--if(purpleShitLevel ~= nil)then
+		
+		--set cell graphic
+		
+		
+		--if there is no shit
+		if purpleShitLevel == 0 then
+			setTileGraphic("PurplePellets",0,x,y,ctx)
+		end
+		--if shit is at level 1
+		
+		--if shit is at level 2
+		
+		--if shit is at level 3
+	end -- end update-purple-shit
+end
+
+--------------------------------------------------------------------------------
+-- Gate Related Methods
+--------------------------------------------------------------------------------
 function Tractor:ToggleGate(dt,oldstate,ctx)
-	-- drop some food in this cell
-    print("Not Implemented: ".. " Tractor:ToggleGate(dt,oldstate,ctx))" .. "!!!!!")
+	gate = self:FindNearestGate(dt,oldstate,ctx)
+	gate:Toggle()
 end
 
 function Tractor:FindNearestGate(dt,oldstate,ctx)
 	-- drop some food in this cell
-    print("Not Implemented: ".. " Tractor:FindNearestGate(dt,oldstate,ctx))" .. "!!!!!")
-    return nearest_gate
+	print("Not Implemented: ".. " Tractor:FindNearestGate(dt,oldstate,ctx))" .. "!!!!!")
+
+
+	shortest_distance_squared_found_so_far = 0
+
+	nearest_gate = {}
+	
+	for i, gate in ipairs(ctx.gates)  do
+		dist_squared = gate.x*gate.x + gate.y*gate.y
+		if dist_squared < shortest_distance_squared_found_so_far then
+			shortest_distance_squared_found_so_far = dist_squared
+			nearest_gate = gate
+		end
+	end
+
+	return nearest_gate
 end
 
-function Tractor:FindNearestGate(dt,oldstate,ctx)
-	-- drop some food in this cell
-    print("Not Implemented: ".. " Tractor:FindNearestGate(dt,oldstate,ctx))" .. "!!!!!")
-    return nearest_gate
-end
 -------------------------------------------------------------------------
 
 

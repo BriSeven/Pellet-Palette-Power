@@ -154,7 +154,7 @@ function Creature:EatFood(x,y,ctx)
 	
 	--if this creature is a red creature
 	if self.CreatureType == "Red" then
-		print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+		--print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
 		--get the shit to shit out
 		local shitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") 
 		
@@ -253,7 +253,7 @@ function Creature:UpdateCellShitLevel(x,y,ctx)
 		
 		--if there is no shit
 		if redShitLevel == 0 then
-			print("CCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCCCCCCCCCAIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+--			print("CCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCCCCCCCCCAIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
 			setTileGraphic("RedPellets",0,x,y,ctx)
 		end
 		--if shit is at level 1
@@ -705,7 +705,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 		DownFood >= DownRightFood and 
 		DownFood >= RightFood and 
 		DownFood >= UpRightFood then
-		print("=========================================================================================================")
+		--print("=========================================================================================================")
 		return Vector:new(0,1)
 	
 	end
@@ -718,7 +718,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 		DownLeftFood >= DownRightFood and 
 		DownLeftFood >= RightFood and 
 		DownLeftFood >= UpRightFood then
-		print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+		--print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 		return Vector:new(-1,1)
 	
 	end
