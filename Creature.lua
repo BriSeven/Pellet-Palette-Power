@@ -4,7 +4,7 @@ require("functional.lua")
 Creature = class("Creature")
 
 
-function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMultiplyer,RandomMovementMultiplyer,RedGroupingForce,YellowGroupingForce,PurpleGroupingForce,GroupForceMultiplyer)
+function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMultiplyer,FollowingMultiplyer,RandomMovementMultiplyer,RedGroupingForce,YellowGroupingForce,PurpleGroupingForce,GroupForceMultiplyer)
 	--the current location of the creature
 	self.NewLocation = Vector:new(x,y)
 	
@@ -27,11 +27,10 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	self.Lazyness = Lazyness
 	--retuen constructed creature
 	
-	--occupy cell
-	self:Move(ctx,Vector:new(0,0))
-	
 	--the forces that pull other creatures to this creature
 	self.grazingForceMultiplyer = GrazingForceMultiplyer
+	
+	--self.followingMultiplyer 
 	
 	self.randomMovementMultiplyer = RandomMovementMultiplyer
 	
@@ -42,6 +41,11 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	self.purpleGroupingForce = PurpleGroupingForce
 	
 	self.groupForceMultiplyer = GroupForceMultiplyer
+	
+	--occupy cell
+	self:Move(ctx,Vector:new(0,0))
+	
+
 	
 	return self
 end
@@ -116,7 +120,7 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	local vecFlockingDirection = self:Grouping(ctx)
 	
 	--add some random movement 
-	local vecRandomMovement = Vector:new(math.random(-0.9,1),math.random(-0.9,1))
+	local vecRandomMovement = Vector:new(math.random(-0.4,1),math.random(-0.4,1))
 	
 	--compiled movement direction
 	local vecPreGridAllineDirection = Vector:new(0,0)
@@ -129,8 +133,8 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
 	
-	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
-	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
+	--vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
+	--vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
 	
 	--turn planed direction to grid locked direction
 	local vecGridDirection = self:FinalMoveDirection(dt,oldstate,ctx,vecPreGridAllineDirection)
@@ -176,11 +180,9 @@ function Creature:EatFood(x,y,ctx)
 		
 		if(shitLevel == 0)then
 			setTileProperty("PurpleFood",1,x,y,ctx,"PurplePellets")
-			
-			print("fffffffffffffffffffffffffffffff")
+
 		end
-		
-		print("tile Property",getTileProperty("PurpleFood",x,y,ctx,"PurplePellets"))
+
 		
 		--get the shit to eat		
 		if(foodLevels == 1)then
@@ -195,16 +197,96 @@ function Creature:EatFood(x,y,ctx)
 			setTileProperty("RedFood",2,x,y,ctx,"RedPellets")
 		end
 
-		print("tile Property",getTileProperty("PurpleFood",x,y,ctx,"PurplePellets"))
-		
-		--print("foodLevels", foodLevels, "shitLevel", shitLevel, "get red", getTileProperty("RedFood",x,y,ctx,"RedPellets") , "Coordinate" , self.NewLocation.x,self.NewLocation.y)
 	end
 	
-
-
 	
-	--subtract a grazing amount from the cell
-	--setTileProperty("food",{greenfood=20, redfood=30}, self.NewLocation.x,self.NewLocation.y,ctx)
+	--if this creature is a Yellow creature
+	if self.CreatureType == "Yellow" then
+		--get the shit to shit out
+		local shitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") 
+		
+		
+		
+		if(shitLevel == nil)then
+			shitLevel = 0
+		end
+		
+		if(shitLevel == 3)then
+			setTileProperty("RedFood",3,x,y,ctx,"RedPellets")
+		end
+		
+		if(shitLevel == 2)then
+			setTileProperty("RedFood",3,x,y,ctx,"RedPellets")
+		end
+		
+		if(shitLevel == 1)then
+			setTileProperty("RedFood",2,x,y,ctx,"RedPellets")
+		end
+		
+		if(shitLevel == 0)then
+			setTileProperty("RedFood",1,x,y,ctx,"RedPellets")
+
+		end
+
+		
+		--get the shit to eat		
+		if(foodLevels == 1)then
+			setTileProperty("YellowFood",0,x,y,ctx,"YellowPellets")
+		end
+		
+		if(foodLevels == 2)then
+			setTileProperty("YellowFood",1,x,y,ctx,"YellowPellets")
+		end
+		
+		if(foodLevels == 3)then
+			setTileProperty("YellowFood",2,x,y,ctx,"YellowPellets")
+		end
+
+	end
+
+		--if this creature is a Purple creature
+	if self.CreatureType == "Purple" then
+		--get the shit to shit out
+		local shitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets") 
+		
+		
+		
+		if(shitLevel == nil)then
+			shitLevel = 0
+		end
+		
+		if(shitLevel == 3)then
+			setTileProperty("YellowFood",3,x,y,ctx,"YellowPellets")
+		end
+		
+		if(shitLevel == 2)then
+			setTileProperty("YellowFood",3,x,y,ctx,"YellowPellets")
+		end
+		
+		if(shitLevel == 1)then
+			setTileProperty("YellowFood",2,x,y,ctx,"YellowPellets")
+		end
+		
+		if(shitLevel == 0)then
+			setTileProperty("YellowFood",1,x,y,ctx,"YellowPellets")
+
+		end
+
+		
+		--get the shit to eat		
+		if(foodLevels == 1)then
+			setTileProperty("PurpleFood",0,x,y,ctx,"PurplePellets")
+		end
+		
+		if(foodLevels == 2)then
+			setTileProperty("PurpleFood",1,x,y,ctx,"PurplePellets")
+		end
+		
+		if(foodLevels == 3)then
+			setTileProperty("PurpleFood",2,x,y,ctx,"PurplePellets")
+		end
+
+	end
 end
 
 --get the food level for this creature at this point
@@ -327,7 +409,7 @@ function Creature:Grouping(ctx)
 	
 	--the vector to travle towards
 	local vecGrouping = Vector:new(0,0)
-	local vecFleeing = Vector:new(0,0)
+	local vecFollowing = Vector:new(0,0)
 	
 	--number of objects to group with and to flee from
 	local vecGroupCount = 0
@@ -352,27 +434,59 @@ function Creature:Grouping(ctx)
 		
 		while xOffset < ScanSize +1 do
 			print(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures"))
-			--check if there is something to group towards
-			if(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= nil) and 
-				(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 0)then
-				
-				--generate vector
-				local vecGroupTargetVec = Vector:new(xOffset,yOffset)
-				
-				--get grouping force
-				local fGroupingForce = getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
-				
-				--include grouping force
-				vecGroupTargetVec.x = vecGroupTargetVec.x * fGroupingForce
-				vecGroupTargetVec.y = vecGroupTargetVec.y * fGroupingForce
-				
-				--add it to the grouping vector
-				vecGrouping.x = vecGrouping.x + vecGroupTargetVec.x 
-				vecGrouping.y = vecGrouping.y + vecGroupTargetVec.y
-				
-				--update the number of things to follow
-				vecGroupCount = vecGroupCount + 1
-				
+			
+			if self.CreatureType == "Red" then
+			
+				--check if there is something to group towards
+				if(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= nil) and 
+					(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 0)then
+					
+					--get grouping force
+					local GroupingForce = getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
+					
+						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
+						
+					--update the number of things to follow
+					vecGroupCount = vecGroupCount + 1
+					
+				end
+			
+			end
+			
+			if self.CreatureType == "Yellow" then
+			
+				--check if there is something to group towards
+				if(getTileProperty("YellowGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= nil) and 
+					(getTileProperty("YellowGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 0)then
+					
+					--get grouping force
+					local GroupingForce = getTileProperty("YellowGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
+					
+						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
+						
+					--update the number of things to follow
+					vecGroupCount = vecGroupCount + 1
+					
+				end
+			
+			end
+			
+			if self.CreatureType == "Purple" then
+			
+				--check if there is something to group towards
+				if(getTileProperty("PurpleGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= nil) and 
+					(getTileProperty("PurpleGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures") ~= 0)then
+					
+					--get grouping force
+					local GroupingForce = getTileProperty("PurpleGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
+					
+						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
+						
+					--update the number of things to follow
+					vecGroupCount = vecGroupCount + 1
+					
+				end
+			
 			end
 			--check if there is something to flee from
 			
@@ -393,6 +507,9 @@ function Creature:Grouping(ctx)
 	vecGrouping.x = vecGrouping.x / vecGroupCount
 	vecGrouping.y = vecGrouping.y / vecGroupCount
 	
+	vecFollowing.x = vecFollowing.x / vecGroupCount
+	vecFollowing.y = vecFollowing.x / vecGroupCount
+	
 	--normalise length
 	--vecGrouping:normalise()
 	
@@ -401,12 +518,35 @@ function Creature:Grouping(ctx)
 end
 
 --this calculates the direction to flee
-function Creature:FleeCalculations(ctx,vecFleeing)
-
+function Creature:FleeCalculations(ctx,vecFleeing,xOffset,yOffset)
+	
+	--recalculate offset
+	
+	--add to fleeing vector
+	
 end
 
-function Creature:GatherCalculations(ctx,vecFleeing)
+function Creature:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce)
+	
+	--generate vector
+	local vecGroupTargetVec = Vector:new(xOffset,yOffset)
+	
+	--include grouping force
+	vecGroupTargetVec.x = vecGroupTargetVec.x * GroupingForce
+	vecGroupTargetVec.y = vecGroupTargetVec.y * GroupingForce
+	
+	--add it to the grouping vector
+	vecGrouping.x = vecGrouping.x + vecGroupTargetVec.x 
+	vecGrouping.y = vecGrouping.y + vecGroupTargetVec.y
+				
+end
 
+function Creature:Follow(vecFollowing,xOffset,yOffset,followDirection)
+	
+	--add it to direction of travle vector
+	vecFollowing.x = vecFollowing.x + followDirection.x 
+	vecFollowing.y = vecFollowing.y + followDirection.y
+	
 end
 
 --Work out what direction the creature has decided to go in
@@ -650,9 +790,11 @@ end
 function Creature:Move(ctx,vecMoveDirectionVector)
 	--unmark current cell as ocupied
 	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	setTileProperty("TravelDirection",nil, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	
 	--mark future cell as ocupied
 	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
+	setTileProperty("TravelDirection",vecMoveDirectionVector, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
 	
 	--remove grouping forces
 	setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
