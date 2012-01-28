@@ -7,9 +7,11 @@ function love.draw()
 	end 
 	
 end
-function drawmap(map) 
-	 map.useSpriteBatch = global.useBatch
-
+function drawmap(mapobj,mapref) 
+	 map.useSpriteBatch = true
+	 --map:setDrawRange(0, 0, global.camera.width/0.5, global.camera.height/0.5)
+		--map.drawList={map.drawList[1]}
+	mapref:draw()
 	-- -- Scale and translate the game screen for map drawing
 	-- local ftx, fty = math.floor(global.tx), math.floor(global.ty)
 	-- love.graphics.push()
@@ -36,14 +38,19 @@ function drawmap(map)
 end
 
 function drawlist (list) --add a camera parameter
-
+     love.graphics.push()
+	 love.graphics.scale(global.camera.zoom)
+	 love.graphics.translate(-global.camera.x, -global.camera.y)
 
 	for k, c in ipairs(list) do 
 		if c.type=="map" then 
-			drawmap(c)
+			local mapref = ctx.name(c.name)
+			drawmap(c,mapref)
 		else  
 			love.graphics.draw(ctx.name(c.name), c.x, c.y, c.a, c.sx, c.sy, c.cx, c.cy)
 		end
 	end
+	love.graphics.pop()
+
 
 end
