@@ -42,7 +42,7 @@ function getTileProperty(name, x, y, ctx, lr )
 end
 
 function setTileGraphic(LayerName,GraphicCode,x,y,ctx)
-	local layer = (ctx.map.tileLayer[LayerName] or {} ).tileData or {}
+	local layer = (ctx.map.tl[LayerName] or {} ).tileData or {}
 	
 	if  layer and layer[y+1] and 
 		layer[y+1][x+1]
