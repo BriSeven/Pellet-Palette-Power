@@ -13,7 +13,7 @@ function rainbowFluff(love,level)
 	layer = ctx.map.tl["Ground"] or {}
 	ctx.tiles = layer.tileData or {}
 
-
+	
 	love.graphics.setColor(255, 255, 255, 200)
 
 
@@ -30,7 +30,15 @@ function rainbowFluff(love,level)
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}
-	ctx.creatures[1] = Creature:new(6,0,5,"red",-0.5)
+	ctx.creatures[1] = Creature:new(6,0,ctx,5,"red",-0.5)
+	ctx.creatures[2] = Creature:new(6,1,ctx,5,"red",-0.5)
+	ctx.creatures[3] = Creature:new(6,2,ctx,5,"red",-0.5)
+	ctx.creatures[4] = Creature:new(6,3,ctx,5,"red",-0.5)
+	ctx.creatures[5] = Creature:new(6,4,ctx,5,"red",-0.5)
+	ctx.creatures[6] = Creature:new(6,5,ctx,5,"red",-0.5)
+	ctx.creatures[7] = Creature:new(6,6,ctx,5,"red",-0.5)
+	ctx.creatures[8] = Creature:new(6,7,ctx,5,"red",-0.5)
+	
 	use_music=true
 	local auBGM
 
@@ -41,7 +49,7 @@ function rainbowFluff(love,level)
 	--	auBGM:play()
 	end
 
-	function ctx:update (dt)
+	function ctx:update (dt,ctx)
 
 		local space = love.keyboard.isDown(" ")
 		ctx=self
@@ -50,13 +58,28 @@ function rainbowFluff(love,level)
 		--print("object")
 		--print(DumpObject(ctx.mapproperties))
 		ctx.creatures[1]:update(dt, ctx.creatures[1], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
-
+		ctx.creatures[2]:update(dt, ctx.creatures[2], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[3]:update(dt, ctx.creatures[3], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[4]:update(dt, ctx.creatures[4], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[5]:update(dt, ctx.creatures[5], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[6]:update(dt, ctx.creatures[6], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[7]:update(dt, ctx.creatures[7], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+        ctx.creatures[8]:update(dt, ctx.creatures[8], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 	end
 	function ctx:draw ()
+		ctx=self
+		
 		map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
 		--map.drawList={map.drawList[1]}
 		map:draw()
 		drawlist( ctx.camera:newDrawable( ctx.creatures[1]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[2]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[3]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[4]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[5]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[6]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[7]:newDrawable()) )
+		drawlist( ctx.camera:newDrawable( ctx.creatures[8]:newDrawable()) )
 		drawlist( ctx.camera:newDrawable( ctx.flufft:newDrawable()) )
 
 
