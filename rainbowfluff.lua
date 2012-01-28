@@ -30,7 +30,7 @@ function rainbowFluff(love,level)
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}
-	ctx.creatures[1] = Creature:new(1,1,1,1)
+	ctx.creatures[1] = Creature:new(1,1,1,1,0.5)
 	use_music=true
 	local auBGM
 
