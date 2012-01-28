@@ -82,9 +82,17 @@ function rainbowFluff(love,level)
 
 	end
 
+	local updatef
 	function ctx:stop ()
+	  	self.paused = true 
+	  	updatef=self.update 
+	  	self.update=function () end 
 	--	auBGM:stop()
 	end
+	function ctx:resume()
+		self.paused = false 
+		self.update=updatef
+	end 
 
 	return ctx
 end
