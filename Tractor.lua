@@ -133,25 +133,14 @@ function Tractor:newDrawable(state)
 	state = self
 
 	table.insert(d, {
-	name="body",  --center and scale should be camera and db responsibilities
-	character="ballochan",
+	name="tractorr",  --center and scale should be camera and db responsibilities
+	character="Tractor",
+	kind="quad",
 	x=self.x*32,
 	y=self.y*32,     --x and y assuming 800x600 screen
 	a=0,
-	sx=0.25*self.obstaclemultiplier,
-	sy=0.25*self.obstaclemultiplier,
-	cx=0,
-	cy=0
-	})
-
-	table.insert(d, {
-	name="face",  --center and scale should be camera and db responsibilities
-	character="ballochan",
-	x=self.x*32,
-	y=self.y*32,     --x and y assuming 800x600 screen
-	a=0,
-	sx=0.25,
-	sy=0.25,
+	sx=1*self.obstaclemultiplier,
+	sy=1*self.obstaclemultiplier,
 	cx=0,
 	cy=0
 	})

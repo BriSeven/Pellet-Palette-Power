@@ -8,9 +8,12 @@ db = {
 	background = "gfx/background.png",
 	purple  = {image="gfx/purple-creature.png"},
 	yellow  = {image="gfx/yellow-creature.png"},
-	red  = {image="gfx/red-creature.png"}
+	red  = {image="gfx/red-creature.png"},
+	tractor  = {image="gfx/tractor.png"}
+
 
 }
 function db.name(name)
 	return 	db[name]
 end
+

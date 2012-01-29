@@ -220,7 +220,7 @@ function rainbowFluff(love,level)
 	--end
 	
 	function ctx.name (name, character) 
-		if character == "Yellow" or character == "Red" or character == "Purple" then 
+		if character == "Yellow" or character == "Red" or character == "Purple" or character =="Tractor" then 
 			return ctx[character]
 		else 
 		--replacable with proper cache lookup later
@@ -253,11 +253,16 @@ function rainbowFluff(love,level)
 	ctx.Yellow =  love.graphics.newImage(db.name("yellow").image )
 	ctx.Purple =  love.graphics.newImage(db.name("purple").image )
 	ctx.Red =  love.graphics.newImage(db.name("red").image )
+		ctx.Tractor =	love.graphics.newImage(db.name("tractor").image )
+
 	ctx.quads = {
 		walk1 = love.graphics.newQuad(0,0,32,32,128,32),
 		walk2 = love.graphics.newQuad(32,0,32,32,128,32),
 		walk3 = love.graphics.newQuad(64,0,32,32,128,32),
 		walk4 = love.graphics.newQuad(96,0,32,32,128,32),
+		tractorl =  love.graphics.newQuad(0,0,64,64,196,64),
+		tractorm =  love.graphics.newQuad(64,0,64,64,196,64),
+		tractorr =  love.graphics.newQuad(128,0,64,64,196,64),
 	}
 
 
@@ -266,7 +271,7 @@ function rainbowFluff(love,level)
 	ctx.camera= Camera:new(ctx)
 	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
 	ctx.use_mouse = true 
-	
+
 	
 	ctx.creatures = {}                                                 
 	ctx.creatures[1] =  Creature:new(15,15,ctx,0.60,"Red",0.1,1,3,1,1,-10,-10,2)
