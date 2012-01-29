@@ -306,15 +306,15 @@ function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 			
 		--if shit is at level 1
 		if redShitLevel == 1 then
-			setTileGraphic("RedPellets",50,x,y,ctx)
+			setTileGraphic("RedPellets",452,x,y,ctx)
 		end
 		--if shit is at level 2
 		if redShitLevel == 2 then
-			setTileGraphic("RedPellets",53,x,y,ctx)
+			setTileGraphic("RedPellets",455,x,y,ctx)
 		end
 		--if shit is at level 3
 		if redShitLevel == 3 then
-			setTileGraphic("RedPellets",56,x,y,ctx)
+			setTileGraphic("RedPellets",458,x,y,ctx)
 		end
 	end
 	
@@ -336,15 +336,15 @@ function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 			
 		--if shit is at level 1
 		if yellowShitLevel == 1 then
-			setTileGraphic("YellowPellets",49,x,y,ctx)
+			setTileGraphic("YellowPellets",451,x,y,ctx)
 		end
 		--if shit is at level 2
 		if yellowShitLevel == 2 then
-			setTileGraphic("YellowPellets",52,x,y,ctx)
+			setTileGraphic("YellowPellets",454,x,y,ctx)
 		end
 		--if shit is at level 3
 		if yellowShitLevel == 3 then
-			setTileGraphic("YellowPellets",55,x,y,ctx)
+			setTileGraphic("YellowPellets",457,x,y,ctx)
 		end
 	end
 	
@@ -362,15 +362,15 @@ function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 			
 		--if shit is at level 1
 		if purpleShitLevel == 1 then
-			setTileGraphic("PurplePellets",51,x,y,ctx)
+			setTileGraphic("PurplePellets",453,x,y,ctx)
 		end
 		--if shit is at level 2
 		if purpleShitLevel == 2 then
-			setTileGraphic("PurplePellets",54,x,y,ctx)
+			setTileGraphic("PurplePellets",456,x,y,ctx)
 		end
 		--if shit is at level 3
 		if purpleShitLevel == 3 then
-			setTileGraphic("PurplePellets",57,x,y,ctx)
+			setTileGraphic("PurplePellets",459,x,y,ctx)
 		end
 	end
 end

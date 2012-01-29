@@ -3,8 +3,19 @@ require ("Vector.lua")
 require("functional.lua")
 Creature = class("Creature")
 
-
+	
+	Creature.static.RedEaten = 5
+	Creature.static.YellowEaten = 5
+	Creature.static.PurpleEaten = 5
+	
+	Creature.static.RedWin = 5
+	Creature.static.YellowWin = 5
+	Creature.static.PurpleWin = 5
+	
+	Creature.static.HasWon = 0
+	
 function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMultiplyer,FollowingMultiplyer,RandomMovementMultiplyer,RedGroupingForce,YellowGroupingForce,PurpleGroupingForce,GroupForceMultiplyer)
+
 	--the current location of the creature
 	self.NewLocation = Vector:new(x,y)
 	
@@ -18,7 +29,7 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	self.TimeBetweenBigUpdates = BigUpdatRate
 	
 	--the time since the last big update
-	self.TimeSinceLastBigUpdate = math.random(0,BigUpdatRate)
+	self.TimeSinceLastBigUpdate =  math.random(0,BigUpdatRate)
 	
 	--the type of creature this creature is
 	self.CreatureType = Type
@@ -54,6 +65,13 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 
 	
 	return self
+end
+
+function Creature:checkWin(colourEaten)
+	
+	if colourEaten == "Red" then
+		Creature.static.RedEaten = Creature.static.RedEaten + 1
+	end
 end
 
 function Creature:update(dt,oldstate,ctx)
