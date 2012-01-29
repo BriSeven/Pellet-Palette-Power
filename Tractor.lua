@@ -34,11 +34,14 @@ function Tractor:newState(dt,oldstate,ctx)
 	-- instance, it actually returns an entire new instance ... The role of this method is really very
 	-- similar to the role of update() type methods, except that, by returning a new instance,  newState provides
 	-- some useful capabilities which could be used for things like playhead etc...
+	
+
+	
 	local newx = self.x
 	local newy = self.y
-	local keyboard = true
+--	local keyboard = true
+	local keyboard = false
 
-	print("---------------------------------Tractor:newState(dt,oldstate,ctx)")
 	if not keyboard then                       -- use mouse
 		newx = math.floor(ctx.mouse.x/32)
 		newy =  math.floor(ctx.mouse.y/32)
@@ -196,102 +199,219 @@ function Tractor:newDrawable(state)
 	return d
 end
 
-function Tractor:DropRedFood(dt,oldstate,ctx)
-	-- drop some food in this cell
---	print(DumpObject(ctx))
--- 	local num_red_pellets = getTileProperty("RedFood",self.x,self.y,ctx,"RedPellets") or 0
---	setTileProperty("RedFood", num_red_pellets + 1,self.x,self.y,ctx,"RedPellets")
---	self:UpdateCellShitLevel("red", self.x,self.y,ctx)
-	print("=========================Tractor:DropRedFood(dt,oldstate,ctx) Not Implemented!!!!!")
-end
 
-function Tractor:DropYellowFood(dt,oldstate,ctx)
-	-- drop some food in this cell
---	print(DumpObject(ctx))
--- 	local num_red_pellets = getTileProperty("YellowFood",self.x,self.y,ctx,"YellowPellets") or 0
---	setTileProperty("YellowFood", num_red_pellets + 1,self.x,self.y,ctx,"YellowPellets")
---	self:UpdateCellShitLevel("yellow", self.x,self.y,ctx)
-print("=========================Tractor:DropYellowFood(dt,oldstate,ctx) Not Implemented!!!!!")
-end
-function Tractor:DropPurpleFood(dt,oldstate,ctx)
-	-- drop some food in this cell
---	print(DumpObject(ctx))
--- 	local num_red_pellets = getTileProperty("PurpleFood",self.x,self.y,ctx,"PurplePellets") or 0
---	setTileProperty("PurpleFood", num_red_pellets + 1,self.x,self.y,ctx,"PurplePellets")
---	self:UpdateCellShitLevel("purple", self.x,self.y,ctx)
-print("=========================Tractor:DropPurpleFood(dt,oldstate,ctx) Not Implemented!!!!!")
-end
+
+
+
+
+
 
 
 
 --------------------------------------------------------------------------------
 -- Food and Shit Related Methods
 --------------------------------------------------------------------------------
+
+
+function Tractor:DropFood(color,ctx)
+
+	
+------------------	
+	if(color == "purple") then
+	
+		print("Tractor:Dropping purple!")
+		local purple_shitLevel = getTileProperty("PurpleFood",self.x,self.y,ctx,"PurplePellets")
+		
+		if(red_shitLevel ~= nil) then 
+			print("prior red_shitLevel is :" .. red_shitLevel)
+		else
+			print("prior red_shitLevel is : nil")
+		end
+
+	   -- if purple shitlevel == nil
+		if(purple_shitLevel == nil)then
+			purple_shitLevel = 0
+		end
+		
+		if(purple_shitLevel == 3)then
+			setTileProperty("PurpleFood",3,self.x,self.y,ctx,"PurplePellets")
+		end
+		
+		if(purple_shitLevel == 2)then
+			setTileProperty("PurpleFood",3,self.x,self.y,ctx,"PurplePellets")
+		end
+		
+		if(purple_shitLevel == 1)then
+			setTileProperty("PurpleFood",2,self.x,self.y,ctx,"PurplePellets")
+		end
+		
+		if(purple_shitLevel == 0)then
+			setTileProperty("PurpleFood",1,self.x,self.y,ctx,"PurplePellets")
+		end
+	end
+------------------
+	if(color == "red") then
+		print("Tractor:Dropping red!")
+		local red_shitLevel = getTileProperty("RedFood",self.x,self.y,ctx,"RedPellets") 
+		
+		
+		if(red_shitLevel ~= nil) then 
+			print("prior red_shitLevel is :" .. red_shitLevel)
+		else
+			print("prior red_shitLevel is : nil")
+		end
+	
+	
+		if(red_shitLevel == nil)then
+			red_shitLevel = 0
+		end
+		
+		if(red_shitLevel == 3)then
+			setTileProperty("RedFood",3,self.x,self.y,ctx,"RedPellets")
+		end
+		
+		if(red_shitLevel == 2)then
+			setTileProperty("RedFood",3,self.x,self.y,ctx,"RedPellets")
+		end
+		
+		if(red_shitLevel == 1)then
+			setTileProperty("RedFood",2,self.x,self.y,ctx,"RedPellets")
+		end
+		
+		if(red_shitLevel == 0)then
+			setTileProperty("RedFood",1,self.x,self.y,ctx,"RedPellets")
+		end
+	end
+
+		
+------------------
+	if(color == "yellow") then
+		print("Tractor:Dropping yellow!")
+		local yellow_shitLevel = getTileProperty("YellowFood",self.x,self.y,ctx,"YellowPellets") 
+		
+		if(yellow_shitLevel ~= nil) then 
+			print("prior yellow_shitLevel is :" .. yellow_shitLevel)
+		else
+			print("prior yellow_shitLevel is : nil")
+		end
+	
+		-- if yellow shitlevel == nil
+		if(yellow_shitLevel == nil)then
+			yellow_shitLevel = 0
+		end
+		
+		if(yellow_shitLevel == 3)then
+			setTileProperty("YellowFood",3,self.x,self.y,ctx,"YellowPellets")
+		end
+		
+		if(yellow_shitLevel == 2)then
+			setTileProperty("YellowFood",3,self.x,self.y,ctx,"YellowPellets")
+		end
+		
+		if(yellow_shitLevel == 1)then
+			setTileProperty("YellowFood",2,self.x,self.y,ctx,"YellowPellets")
+		end
+		
+		if(yellow_shitLevel == 0)then
+			setTileProperty("YellowFood",1,self.x,self.y,ctx,"YellowPellets")
+		end
+	end
+	
+	-------------------------------------------------
+	self:UpdateCellShitLevel(color, self.x,self.y,ctx)
+	-------------------------------------------------
+
+end
+
 --update the shit level of this cell
 function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 	
+--	print("*******************************Tractor:UpdateCellShitLevel(color,x,y,ctx)")
 	--update red shit
-	if(color == "red") then
-	--get current shit level
-	local redShitLevel = getTileProperty("RedFood",x,y,ctx,"RedPellets")
+	if(color=="red") then
 	
-	--if(redShitLevel ~= nil)then
-		
+		--get current shit level
+		local redShitLevel = getTileProperty("RedFood",x,y,ctx,"RedPellets")
 		--set cell graphic
 		
+		if(redShitLevel ~= nil) then 
+			print("redShitLevel is :" .. redShitLevel)
+		end
 		
 		--if there is no shit
 		if redShitLevel == 0 then
 			setTileGraphic("RedPellets",0,x,y,ctx)
 		end
+			
 		--if shit is at level 1
-		
+		if redShitLevel == 1 then
+			setTileGraphic("RedPellets",50,x,y,ctx)
+		end
 		--if shit is at level 2
-		
+		if redShitLevel == 2 then
+			setTileGraphic("RedPellets",53,x,y,ctx)
+		end
 		--if shit is at level 3
-	end -- end update-red-shit
+		if redShitLevel == 3 then
+			setTileGraphic("RedPellets",56,x,y,ctx)
+		end
+	end
+	
 	
 	--update yellow shit
-	if(color == "yellow") then
-	--get current shit level
-	local redShitLevel = getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
-	
-	--if(yellowShitLevel ~= nil)then
-		
+	if(color=="yellow") then
+		--get current shit level
+		local yellowShitLevel = getTileProperty("YellowFood",x,y,ctx,"YellowPellets")
 		--set cell graphic
 		
+		if(yellowShitLevel ~= nil) then 
+			print("yellowShitLevel is :" .. yellowShitLevel)
+		end
 		
 		--if there is no shit
-		if yellowShitLevel == 0 then		
+		if yellowShitLevel == 0 then
 			setTileGraphic("YellowPellets",0,x,y,ctx)
 		end
+			
 		--if shit is at level 1
-		
+		if yellowShitLevel == 1 then
+			setTileGraphic("YellowPellets",49,x,y,ctx)
+		end
 		--if shit is at level 2
-		
+		if yellowShitLevel == 2 then
+			setTileGraphic("YellowPellets",52,x,y,ctx)
+		end
 		--if shit is at level 3
-	end -- end update-yellow-shit
+		if yellowShitLevel == 3 then
+			setTileGraphic("YellowPellets",55,x,y,ctx)
+		end
+	end
 	
 	--update purple shit
-	if(color == "purple") then
-	--get current shit level
-	local purpleShitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
-	
-	--if(purpleShitLevel ~= nil)then
-		
+	if(color=="purple") then
+			--get current shit level
+		local purpleShitLevel = getTileProperty("PurpleFood",x,y,ctx,"PurplePellets")
 		--set cell graphic
 		
-		
+
 		--if there is no shit
-		if purpleShitLevel == 0 then
-			setTileGraphic("PurplePellets",0,x,y,ctx)
+		if(purpleShitLevel ~= nil) then 
+			print("purpleShitLevel is :" .. purpleShitLevel)
 		end
+			
 		--if shit is at level 1
-		
+		if purpleShitLevel == 1 then
+			setTileGraphic("PurplePellets",51,x,y,ctx)
+		end
 		--if shit is at level 2
-		
+		if purpleShitLevel == 2 then
+			setTileGraphic("PurplePellets",54,x,y,ctx)
+		end
 		--if shit is at level 3
-	end -- end update-purple-shit
+		if purpleShitLevel == 3 then
+			setTileGraphic("PurplePellets",57,x,y,ctx)
+		end
+	end
 end
 
 --------------------------------------------------------------------------------

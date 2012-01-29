@@ -29,7 +29,7 @@ function Flufft:newState(dt,oldstate,ctx)
 	if(ctx.key) then
 		setTileProperty("obstacle",false,newx,newy,ctx)
 	end
-	print(isobstacle)
+
 	if(isobstacle ~= 1) then
 	self.x = newx
 	self.y = newy

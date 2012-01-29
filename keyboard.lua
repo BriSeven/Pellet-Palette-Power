@@ -50,17 +50,15 @@ function love.keypressed(k)
 	
 --	-- cupcake keys -- wsl: Use this approach if NOT wanting to have a variable rate of cupcake expulsion (otherwise see approach in rainbowfluff.lua)	
 	if k =="u" then 
-		print("ctx")
-		print(DumpObject(ctx))
-		ctx.tractor:DropRedFood(ctx)
+		ctx.tractor:DropFood("red", ctx)
 	end 
 	
 	if k =="i" then 
-		ctx.tractor:DropYellowFood(ctx)
+		ctx.tractor:DropFood("yellow", ctx)
 	end 
 	
 	if k =="o" then 
-		ctx.tractor:DropPurpleFood(ctx)
+		ctx.tractor:DropFood("purple", ctx)
 	end 
 	
 -- toggle Gate
