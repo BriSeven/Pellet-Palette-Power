@@ -9,19 +9,19 @@ function livereload(file)
 
 		ok, chunk = pcall( love.filesystem.load, file ) -- load the chunk safely
 		if not ok then
-		  wendyprint('The following error happend: ' .. tostring(chunk))
+		  --wendyprint('The following error happend: ' .. tostring(chunk))
 		else
-		  wendyprint("try execute")
+		  --wendyprint("try execute")
 
 		  ok, result = pcall(chunk) -- execute the chunk safely
 			
 		  if not ok then -- will be false if there is an error
-			wendyprint("not okay")
-		    wendyprint('The following error happened: ' .. tostring(result))
+			--wendyprint("not okay")
+		    --wendyprint('The following error happened: ' .. tostring(result))
 		  else
 
-			wendyprint("executed with no error")
-		    wendyprint('The result of loading is: ' .. tostring(result))
+			--wendyprint("executed with no error")
+		    --wendyprint('The result of loading is: ' .. tostring(result))
 		  end
 
 		end	

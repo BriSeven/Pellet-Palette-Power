@@ -43,14 +43,17 @@ function Tractor:newState(dt,oldstate,ctx)
 --	local keyboard = false
 
 
-	print ("ctx.use_mouse")
-	print (ctx.use_mouse)
+	--print ("ctx.use_mouse")
+	--print (ctx.use_mouse)
 	if ctx.use_mouse then                       -- use mouse 
 		newx = math.floor(ctx.mouse.x/32)
 		newy =  math.floor(ctx.mouse.y/32)
 	else                                       -- use keyboard
 	
 		local direction = Vector:new(0,0)
+		
+		
+		
 		
 		if(ctx.keyboard.up) then
 			direction.y=direction.y-1;
@@ -110,18 +113,23 @@ function Tractor:newState(dt,oldstate,ctx)
 
 	
 	-- Deal with obstacles
-	local isobstacle = getTileProperty("obstacle",newx,newy,ctx, "Ground")
-	local iscreature = 	getTileProperty("HasCreature",newx,newy,ctx,"Creatures")
 	
---	if(ctx.key) then
---		setTileProperty("obstacle",false,newx,newy,ctx)
---	end
+	local isobstacle = getTileProperty("Obstacle",newx,newy,ctx, "Ground")
+	if isobstacle == nil then 
+		isobstacle = 0
+	end
+		
+	print(getTileProperty("HasCreature",newx,newy,ctx,"Creatures"))
+	local iscreature = 	getTileProperty("HasCreature",newx,newy,ctx,"Creatures")
+
+		self.obstaclemultiplier = 1
+	
 
 	-- if new position is not on an obstacle or a creature, we will assign the new coords to self.
 --	if ((isobstacle == 1) or (iscreature ==1)) then
 --	if (isobstacle) then
-	if (iscreature) then
-		print("==============================================================Tractor on an obstacle!!!!!!!!!!!!!!!!!!!!!!!")		
+	if ((iscreature == 1) or (isobstacle == 1)) then
+				
 	else
 		-- clean-up: we set the 'HasTractor' property to 'false' for the current tile we are about to leave.
 		--setTileProperty("HasCreature", false, newx, newy, ctx, "Creatures")  --wsl:todo oops don't collide with ourself!!
@@ -132,8 +140,8 @@ function Tractor:newState(dt,oldstate,ctx)
 		
 	end
 
-	self.x=newx
-	self.y=newy
+	--self.x=newx
+	--self.y=newy
 	
 	
 	return self
@@ -180,8 +188,8 @@ function Tractor:newDrawable(state)
 	x=self.x*32,
 	y=self.y*32,     --x and y assuming 800x600 screen
 	a=0,
-	sx=0.25,
-	sy=0.25,
+	sx=0.25*self.obstaclemultiplier,
+	sy=0.25*self.obstaclemultiplier,
 	cx=0,
 	cy=0
 	})
@@ -222,13 +230,13 @@ function Tractor:DropFood(color,ctx)
 ------------------	
 	if(color == "purple") then
 	
-		print("Tractor:Dropping purple!")
+		
 		local purple_shitLevel = getTileProperty("PurpleFood",self.x,self.y,ctx,"PurplePellets")
 		
 		if(red_shitLevel ~= nil) then 
-			print("prior red_shitLevel is :" .. red_shitLevel)
+			
 		else
-			print("prior red_shitLevel is : nil")
+			
 		end
 
 	   -- if purple shitlevel == nil
@@ -254,14 +262,14 @@ function Tractor:DropFood(color,ctx)
 	end
 ------------------
 	if(color == "red") then
-		print("Tractor:Dropping red!")
+		
 		local red_shitLevel = getTileProperty("RedFood",self.x,self.y,ctx,"RedPellets") 
 		
 		
 		if(red_shitLevel ~= nil) then 
-			print("prior red_shitLevel is :" .. red_shitLevel)
+			
 		else
-			print("prior red_shitLevel is : nil")
+			
 		end
 	
 	
@@ -289,13 +297,13 @@ function Tractor:DropFood(color,ctx)
 		
 ------------------
 	if(color == "yellow") then
-		print("Tractor:Dropping yellow!")
+		
 		local yellow_shitLevel = getTileProperty("YellowFood",self.x,self.y,ctx,"YellowPellets") 
 		
 		if(yellow_shitLevel ~= nil) then 
-			print("prior yellow_shitLevel is :" .. yellow_shitLevel)
+			
 		else
-			print("prior yellow_shitLevel is : nil")
+			
 		end
 	
 		-- if yellow shitlevel == nil
@@ -329,7 +337,7 @@ end
 --update the shit level of this cell
 function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 	
---	print("*******************************Tractor:UpdateCellShitLevel(color,x,y,ctx)")
+--	")
 	--update red shit
 	if(color=="red") then
 	
@@ -338,7 +346,7 @@ function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 		--set cell graphic
 		
 		if(redShitLevel ~= nil) then 
-			print("redShitLevel is :" .. redShitLevel)
+			
 		end
 		
 		--if there is no shit
@@ -368,7 +376,7 @@ function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 		--set cell graphic
 		
 		if(yellowShitLevel ~= nil) then 
-			print("yellowShitLevel is :" .. yellowShitLevel)
+			
 		end
 		
 		--if there is no shit
@@ -399,7 +407,7 @@ function Tractor:UpdateCellShitLevel(color,x,y,ctx)
 
 		--if there is no shit
 		if(purpleShitLevel ~= nil) then 
-			print("purpleShitLevel is :" .. purpleShitLevel)
+			
 		end
 			
 		--if shit is at level 1
@@ -426,8 +434,7 @@ function Tractor:ToggleGate(dt,oldstate,ctx)
 end
 
 function Tractor:FindNearestGate(dt,oldstate,ctx)
-	-- drop some food in this cell
-	print("Not Implemented: ".. " Tractor:FindNearestGate(dt,oldstate,ctx))" .. "!!!!!")
+
 
 
 	shortest_distance_squared_found_so_far = 0

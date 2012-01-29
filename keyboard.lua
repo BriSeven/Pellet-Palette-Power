@@ -45,6 +45,7 @@ function love.keypressed(k)
 			ctx:resume()
 		else
 			ctx:stop()
+			--print(DumpObject(ctx.map.tl["Ground"].tileData))
 	    end 
 	end 
 

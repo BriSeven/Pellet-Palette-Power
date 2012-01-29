@@ -54,7 +54,7 @@ end
 
 
 local function debug(...)
-  print('DEBUG', ...)
+  --print('DEBUG', ...)
 end
 
 
