@@ -35,16 +35,11 @@ function Tractor:newState(dt,oldstate,ctx)
 	-- similar to the role of update() type methods, except that, by returning a new instance,  newState provides
 	-- some useful capabilities which could be used for things like playhead etc...
 	
-
-	
+	-- UnFear the tile we are about to depart
+	self:MakeCreaturesUnFearMe(self.x, self.y, ctx)
 	local newx = self.x
 	local newy = self.y
-----	local keyboard = true
---	local keyboard = false
 
-
-	--print ("ctx.use_mouse")
-	--print (ctx.use_mouse)
 	if ctx.use_mouse then                       -- use mouse 
 		newx = math.floor(ctx.mouse.x/32)
 		newy =  math.floor(ctx.mouse.y/32)
@@ -73,43 +68,6 @@ function Tractor:newState(dt,oldstate,ctx)
 		newy = self.y + direction.y/scale
 
 	end  
-----=============================================================================	
---------------------> wsl:todo Make this work again for obstacles!
---
---	availableDirections ={
---	
---		IsUpAvailable = {0 , -1},
---		IsLeftAvailable = {-1, 0},
---		--{0 , 0}
---		IsRightAvailable = {1 , 0},
---		IsDownAvailable = {0 , 1},
---	}
---	available = f_map(
---	function(d)
---
---	--	if d and d[0] and d[1] and self.NewLocation.x and self.NewLocation.y then
---			if(
---			getTileProperty("Obstacle",
---			newx+d[1],
---			newy+d[2],
---			ctx,"Ground") ~= 1 and
---			getTileProperty("HasCreature",
---			newx+d[1],
---			newy+d[2],
---			ctx,"Creatures") ~= 1) then
---
---			return true
---			end
---		--end
---
---		return false
---
---
---	end,
---	availableDirections)
-----=============================================================================
---	
-	
 
   	
   	-- Deal with obstacles
@@ -122,62 +80,54 @@ function Tractor:newState(dt,oldstate,ctx)
 --	print(getTileProperty("HasCreature",newx,newy,ctx,"Creatures"))
   	local iscreature =	getTileProperty("HasCreature",newx,newy,ctx,"Creatures")
 
+
 		self.obstaclemultiplier = 1
 	
 
 	-- if new position is not on an obstacle or a creature, we will assign the new coords to self.
---	if ((isobstacle == 1) or (iscreature ==1)) then
---	if (isobstacle) then
 	if ((iscreature == 1) or (isobstacle == 1)) then
 				
 	else
 		-- clean-up: we set the 'HasTractor' property to 'false' for the current tile we are about to leave.
-		--setTileProperty("HasCreature", false, newx, newy, ctx, "Creatures")  --wsl:todo oops don't collide with ourself!!
+		--setTileProperty("HasCreature", 0, newx, newy, ctx, "Creatures")  --wsl:todo oops don't collide with ourself!!
+
 		self.x = newx
 		self.y = newy
 		-- preparation: we set the 'HasTractor' property to 'true' for the new tile we are about to enter.
-		-- setTileProperty("HasCreature", 1, newx, newy, ctx, "Creatures") --wsl:todo oops don't collide with ourself!!
+		--setTileProperty("HasCreature", 1, newx, newy, ctx, "Creatures") --wsl:todo oops don't collide with ourself!!
+		
 		
 	end
-
-	--self.x=newx
-	--self.y=newy
-	
+	-- Make Creatures Flee from me using repelling grouping force
+	self:MakeCreaturesFearMe(newx, newy, -15, ctx)
 	
 	return self
 end
 
-------------------> wsl:todo Make this work again for obstacles!
---available = f_map(
---	function(d)
---
---		
---	--	if d and d[0] and d[1] and self.NewLocation.x and self.NewLocation.y then
---			if(
---			getTileProperty("Obstacle", 
---			self.NewLocation.x+d[1],
---			self.NewLocation.y+d[2],
---			ctx,"Ground") ~= 1 and 
---			getTileProperty("HasCreature",
---			self.NewLocation.x+d[1],
---			self.NewLocation.y+d[2],
---			ctx,"Creatures") ~= 1) then
---
---			return true
---			end
---		--end
---		
---		return false
---		
---		
---	end,
---	availableDirections)
+function  Tractor:MakeCreaturesFearMe(newx, newy, force_strength, ctx)
+    -- good value is negative, and less than negative 10
+	--add grouping forces
+	
+	setTileProperty("RedGroupForce",force_strength, newx, newy ,ctx,"Creatures")
 
+	setTileProperty("YellowGroupForce",force_strength, newx, newy ,ctx,"Creatures")
 
+	setTileProperty("PurpleGroupForce",force_strength, newx, newy,ctx,"Creatures")
 
+end
 
+function Tractor:MakeCreaturesUnFearMe(oldx, oldy, ctx)
 
---wsl:todo cleanup internet files from deranged tractor...
+	--add grouping forces
+	
+	setTileProperty("RedGroupForce",0, oldx, oldy ,ctx,"Creatures")
+
+	setTileProperty("YellowGroupForce",0, oldx, oldy ,ctx,"Creatures")
+
+	setTileProperty("PurpleGroupForce",0, oldx, oldy,ctx,"Creatures")
+
+end
+
 function Tractor:newDrawable(state)
 	local d = {}
 	state = self
