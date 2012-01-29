@@ -90,7 +90,7 @@ function Creature:newDrawable(state)
 		 x=self.SmoothedLocation.x*32,
 		 y=self.SmoothedLocation.y*32,     --x and y assuming 800x600 screen
 		 a=0,
-		 sx=0.25 * self.flipping,
+		 sx=0.25 * -1,
 		 sy=0.25,
 		 cx=0,
 		 cy=0
@@ -608,7 +608,7 @@ function Creature:Grouping(ctx)
 	
 	if vecGroupCount == 0 then
 		--print("FFFFFFFFAAAAAAAAAAAAIIIIIIIIILLLLLLLLLLLLLLLLLLL")
-		return vecGrouping --, vecFollowing
+		return vecGrouping , vecFollowing
 	end
 
 	
@@ -619,17 +619,13 @@ function Creature:Grouping(ctx)
 	vecFollowing.x = vecFollowing.x / vecFollowCount
 	vecFollowing.y = vecFollowing.x / vecFollowCount
 
-	
-
-	print(vecFollowing.x)
-	print(vecFollowing.y)
-
 	--normalise length
 	--vecGrouping:normalise()
-	if(vecFollowing.x ~= 0 and vecFollowing.y ~= 0) then
+	if(vecFollowing.x == 0 and vecFollowing.y == 0) then
 	
+		
+	else
 		vecFollowing:normalise()
-	
 	end
 	
 	
