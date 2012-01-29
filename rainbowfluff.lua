@@ -29,6 +29,10 @@ function rainbowFluff(love,level)
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
+	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+	ctx.use_mouse = true 
+	
+	
 	ctx.creatures = {}                                                 
 	ctx.creatures[1] = Creature:new(11,11,ctx,0.2,"Red",-0.1,1,1,1,1,1,0)
 	ctx.creatures[2] = Creature:new(16,16,ctx,0.2,"Red",-0.1,1,1,1,1,1,0) 
@@ -48,7 +52,8 @@ function rainbowFluff(love,level)
 	--	auBGM = love.audio.newSource("sfx/bgm.wav")
 	--	auBGM:setLooping(true)
 	--	auBGM:setVolume(0.6)
-	--	auBGM:play()
+	--	auBGM:play()		-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+		ctx.use_mouse = true 
 	end
 
 	function ctx:update (dt,ctx)
@@ -66,9 +71,8 @@ function rainbowFluff(love,level)
 		ctx.creatures[5]:update(dt, ctx.creatures[5], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[6]:update(dt, ctx.creatures[6], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		
-		-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
-		ctx.use_mouse = true 
-		ctx.tractor:newState(dt, ctx.tractor, {keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+
+		ctx.tractor:newState(dt, ctx.tractor, {use_mouse=ctx.use_mouse, keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		
 	end
 	function ctx:draw ()
