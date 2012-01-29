@@ -15,6 +15,8 @@ require("playhead.lua")
 require("camera.lua")
 require("planet.lua")
 require("flufft.lua")
+require("Gate.lua")
+require("Tractor.lua")
 require("dumpobject.lua")
 require("printmap.lua")
 require("Creature.lua")
@@ -54,7 +56,7 @@ function love.load()
 
 	--displayTime = 0 
 
-	printmap("obstacle",ctx)
+	--printmap("obstacle",ctx)
 	--love.audio.play(music, 0)
 	global.camera:pickmode()
 	

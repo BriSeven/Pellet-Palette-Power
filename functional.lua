@@ -10,7 +10,7 @@
  function f_map(func, tbl)
      local newtbl = {}
      for i,v in pairs(tbl) do
-         newtbl[i] = func(v)
+         newtbl[i] = func(v, i)
      end
      return newtbl
  end

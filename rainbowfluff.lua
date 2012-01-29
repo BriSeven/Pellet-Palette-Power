@@ -31,7 +31,7 @@ function rainbowFluff(love,level)
 	ctx.face   	= love.graphics.newImage(db.name( "face"   	))
 	ctx.logo   	= love.graphics.newImage(db.name( "logo"   	))
 	ctx.cloud  	= love.graphics.newImage(db.name( "cloud"  	))
-	ctx.selfmag	= love.graphics.newImage(db.name( "selfmag"	))
+	ctx.map1    = ctx.map --change this somehow according to what level I've loaded
 	
 	ctx.Yellow =  love.graphics.newImage(db.name("yellow").image )
 	ctx.Purple =  love.graphics.newImage(db.name("purple").image )
@@ -47,6 +47,10 @@ function rainbowFluff(love,level)
 	ctx.flufft = Flufft:new()
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
+	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+	ctx.use_mouse = true 
+	
+	
 	ctx.creatures = {}                                                 
 	ctx.creatures[1] =  Creature:new(11,11,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
 	ctx.creatures[2] =  Creature:new(16,16,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2) 
@@ -66,7 +70,7 @@ function rainbowFluff(love,level)
 	ctx.creatures[14] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
 	ctx.creatures[15] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
 	
-	                                                             
+
 	use_music=true
 	local auBGM
 
@@ -74,17 +78,18 @@ function rainbowFluff(love,level)
 	--	auBGM = love.audio.newSource("sfx/bgm.wav")
 	--	auBGM:setLooping(true)
 	--	auBGM:setVolume(0.6)
-	--	auBGM:play()
+	--	auBGM:play()		-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+	  	ctx.use_mouse = true 
 	end
 
 	function ctx:update (dt,ctx)
 
 		local space = love.keyboard.isDown(" ")
 		ctx=self
-		ctx.mouse={x=love.mouse.getX()/ctx.camera.zoom, y=love.mouse.getY()/ctx.camera.zoom}
+		ctx.mouse={x=love.mouse.getX()/global.camera.zoom, y=love.mouse.getY()/global.camera.zoom}
+		ctx.keyboard={up=love.keyboard.isDown("w"), left=love.keyboard.isDown("a"), down=love.keyboard.isDown("s"), right=love.keyboard.isDown("d")}
 		ctx.flufft = ctx.flufft:newState(dt,ctx.flufft,{mouse=ctx.mouse,tiles=layer.tileData,map=map, key=space, mapproperties=ctx.mapproperties })
-		--print("object")
-		--print(DumpObject(ctx.mapproperties))
+
 		ctx.creatures[1]:update(dt, ctx.creatures[1], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[2]:update(dt, ctx.creatures[2], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[3]:update(dt, ctx.creatures[3], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
@@ -103,13 +108,14 @@ function rainbowFluff(love,level)
 
 
 
+
+		ctx.tractor:newState(dt, ctx.tractor, {use_mouse=ctx.use_mouse, keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		
 	end
 	function ctx:draw ()
 		ctx=self
 		
-		--map:setDrawRange(0, 0, ctx.camera.width, ctx.camera.height)
-		--map.drawList={map.drawList[1]}
-		--map:draw()
+
 		drawlist({ {type="map", ref=map}})
 		drawlist( ctx.creatures[1]:newDrawable()) 
 		drawlist( ctx.creatures[2]:newDrawable()) 
@@ -127,7 +133,7 @@ function rainbowFluff(love,level)
 		drawlist( ctx.creatures[14]:newDrawable())
 		drawlist( ctx.creatures[15]:newDrawable())
 
-		drawlist(  ctx.flufft:newDrawable())
+ 		drawlist( ctx.tractor:newDrawable() )
 
 
 	end

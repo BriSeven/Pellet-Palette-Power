@@ -29,11 +29,12 @@ function Flufft:newState(dt,oldstate,ctx)
 	if(ctx.key) then
 		setTileProperty("obstacle",false,newx,newy,ctx)
 	end
-	print(isobstacle)
+
 	if(isobstacle ~= 1) then
 	self.x = newx
 	self.y = newy
 	else 
+		-- if using this for release version, consider correcting 0,0 reset, see ie Tractor:newState for wahat to do instead...
 		self.x=0
 		self.y=0
 	end
