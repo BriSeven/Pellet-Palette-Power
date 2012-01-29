@@ -52,9 +52,11 @@ function rainbowFluff(love,level)
 	--	auBGM = love.audio.newSource("sfx/bgm.wav")
 	--	auBGM:setLooping(true)
 	--	auBGM:setVolume(0.6)
-	--	auBGM:play()		-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
-		ctx.use_mouse = true 
+	--	auBGM:play()		
 	end
+	
+	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+	ctx.use_mouse = true 
 
 	function ctx:update (dt,ctx)
 
