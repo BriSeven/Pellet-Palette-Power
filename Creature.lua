@@ -79,19 +79,26 @@ end
 function Creature:newDrawable(state)
 	local d = {}
 	state = self
+	local cx 
+	  if(self.flipping <0) then 
+		    cx = -32
+		else 
+			cx=0
+		end
 	table.insert(d, {
 		 kind = "quad",
 		 name=self.Frame or "walk1",  --center and scale should be camera and db responsibilities
-		 character="red",
+		 --character="Red",
+
 
 		
 		 --name = self.Frame,
-		 --character = self.CreatureType
-		 x=self.SmoothedLocation.x*32,
+		 character = self.CreatureType,
+		 x=self.SmoothedLocation.x*32-cx ,
 		 y=self.SmoothedLocation.y*32,     --x and y assuming 800x600 screen
 		 a=0,
-		 sx=0.25 * self.flipping,
-		 sy=0.25,
+		 sx=1 * self.flipping,
+		 sy=1,
 		 cx=0,
 		 cy=0
 	})
@@ -144,7 +151,7 @@ function Creature:Animate(BigUpdatePercent)
 		self.flipping = -1
 	end
 	
-	if(self.NewLocation.x > self.OldLocation.x) then
+	if(self.NewLocation.x < self.OldLocation.x) then
 		self.flipping = 1
 	end
 	
