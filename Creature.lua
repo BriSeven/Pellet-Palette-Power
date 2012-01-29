@@ -72,6 +72,22 @@ function Creature:checkWin(colourEaten)
 	if colourEaten == "Red" then
 		Creature.static.RedEaten = Creature.static.RedEaten + 1
 	end
+	
+	if colourEaten == "Yellow" then
+		Creature.static.RedEaten = Creature.static.RedEaten + 1
+	end
+	
+	if colourEaten == "Purple" then
+		Creature.static.RedEaten = Creature.static.RedEaten + 1
+	end
+	
+	if Creature.static.RedEaten > Creature.static.RedWin and
+		Creature.static.YellowEaten > Creature.static.YellowWin and
+		Creature.static.PurpleEaten > Creature.static.PurpleWin then
+		
+		Creature.static.HasWon = 1
+		
+	end
 end
 
 function Creature:update(dt,oldstate,ctx)
@@ -493,7 +509,7 @@ function Creature:Grouping(ctx)
 	--loop through the cells surounding the creature
 	
 	--the distance above and below the player to scan
-	local ScanSize = 3
+	local ScanSize = 5
 	
 	local xOffset = 0
 	local yOffset = 0

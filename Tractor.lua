@@ -99,7 +99,7 @@ function Tractor:newState(dt,oldstate,ctx)
 		
 	end
 	-- Make Creatures Flee from me using repelling grouping force
-	self:MakeCreaturesFearMe(newx, newy, -15, ctx)
+	self:MakeCreaturesFearMe(newx, newy, -100, ctx)
 	
 	return self
 end
