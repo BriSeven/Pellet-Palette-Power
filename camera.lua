@@ -19,8 +19,8 @@ function Camera:initialize(ctx)
 	self.width=1600
 	self.height=1600
 
-  	self.screenWidth=1600
-  	self.screenHeight=1600
+  	self.screenWidth=800
+  	self.screenHeight=800
   	self.x=0
   	self.y=0
 --	self.scale=self.screenWidth/self.width
