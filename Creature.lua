@@ -92,7 +92,6 @@ function Creature:newDrawable(state)
 		
 		 --name = self.Frame,
 		 character = self.CreatureType,
-<<<<<<< HEAD
 		 x=self.SmoothedLocation.x*32-cx ,
 		 y=self.SmoothedLocation.y*32,     --x and y assuming 800x600 screen
 		 a=0,
