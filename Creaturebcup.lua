@@ -23,12 +23,6 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	--the type of creature this creature is
 	self.CreatureType = Type
 	
-	--the current graphic frame
-	self.frame = 0
-	
-	--is this graphic fliped (1 of -1)
-	self.flipping = 1
-	
 	--this is how much the creature needs to move before it moves
 	self.Lazyness = Lazyness
 	--retuen constructed creature
@@ -36,7 +30,7 @@ function Creature:initialize(x,y,ctx,BigUpdatRate,Type,Lazyness,GrazingForceMult
 	--the forces that pull other creatures to this creature
 	self.grazingForceMultiplyer = GrazingForceMultiplyer
 	
-	self.followingMultiplyer = FollowingMultiplyer
+	self.followingMultiplyer = FollowingMultiplyer;
 	
 	self.randomMovementMultiplyer = RandomMovementMultiplyer
 	
@@ -79,26 +73,14 @@ end
 function Creature:newDrawable(state)
 	local d = {}
 	state = self
-	local cx 
-	  if(self.flipping <0) then 
-		    cx = -32
-		else 
-			cx=0
-		end
 	table.insert(d, {
-		 kind = "quad",
-		 name=self.Frame or "walk1",  --center and scale should be camera and db responsibilities
-
-		
-		 --name = self.Frame,
-		 character = self.CreatureType,
-<<<<<<< HEAD
-		 x=self.SmoothedLocation.x*32-cx ,
+		 name="body",  --center and scale should be camera and db responsibilities
+		 character="ballochan",
+		 x=self.SmoothedLocation.x*32,
 		 y=self.SmoothedLocation.y*32,     --x and y assuming 800x600 screen
 		 a=0,
-		 sx=1 * self.flipping,
-		 sy=1,
-
+		 sx=0.25,
+		 sy=0.25,
 		 cx=0,
 		 cy=0
 	})
@@ -117,43 +99,10 @@ function Creature:SmallUpdate()
 	
 	self.SmoothedLocation.x = (self.NewLocation.x * BigUpdatePercent) + (self.OldLocation.x * (1- BigUpdatePercent))
 	self.SmoothedLocation.y = (self.NewLocation.y * BigUpdatePercent) + (self.OldLocation.y * (1- BigUpdatePercent))
-	self:Animate(BigUpdatePercent)
+	
 		--print("Im the rock and roll cloooooowwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
 		--print(self.SmoothedLocation.x)
 		--print(self.SmoothedLocation.y)
-	
-end
-
-function Creature:Animate(BigUpdatePercent)
-	--get frame
-	
-	local frmNum = math.ceil( BigUpdatePercent * 4)
-	
-	if (frmNum == 1) then
-		self.Frame = "walk1"
-	end
-	
-	if (frmNum == 2) then
-		self.Frame = "walk2"
-	end
-	
-	if (frmNum == 3) then
-		self.Frame = "walk3"
-	end
-	
-	if (frmNum == 4) then
-		self.Frame = "walk4"
-
-	end
-	
-	--get direction
-	if(self.NewLocation.x > self.OldLocation.x) then
-		self.flipping = -1
-	end
-	
-	if(self.NewLocation.x < self.OldLocation.x) then
-		self.flipping = 1
-	end
 	
 end
 
@@ -168,13 +117,10 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	local vecGrazing = self:Grazing(dt,oldstate,ctx)
 	
 	--get grouping direction
-	local vecGroupingDirection
-	local vecFollowDirection 
-	
-	vecGroupingDirection , vecFollowDirection = self:Grouping(ctx)
+	local vecFlockingDirection = self:Grouping(ctx)
 	
 	--add some random movement 
-	local vecRandomMovement = Vector:new(math.random(-0.7,1),math.random(-0.7,1))
+	local vecRandomMovement = Vector:new(math.random(-0.4,1),math.random(-0.4,1))
 	
 	--compiled movement direction
 	local vecPreGridAllineDirection = Vector:new(0,0)
@@ -187,12 +133,8 @@ function Creature:BigUpdate(dt,oldstate,ctx)
 	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecRandomMovement.x * self.randomMovementMultiplyer
 	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecRandomMovement.y * self.randomMovementMultiplyer
 	
-
-	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFollowDirection.x * self.followingMultiplyer
-	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFollowDirection.y * self.followingMultiplyer
-	
-	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecGroupingDirection.x * self.groupForceMultiplyer
-	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecGroupingDirection.y * self.groupForceMultiplyer
+	vecPreGridAllineDirection.x = vecPreGridAllineDirection.x + vecFlockingDirection.x * self.groupForceMultiplyer
+	vecPreGridAllineDirection.y = vecPreGridAllineDirection.y + vecFlockingDirection.y  * self.groupForceMultiplyer
 	
 	--turn planed direction to grid locked direction
 	local vecGridDirection = self:FinalMoveDirection(dt,oldstate,ctx,vecPreGridAllineDirection)
@@ -471,7 +413,7 @@ function Creature:Grouping(ctx)
 	
 	--number of objects to group with and to flee from
 	local vecGroupCount = 0
-	local vecFollowCount = 0
+	local vecFleeCount = 0
 	
 	--loop through the cells surounding the creature
 	
@@ -503,26 +445,7 @@ function Creature:Grouping(ctx)
 					local GroupingForce = getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
 					
 						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
-					
-					--check if follow force should be applied
-					if(GroupingForce > 0) then
-					
-						local followDirection = getTileProperty("TravelDirection", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
-					
-						if followDirection ~= nil then
-					
-							
 						
-							--get the follow force
-							self:Follow(vecFollowing,xOffset,yOffset,followDirection)
-							
-							--add to the total number of follow forces appiled
-							vecFollowCount = vecFollowCount + 1
-						
-						end
-						
-
-					end
 					--update the number of things to follow
 					vecGroupCount = vecGroupCount + 1
 					
@@ -540,26 +463,7 @@ function Creature:Grouping(ctx)
 					local GroupingForce = getTileProperty("YellowGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
 					
 						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
-					
-					--check if follow force should be applied
-					if(GroupingForce > 0) then
-					
-						local followDirection = getTileProperty("TravelDirection", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
-					
-						if followDirection ~= nil then
-					
-							
 						
-							--get the follow force
-							self:Follow(vecFollowing,xOffset,yOffset,followDirection)
-							
-							--add to the total number of follow forces appiled
-							vecFollowCount = vecFollowCount + 1
-						
-						end
-						
-					end
-					
 					--update the number of things to follow
 					vecGroupCount = vecGroupCount + 1
 					
@@ -577,26 +481,7 @@ function Creature:Grouping(ctx)
 					local GroupingForce = getTileProperty("PurpleGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
 					
 						self:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce) 
-					
-					--check if follow force should be applied
-					if(GroupingForce > 0) then
-					
-						local followDirection = getTileProperty("TravelDirection", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures")
-					
-						if followDirection ~= nil then
-					
-							
 						
-							--get the follow force
-							self:Follow(vecFollowing,xOffset,yOffset,followDirection)
-							
-							--add to the total number of follow forces appiled
-							vecFollowCount = vecFollowCount + 1
-						
-						end
-						
-					end
-					
 					--update the number of things to follow
 					vecGroupCount = vecGroupCount + 1
 					
@@ -615,40 +500,31 @@ function Creature:Grouping(ctx)
 	
 	if vecGroupCount == 0 then
 		--print("FFFFFFFFAAAAAAAAAAAAIIIIIIIIILLLLLLLLLLLLLLLLLLL")
-		return vecGrouping , vecFollowing
+		return vecGrouping
 	end
-
 	
 	--calculate the final vector
 	vecGrouping.x = vecGrouping.x / vecGroupCount
 	vecGrouping.y = vecGrouping.y / vecGroupCount
 	
-	vecFollowing.x = vecFollowing.x / vecFollowCount
-	vecFollowing.y = vecFollowing.x / vecFollowCount
-
+	vecFollowing.x = vecFollowing.x / vecGroupCount
+	vecFollowing.y = vecFollowing.x / vecGroupCount
+	
 	--normalise length
 	--vecGrouping:normalise()
-	if(vecFollowing.x == 0 and vecFollowing.y == 0) then
 	
-		
-	else
-		vecFollowing:normalise()
-	end
-	
-	
-	
-	return vecGrouping , vecFollowing
+	return vecGrouping
 	
 end
 
 --this calculates the direction to flee
---function Creature:FleeCalculations(ctx,vecFleeing,xOffset,yOffset)
+function Creature:FleeCalculations(ctx,vecFleeing,xOffset,yOffset)
 	
 	--recalculate offset
 	
 	--add to fleeing vector
 	
---end
+end
 
 function Creature:GatherCalculations(vecGrouping,xOffset,yOffset,GroupingForce)
 	
@@ -667,63 +543,9 @@ end
 
 function Creature:Follow(vecFollowing,xOffset,yOffset,followDirection)
 	
-	
-	
-	local followVector = Vector:new(0,0)
-	
-	if followDirection == 0 then
-		followVector.x = 0
-		followVector.y = 0
-		
-		
-	end
-	
-	if followDirection == 1 then
-		followVector.x = 0
-		followVector.y = -1
-	end
-	
-	if followDirection == 2 then
-		followVector.x = -1
-		followVector.y = -1
-	end
-	
-	if followDirection == 3 then
-		followVector.x = -1
-		followVector.y = 0
-	end
-	
-	if followDirection == 4 then
-		followVector.x = -1
-		followVector.y = 1
-	end
-	
-	if followDirection == 5 then
-		followVector.x = 0
-		followVector.y = 1
-		
-		
-	end
-
-	if followDirection == 6 then
-		followVector.x = 1
-		followVector.y = 1
-	end
-	
-	if followDirection == 7 then
-		followVector.x = 1
-		followVector.y = 0
-	end
-	
-	if followDirection == 8 then
-		followVector.x = 1
-		followVector.y = -1
-	end
-	
 	--add it to direction of travle vector
-	vecFollowing.x = vecFollowing.x + followVector.x 
-	vecFollowing.y = vecFollowing.y + followVector.y
-	
+	vecFollowing.x = vecFollowing.x + followDirection.x 
+	vecFollowing.y = vecFollowing.y + followDirection.y
 	
 end
 
@@ -968,50 +790,11 @@ end
 function Creature:Move(ctx,vecMoveDirectionVector)
 	--unmark current cell as ocupied
 	setTileProperty("HasCreature",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
-	setTileProperty("TravelDirection",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
+	setTileProperty("TravelDirection",nil, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")
 	
 	--mark future cell as ocupied
 	setTileProperty("HasCreature",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	if vecMoveDirectionVector.x == 0 and vecMoveDirectionVector.y == 0 then
-	
-		setTileProperty("TravelDirection",0, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == 0 and vecMoveDirectionVector.y ==-1 then
-		
-		setTileProperty("TravelDirection",1, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == -1 and vecMoveDirectionVector.y == -1 then
-	
-		setTileProperty("TravelDirection",2, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == -1 and vecMoveDirectionVector.y == 0 then
-	
-		setTileProperty("TravelDirection",3, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == -1 and vecMoveDirectionVector.y == 1 then
-			
-		setTileProperty("TravelDirection",4, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == 0 and vecMoveDirectionVector.y == 1 then
-	
-		setTileProperty("TravelDirection",5, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == 1 and vecMoveDirectionVector.y == 1 then
-	
-		setTileProperty("TravelDirection",6, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == 1 and vecMoveDirectionVector.y == 0 then
-	
-		setTileProperty("TravelDirection",7, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	elseif vecMoveDirectionVector.x == 1 and vecMoveDirectionVector.y == -1 then
-	 --print("########################################################################################################################################################################################################")
-		setTileProperty("TravelDirection",8, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
-	
-	end
-	
-	--setTileProperty("TravelDirection",vecMoveDirectionVector, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
+	setTileProperty("TravelDirection",vecMoveDirectionVector, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
 	
 	--remove grouping forces
 	setTileProperty("RedGroupForce",0, self.NewLocation.x,self.NewLocation.y ,ctx,"Creatures")

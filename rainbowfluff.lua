@@ -48,12 +48,16 @@ function rainbowFluff(love,level)
 	ctx.planet = Planet:new()
 	ctx.camera= Camera:new(ctx)
 	ctx.creatures = {}                                                 
-	ctx.creatures[1] = Creature:new(11,11,ctx,0.3,"Red",-0.1,1,1,1,1,0,0,1)
-	ctx.creatures[2] = Creature:new(16,16,ctx,0.3,"Red",-0.1,1,1,1,1,0,0,1) 
-	ctx.creatures[3] = Creature:new(16,12,ctx,0.3,"Yellow",-0.1,1,1,1,0,1,0,1)
-	ctx.creatures[4] = Creature:new(16,13,ctx,0.3,"Yellow",-0.1,1,1,1,0,1,0,1)
-	ctx.creatures[5] = Creature:new(16,14,ctx,0.3,"Purple",-0.1,1,1,1,0,0,1,1)
-	ctx.creatures[6] = Creature:new(16,11,ctx,0.3,"Purple",-0.1,1,1,1,0,0,1,1)
+	ctx.creatures[1] =  Creature:new(11,11,ctx,0.3,"Red",-0.1,1,10,1,1,0,0,2)
+	ctx.creatures[2] =  Creature:new(16,16,ctx,0.3,"Red",-0.1,1,10,1,1,0,0,2) 
+	ctx.creatures[3] =  Creature:new(16,12,ctx,0.3,"Red",-0.1,10,1,1,1,0,0,2)
+	ctx.creatures[4] =  Creature:new(16,12,ctx,0.3,"Red",-0.1,10,1,1,1,0,0,2)
+	ctx.creatures[5] =  Creature:new(16,12,ctx,0.3,"Red",-0.1,10,1,1,1,0,0,2)
+	ctx.creatures[6] =  Creature:new(16,13,ctx,0.3,"Purple",-0.1,10,1,1,0,0,1,2)
+	ctx.creatures[7] =  Creature:new(16,14,ctx,0.3,"Purple",-0.1,10,1,1,0,0,1,2)
+	ctx.creatures[8] =  Creature:new(16,11,ctx,0.3,"Purple",-0.1,10,1,1,0,0,1,2)
+	ctx.creatures[9] =  Creature:new(16,11,ctx,0.3,"Purple",-0.1,10,1,1,0,0,1,2)
+	ctx.creatures[10] = Creature:new(16,11,ctx,0.3,"Purple",-0.1,10,1,1,0,0,1,2)
 	                                                             
 	use_music=true
 	local auBGM
@@ -79,6 +83,12 @@ function rainbowFluff(love,level)
 		ctx.creatures[4]:update(dt, ctx.creatures[4], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[5]:update(dt, ctx.creatures[5], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[6]:update(dt, ctx.creatures[6], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[7]:update(dt, ctx.creatures[7], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[8]:update(dt, ctx.creatures[8], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[9]:update(dt, ctx.creatures[9], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		ctx.creatures[10]:update(dt, ctx.creatures[10], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+
+
 
 	end
 	function ctx:draw ()
@@ -94,6 +104,10 @@ function rainbowFluff(love,level)
 		drawlist( ctx.creatures[4]:newDrawable()) 
 		drawlist( ctx.creatures[5]:newDrawable()) 
 		drawlist( ctx.creatures[6]:newDrawable()) 
+		drawlist( ctx.creatures[7]:newDrawable())
+		drawlist( ctx.creatures[8]:newDrawable())
+		drawlist( ctx.creatures[9]:newDrawable())
+		drawlist( ctx.creatures[10]:newDrawable())
 
 		drawlist(  ctx.flufft:newDrawable())
 
