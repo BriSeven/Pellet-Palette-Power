@@ -111,16 +111,16 @@ function Tractor:newState(dt,oldstate,ctx)
 --	
 	
 
-	
-	-- Deal with obstacles
-	
-	local isobstacle = getTileProperty("Obstacle",newx,newy,ctx, "Ground")
-	if isobstacle == nil then 
-		isobstacle = 0
-	end
-		
-	print(getTileProperty("HasCreature",newx,newy,ctx,"Creatures"))
-	local iscreature = 	getTileProperty("HasCreature",newx,newy,ctx,"Creatures")
+  	
+  	-- Deal with obstacles
+  	
+  	local isobstacle = getTileProperty("Obstacle",newx,newy,ctx, "Ground")
+  	if isobstacle == nil then 
+  		isobstacle = 0
+  	end
+  		
+--	print(getTileProperty("HasCreature",newx,newy,ctx,"Creatures"))
+  	local iscreature =	getTileProperty("HasCreature",newx,newy,ctx,"Creatures")
 
 		self.obstaclemultiplier = 1
 	

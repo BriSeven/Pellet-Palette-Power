@@ -1,11 +1,224 @@
 function rainbowFluff(love,level)
 	level = level or 1
 	levels = {
-		"testmap4.tmx"
+		"PPPLevel.tmx"
 	}
 	local ctx={}
 	ctx.map=maploader.load(levels[level])
 
+	
+	--function SpawnScan(ctx)
+	--	
+	--	print("11111111111111111111111ffffffffffffff")
+	--	
+	--	--return
+	--			
+	--	ctx.creatures = {}   
+	--	
+	--	local CreatureNumber = 0
+	--	
+	--	local MaxX = 50 --ctx.map.tileWidth
+	--	local Maxy = 50 --ctx.map.tileHeight
+	--	
+	--	local x = 0
+	--	local y = 0
+	--	
+	--	local CellScanCount = 0
+	--	
+	--	--scann through cells
+	--	
+	--	while y < Maxy  do
+	--	
+	--		x = 0
+	--		while x < MaxX  do
+	--	
+	--			--get this cells spawn code
+	--			local SpawnCode = getTileProperty("SpawnCode",x,y,ctx,"Creatures") 
+	--			
+	--			if SpawnCode ~= 0 then
+	--				
+	--				--get rid of spawn icon
+	--				--setTileGraphic("Creatures",0,x,y,ctx)
+	--				
+	--				if(SpawnCode == 1) then
+	--				
+	--					CreatureNumber = CreatureNumber + 1
+	--					
+	--					
+	--					
+	--					ctx.creatures[CreatureNumber] =  Creature:new(x + 1,y + 1,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
+ 	--				
+	--				end
+	--				
+	--				if(SpawnCode == 2) then
+	--					
+	--					CreatureNumber = CreatureNumber + 1
+	--					print("rrrrrrrrrrreeeeddddddsd sssssssssssssssssssssspawwwnnnnnnnnnnn", x,y)
+	--					ctx.creatures[CreatureNumber] = Creature:new(x + 1,y + 1,ctx,0.3,"Purple",-0.1,1,3,1,-10,1,-10,2)
+	--					
+	--				end
+	--				
+	--				if(SpawnCode == 3) then
+	--				
+	--					CreatureNumber = CreatureNumber + 1
+    --
+	--					ctx.creatures[CreatureNumber] =  Creature:new(x + 1,y + 1,ctx,0.3,"Yellow",-0.1,1,3,1,-10,-10,1,2)
+	--					
+	--				end
+	--				
+	--			end
+    --
+	--			--move on to next collumb
+	--			x = x +1
+	--		end
+	--		
+	--		--move on to next row
+	--		y = y +1
+	--	end
+	--		
+	--end
+	--
+	--function UpdateScan(ctx,layer,map,dt)
+	--
+	--	print("222222222222222222222222fffffffffffff")
+	--	--return
+	--	
+	--	--ctx.creatures = {}   
+	--	
+	--	local CreatureNumber = 0
+	--	
+	--	local MaxX = 50 --ctx.map.tileWidth
+	--	local Maxy = 50 --ctx.map.tileHeight
+	--	
+	--	local x = 0
+	--	local y = 0
+	--	
+	--	local CellScanCount = 0
+	--	
+	--	--scann through cells
+	--	
+	--	while y < Maxy  do
+	--	
+	--		x = 0
+	--		while x < MaxX  do
+	--	
+	--			--get this cells spawn code
+	--			local SpawnCode = getTileProperty("SpawnCode",x,y,ctx,"Creatures") 
+	--			
+	--			if SpawnCode ~= 0 then
+	--				
+	--				--get rid of spawn icon
+	--				--setTileGraphic("Creatures",0,x,y,ctx)
+	--				
+	--				if(SpawnCode == 1) then
+	--				
+	--					CreatureNumber = CreatureNumber + 1
+	--					
+	--					ctx.creatures[CreatureNumber]:update(dt, ctx.creatures[CreatureNumber], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+ 	--				
+	--				end
+	--				
+	--				if(SpawnCode == 2) then
+	--					
+	--					CreatureNumber = CreatureNumber + 1
+    --
+	--					ctx.creatures[CreatureNumber]:update(dt, ctx.creatures[CreatureNumber], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+	--					
+	--				end
+	--				
+	--				if(SpawnCode == 3) then
+	--				
+	--					CreatureNumber = CreatureNumber + 1
+    --
+	--					ctx.creatures[CreatureNumber]:update(dt, ctx.creatures[CreatureNumber], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+	--					
+	--				end
+	--				
+	--			end
+	--			
+	--			
+	--			
+	--			--move on to next collumb
+	--			x = x +1
+	--		end
+	--		
+	--		--move on to next row
+	--		y = y +1
+	--	end
+	--	
+	--end
+	--
+	--function DrawScan(drawlist,ctx)
+	--
+	--	print("3333333333333333333333333333ffff")
+	--	
+	--	--return
+	--	
+	--	--ctx.creatures = {}   
+	--	
+	--	local CreatureNumber = 0
+	--	
+	--	local MaxX = 50 --ctx.map.tileWidth
+	--	local Maxy = 50 --ctx.map.tileHeight
+	--	
+	--	local x = 0
+	--	local y = 0
+	--	
+	--	local CellScanCount = 0
+	--	
+	--	--scann through cells
+	--	
+	--	while y < Maxy  do
+	--	
+	--		x = 0
+	--		while x < MaxX  do
+	--	
+	--			--get this cells spawn code
+	--			local SpawnCode = getTileProperty("SpawnCode",x,y,ctx,"Creatures") 
+	--			
+	--			if SpawnCode ~= 0 then
+	--				
+	--				--get rid of spawn icon
+	--				setTileGraphic("Creatures",0,x + 0,y + 0,ctx)
+	--				
+	--				if(SpawnCode == 1) then
+	--				
+	--					CreatureNumber = CreatureNumber + 1
+    --
+	--					drawlist( ctx.creatures[CreatureNumber]:newDrawable()) 
+ 	--				
+	--				end
+	--				
+	--				if(SpawnCode == 2) then
+	--					
+	--					CreatureNumber = CreatureNumber + 1
+    --
+	--					drawlist( ctx.creatures[CreatureNumber]:newDrawable()) 
+	--					
+	--				end
+	--				
+	--				if(SpawnCode == 3) then
+	--				
+	--					CreatureNumber = CreatureNumber + 1
+    --
+	--					drawlist( ctx.creatures[CreatureNumber]:newDrawable()) 
+	--					
+	--				end
+	--				
+	--			end
+	--			
+	--			
+	--			
+	--			--move on to next collumb
+	--			x = x +1
+	--		end
+	--		
+	--		--move on to next row
+	--		y = y +1
+	--	end
+	--
+	--end
+	
 	function ctx.name (name, character) 
 		if character == "Yellow" or character == "Red" or character == "Purple" then 
 			return ctx[character]
@@ -17,9 +230,11 @@ function rainbowFluff(love,level)
 	layer = ctx.map.tl["Ground"] or {}
 	ctx.tiles = layer.tileData or {}
 
+	print(DumpObject(ctx.map.tilesets))
 	function ctx.quad(name, character) 
 		return ctx.quads[name]
 	end
+	
 
 	love.graphics.setColor(255, 255, 255, 200)
 
@@ -44,31 +259,31 @@ function rainbowFluff(love,level)
 	}
 
 
-    	ctx.flufft = Flufft:new()
-    	ctx.planet = Planet:new()
-    	ctx.camera= Camera:new(ctx)
-    	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
-    	ctx.use_mouse = true 
-    	
-    	
-    	ctx.creatures = {}                                                 
-    	ctx.creatures[1] =  Creature:new(11,11,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
-    	ctx.creatures[2] =  Creature:new(16,16,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2) 
-    	ctx.creatures[3] =  Creature:new(16,12,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
-    	ctx.creatures[4] =  Creature:new(16,12,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
-    	ctx.creatures[5] =  Creature:new(16,12,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
-    	
-    	ctx.creatures[6] =  Creature:new(16,13,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
-    	ctx.creatures[7] =  Creature:new(16,14,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
-    	ctx.creatures[8] =  Creature:new(16,11,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
-    	ctx.creatures[9] =  Creature:new(16,11,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
-    	ctx.creatures[10] = Creature:new(16,11,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
-    	
-    	ctx.creatures[11] = Creature:new(16,13,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
-    	ctx.creatures[12] = Creature:new(16,14,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
-    	ctx.creatures[13] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
-    	ctx.creatures[14] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
-    	ctx.creatures[15] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
+	ctx.flufft = Flufft:new()
+	ctx.planet = Planet:new()
+	ctx.camera= Camera:new(ctx)
+	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+	ctx.use_mouse = true 
+	
+	
+	ctx.creatures = {}                                                 
+	ctx.creatures[1] =  Creature:new(11,11,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
+	ctx.creatures[2] =  Creature:new(16,16,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2) 
+	ctx.creatures[3] =  Creature:new(16,12,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
+	ctx.creatures[4] =  Creature:new(16,12,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
+	ctx.creatures[5] =  Creature:new(16,12,ctx,0.3,"Red",0.1,1,3,1,1,-10,-10,2)
+	
+	ctx.creatures[6] =  Creature:new(16,13,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
+	ctx.creatures[7] =  Creature:new(16,14,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
+	ctx.creatures[8] =  Creature:new(16,11,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
+	ctx.creatures[9] =  Creature:new(16,11,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
+	ctx.creatures[10] = Creature:new(16,11,ctx,0.3,"Purple",0.1,1,3,1,-10,-10,1,2)
+	
+	ctx.creatures[11] = Creature:new(16,13,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
+	ctx.creatures[12] = Creature:new(16,14,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
+	ctx.creatures[13] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
+	ctx.creatures[14] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
+	ctx.creatures[15] = Creature:new(16,11,ctx,0.3,"Yellow",0.1,1,3,1,-10,1,-10,2)
    ctx.gates = {}
    ctx.gates[1] = Gate:new(true, 6,6,ctx)
    ctx.gates[2] = Gate:new(true, 16,6,ctx)
@@ -89,6 +304,8 @@ function rainbowFluff(love,level)
 
 	function ctx:update (dt,ctx)
 
+		
+		
 		local space = love.keyboard.isDown(" ")
 		ctx=self
 		ctx.mouse={x=love.mouse.getX()/global.camera.zoom, y=love.mouse.getY()/global.camera.zoom}
@@ -117,11 +334,21 @@ function rainbowFluff(love,level)
 		ctx.tractor:newState(dt, ctx.tractor, {use_mouse=ctx.use_mouse, keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		
 	end
+	
+	
+	
+	
+	
+	
+	
 	function ctx:draw ()
 		ctx=self
 		
 
 		drawlist({ {type="map", ref=map}})
+		
+		
+		--DrawScan(drawlist,ctx)
 		drawlist( ctx.creatures[1]:newDrawable()) 
 		drawlist( ctx.creatures[2]:newDrawable()) 
 		drawlist( ctx.creatures[3]:newDrawable()) 
