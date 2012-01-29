@@ -39,10 +39,10 @@ function Tractor:newState(dt,oldstate,ctx)
 	
 	local newx = self.x
 	local newy = self.y
---	local keyboard = true
-	local keyboard = false
+----	local keyboard = true
+--	local keyboard = false
 
-	if not keyboard then                       -- use mouse
+	if ctx.use_mouse then                       -- use mouse 
 		newx = math.floor(ctx.mouse.x/32)
 		newy =  math.floor(ctx.mouse.y/32)
 	else                                       -- use keyboard

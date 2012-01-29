@@ -47,6 +47,14 @@ function love.keypressed(k)
 			ctx:stop()
 	    end 
 	end 
+
+-- decide between mouse and keyboard control modes
+	if k =="m" then 
+		ctx.use_mouse = true
+	end 
+	if k =="k" then 
+		ctx.use_mouse = false
+	end 
 	
 --	-- cupcake keys -- wsl: Use this approach if NOT wanting to have a variable rate of cupcake expulsion (otherwise see approach in rainbowfluff.lua)	
 	if k =="u" then 

@@ -65,8 +65,10 @@ function rainbowFluff(love,level)
 		ctx.creatures[4]:update(dt, ctx.creatures[4], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[5]:update(dt, ctx.creatures[5], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		ctx.creatures[6]:update(dt, ctx.creatures[6], {mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
-		 
-		 ctx.tractor:newState(dt, ctx.tractor, {keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
+		
+		-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
+		ctx.use_mouse = true 
+		ctx.tractor:newState(dt, ctx.tractor, {keyboard=ctx.keyboard, mouse=ctx.mouse,tiles=layer.tileData,map=map, mapproperties=ctx.mapproperties })
 		
 	end
 	function ctx:draw ()
