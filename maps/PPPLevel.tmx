@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="assets-with-more-cupcakes" tilewidth="32" tileheight="32">
+  <image source="assets-with-more-cupcakes.png" width="800" height="600"/>
+  <tile id="221">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="222">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="246">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="247">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="271">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="272">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="280">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="281">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="282">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="296">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="297">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="305">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="307">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="320">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="321">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="322">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="323">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="330">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="332">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="345">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="346">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="347">
+   <properties>
+    <property name="Obstacle" value=""/>
+   </properties>
+  </tile>
+  <tile id="348">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="355">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="357">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="371">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="372">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="373">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="380">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="381">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="382">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="395">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="396">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="397">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="398">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="405">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="407">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="420">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="421">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="422">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="423">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="445">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="446">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="447">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+  <tile id="448">
+   <properties>
+    <property name="Obstacle" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzVWktyFDEM7b4BLENOAMspLsBnNzUX4LNL5QJ8dpALENhRXIDPKfhcBI5BlkhVqHh5efK0M8rEvCpVko7b9pMlWZb7YJ6mWwVy2NH2oGhMHHtl8nOapl/Tebyx56cmb03ezVOKePduow1jlbS9Yc9viv+p+SF87I3Jb/v9zOS+/f7A5KHJR5NPJp9Nvvzt+958vo0j3t108PC2OOeY5237+858cZwYA/WK72/mf+M/sp+PTZ6YPDX5avLN5LvJj6QN9nXcwcPbxpyjjzPgw+M4WK/xPvKIvp6bvEjszPEM2rwUffXwCGAfofeYT4zjUHoNBA/sC/tTdqTsgee2lAfrK/rG+Sif4ffQrpRfq/VV+nO8smevF8qJeJ/7bj3jdUMeyq/Zjlpx433HenzoaItjsq6DI/Jg+1P2w/rbB3BMpWsH+zkis5/rRObrmZ87sj1pBHD8Qbvi/yluo4DjT2sfHBkRfzhehR9v2wdHA8crjsej+PVSOIfjWe+j/xNa8eoyyGKcym8qgX5egdAH77tXHUOcQ3Y2O+wcD2MD77ucv1bHEeeQnc16zncOjA2872b5dBVWDbvqsbfQb5bTZ6jKGVr+0cMj9Ns6EymuVfGlggfHoiy3Vlyr/KSCB8eiLLd2ZPWDXbEu4MFnLZVbhy1dVfxdz/m5+jL7CvsA13OCc3XcrVgPBPtA5uvVcdfnui7gwb7N+mZe1fC5HiXz7anjsG/HfLfxq4LzyOo1Jx08snNzxq8anpdEvYb31p7aTIZWDbASmJfg/rS01j4Ksn2wtZeNAvQ15IHP92UPuwB9DXnEc+QzYr1B5cjIQ9UYRqw3qFr8JvFzbDMSsv01eKg6wIi1k8w+gkcrDx3BR8I2sv0geHDujW2vy0fUuXHbvYEj9L7knnYfvqPsmveDmLOKu9l9DtrdPn2nlVvgnfe2/DzmjHYXwHXp+UYhamOqvsJrvyS3aN1/4DisE1UPzupgClEbU/WVbff4qu6y7f4j8y9lV9l5TEG1jXlxzMlqE+o7AEcrZrFO1Npl5zGFo/lirNilNtyb77a+m+hdj6yOxWOjfpVNBQ91fs3y3VhTXjtH73ogWrVh1Y7t2jn0fIfQkt7vGSrGxP56vkNo4aq+Z1ja3x/odaOj
+  </data>
+ </layer>
+ <layer name="RedPellets" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <layer name="PurplePellets" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <layer name="YellowPellets" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <layer name="Creatures" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+</map>
