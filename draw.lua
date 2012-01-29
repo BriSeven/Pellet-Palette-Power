@@ -47,8 +47,8 @@ function drawlist (list) --add a camera parameter
 			local mapref = ctx.name(c.name)
 			drawmap(c,mapref)
 		elseif c.kind=="quad"  then
-			print(ctx.quad(c.name, c.character))
-			love.graphics.drawq(ctx.name(c.name, c.character), ctx.quad(c.name, c.character),c.x,c.y,sx,sy,cx,cy)
+			print(c.sx)
+			love.graphics.drawq(ctx.name(c.name, c.character), ctx.quad(c.name, c.character),c.x,c.y,0,c.sx,c.sy)
 		else 
 			love.graphics.draw(ctx.name(c.name), c.x, c.y, c.a, c.sx, c.sy, c.cx, c.cy)
 		end
