@@ -1,4 +1,4 @@
-require("MiddleClass.lua")
+require("middleclass.lua")
 require ("Vector.lua")
 require("functional.lua")
 Creature = class("Creature")
@@ -135,9 +135,9 @@ function Creature:SmallUpdate()
 	self.SmoothedLocation.x = (self.NewLocation.x * BigUpdatePercent) + (self.OldLocation.x * (1- BigUpdatePercent))
 	self.SmoothedLocation.y = (self.NewLocation.y * BigUpdatePercent) + (self.OldLocation.y * (1- BigUpdatePercent))
 	self:Animate(BigUpdatePercent)
-		--print("Im the rock and roll cloooooowwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
-		--print(self.SmoothedLocation.x)
-		--print(self.SmoothedLocation.y)
+		----print("Im the rock and roll cloooooowwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+		----print(self.SmoothedLocation.x)
+		----print(self.SmoothedLocation.y)
 	
 end
 
@@ -175,7 +175,7 @@ function Creature:Animate(BigUpdatePercent)
 end
 
 function Creature:BigUpdate(dt,oldstate,ctx)
-	print("bigUpdate")
+	--print("bigUpdate")
 	--update the food level for this cell
 	self:EatFood(self.NewLocation.x,self.NewLocation.y,ctx)
 	
@@ -368,7 +368,7 @@ end
 function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 	
 	--check if there is food in this square
-	--print(self.CreatureType, getTileProperty("RedFood",x,y,ctx,"RedPellets"))
+	----print(self.CreatureType, getTileProperty("RedFood",x,y,ctx,"RedPellets"))
 	--if this creature is a red creature
 	if self.CreatureType == "Red" then
 		if getTileProperty("RedFood",x,y,ctx,"RedPellets") then
@@ -397,7 +397,7 @@ function Creature:GetFoodLevelForThisCreature(x,y,ctx)
 
 	--end
 	
-	--print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+	----print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 	
 	return 0
 	
@@ -508,7 +508,7 @@ function Creature:Grouping(ctx)
 		xOffset = -ScanSize
 		
 		while xOffset < ScanSize +1 do
-			print(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures"))
+			--print(getTileProperty("RedGroupForce", self.NewLocation.x + xOffset,self.NewLocation.y + yOffset,ctx,"Creatures"))
 			
 			if self.CreatureType == "Red" then
 			
@@ -631,7 +631,7 @@ function Creature:Grouping(ctx)
 	end
 	
 	if vecGroupCount == 0 then
-		--print("FFFFFFFFAAAAAAAAAAAAIIIIIIIIILLLLLLLLLLLLLLLLLLL")
+		----print("FFFFFFFFAAAAAAAAAAAAIIIIIIIIILLLLLLLLLLLLLLLLLLL")
 		return vecGrouping , vecFollowing
 	end
 
@@ -837,7 +837,7 @@ function Creature:FinalMoveDirection(dt,oldstate,ctx,vecMoveDirectionVector)
 	if available.IsDownAvailable then
 		--project move vector onto move direction
 		DownMoveWorth = vecMoveDirectionVector:dot( Vector:new(0,1))
-		--print(DownMoveWorth)
+		----print(DownMoveWorth)
 	end
 	
 	if available.IsDownRightAvailable then
@@ -1023,7 +1023,7 @@ function Creature:Move(ctx,vecMoveDirectionVector)
 		setTileProperty("TravelDirection",7, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
 	
 	elseif vecMoveDirectionVector.x == 1 and vecMoveDirectionVector.y == -1 then
-	 --print("########################################################################################################################################################################################################")
+	 ----print("########################################################################################################################################################################################################")
 		setTileProperty("TravelDirection",8, self.NewLocation.x + vecMoveDirectionVector.x,self.NewLocation.y + vecMoveDirectionVector.y,ctx,"Creatures")
 	
 	end
@@ -1075,7 +1075,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 	local RightFood = self:GetFoodLevelForThisCreature(self.NewLocation.x + 1,self.NewLocation.y,ctx)
 	local UpRightFood = self:GetFoodLevelForThisCreature(self.NewLocation.x + 1,self.NewLocation.y -1,ctx)
 		
-	print(DownLeftFood)
+	--print(DownLeftFood)
 
 	--compair the cells grazing amount to the current cels grazing amount
 	if CurrentFood >= UpFood and 
@@ -1141,7 +1141,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 		DownFood >= DownRightFood and 
 		DownFood >= RightFood and 
 		DownFood >= UpRightFood then
-		print("=========================================================================================================")
+		--print("=========================================================================================================")
 		return Vector:new(0,1)
 	
 	end
@@ -1154,7 +1154,7 @@ function Creature:Grazing(dt,oldstate,ctx)
 		DownLeftFood >= DownRightFood and 
 		DownLeftFood >= RightFood and 
 		DownLeftFood >= UpRightFood then
-		print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+		--print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 		return Vector:new(-1,1)
 	
 	end

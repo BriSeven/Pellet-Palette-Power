@@ -128,7 +128,7 @@ function ObjectLayer:draw()
 			
 			love.graphics.setColor(0, 0, 0, 255 * self.opacity)
 			love.graphics.rectangle("line", di.x+1, di.y+1, di[1], di[2])
-			love.graphics.print(obj.name, di.x+1, di.y-19)
+			love.graphics.--print(obj.name, di.x+1, di.y-19)
 			
 			love.graphics.setColor(unpack(self.color))
 			love.graphics.rectangle("line", di.x, di.y, di[1], di[2])

@@ -22,8 +22,7 @@ end
 function getTileProperty(name, x, y, ctx, lr ) 
 	local r
 	local layer = (ctx.map.tl[lr] or {} ).tileData or {}
-	--print(DumpObject((ctx.map.tl["RedPellets"].tileData[2][3] or {} ) ))
-	--print (DumpObject(ctx.map.tiles[50]) )
+
 	if	ctx.mapproperties and 
 	  	ctx.mapproperties[x] and
 	  	ctx.mapproperties[x][y] and 
@@ -47,6 +46,15 @@ function setTileGraphic(LayerName,GraphicCode,x,y,ctx)
 		layer[y+1][x+1]
 	then 
 		layer[y+1][x+1] = GraphicCode
+	end
+end
+function getTileIndex(LayerName,x,y,ctx)
+	local layer = (ctx.map.tl[LayerName] or {} ).tileData or {}
+	
+	if  layer and layer[y+1] and 
+		layer[y+1][x+1]
+	then 
+		return layer[y+1][x+1]
 	end
 end
 
