@@ -18,12 +18,12 @@ Game Controls
 - A - to move left
 
 - space - to drop cupcake
-- u - to selecte red cupcake to drop
-- i - to selecte yellow cupcake to drop
-- o - to selcete purple cupcake to drop
+- u - to drop a red cupcake
+- i - to drop a yellow cupcake
+- o - to drop a purple cupcake
 - p - to pause the game
-- k - to selecte keyborad moverment controls
-- m - to selecte mouse moverment controls
+- k - to select keyboard movement controls
+- m - to select mouse movement controls
 
 Team members
 ------------
