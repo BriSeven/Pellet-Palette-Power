@@ -31,8 +31,8 @@ function Flufft:newState(dt,oldstate,ctx)
 	end
 
 	if(isobstacle ~= 1) then
-	self.x = newx
-	self.y = newy
+		self.x = newx
+		self.y = newy
 	else 
 		-- if using this for release version, consider correcting 0,0 reset, see ie Tractor:newState for wahat to do instead...
 		self.x=0
@@ -45,15 +45,15 @@ function Flufft:newDrawable(state)
 	local d = {}
 	state = self
 	table.insert(d, {
-		 name="body",  --center and scale should be camera and db responsibilities
-		 character="ballochan",
-		 x=state.x*32,
-		 y=state.y*32,     --x and y assuming 800x600 screen
-		 a=0,
-		 sx=0.25,
-		 sy=0.25,
-		 cx=0,
-		 cy=0
+	name="body",  --center and scale should be camera and db responsibilities
+	character="ballochan",
+	x=state.x*32,
+	y=state.y*32,     --x and y assuming 800x600 screen
+	a=0,
+	sx=0.25,
+	sy=0.25,
+	cx=0,
+	cy=0
 	})
 
 	return d

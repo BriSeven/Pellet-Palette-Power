@@ -358,9 +358,10 @@ function rainbowFluff(love,level)
 	local auBGM
 
 	if use_music == true then
-	--	auBGM = love.audio.newSource("sfx/bgm.wav")
-	--	auBGM:setLooping(true)
-	--	auBGM:setVolume(0.6)
+		auBGM = love.audio.newSource("sfx/bgm.ogg")
+		auBGM:setLooping(true)
+		 auBGM:setVolume(0.6)
+		 auBGM:play()
 	end
 	
 	-- start out in mouse-mode. Can switch between mouse and keyboard controls using the 'm' and 'k' keys. 
@@ -445,10 +446,13 @@ function rainbowFluff(love,level)
 	end
 	
 	
+		
+		ctx.titlescreen	= love.graphics.newImage("gfx/intro screen/title.png")
+
 	
 	
-	
-	
+	 local playh = Playhead:create();
+	 playh:start();
 	
 	function ctx:draw ()
 		ctx=self
@@ -522,16 +526,16 @@ function rainbowFluff(love,level)
 
 
 		drawlist( ctx.tractor:newDrawable() )
-
+	
 
 	end
 
 	local updatef
 	function ctx:stop ()
-	  	self.paused = true 
-	  	updatef=self.update 
-	  	self.update=function () end 
-	--	auBGM:stop()
+		self.paused = true 
+		updatef=self.update 
+		self.update=function () end 
+		auBGM:stop()
 	end
 	function ctx:resume()
 		self.paused = false 

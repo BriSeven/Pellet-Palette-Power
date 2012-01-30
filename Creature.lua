@@ -363,7 +363,7 @@ function Creature:EatFood(x,y,ctx)
 
 		end
 
-		
+		love.keyboard.isDown()
 		--get the shit to eat		
 		if(foodLevels == 1)then
 			setTileProperty("PurpleFood",0,x,y,ctx,"PurplePellets")
