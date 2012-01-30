@@ -27,9 +27,9 @@ Game Controls
 
 Team members
 ------------
-Nicolla Elkhouri - Design
-Marion Lynk - Art
-Breton Slivka - Programming
-Jack Riddell - Programming
-Wendy Langer - Programming
-Miles Philip - Music
+- Nicolla Elkhouri - Design
+- Marion Lynk - Art
+- Breton Slivka - Programming
+- Jack Riddell - Programming
+- Wendy Langer - Programming
+- Miles Philip - Music
